@@ -1,1 +1,1 @@
-# smooth2dnoiseviewer
+Smooth 2D Noise Viewer

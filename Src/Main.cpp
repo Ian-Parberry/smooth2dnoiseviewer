@@ -28,8 +28,8 @@
 
 static CMain* g_pMain = nullptr; ///< Pointer to the main class.
 
-static const int g_nWidth = 600;
-static const int g_nHeight = 600;
+static const int g_nWidth = 600; ///< Client area width in pixels.
+static const int g_nHeight = 600; ///< Client area height in pixels.
 
 /// \brief Window procedure.
 ///

@@ -105,8 +105,7 @@ void CMain::OnPaint(){
 
 #pragma region Menu functions
 
-/// Add menus to the menu bar and store the `Tileset` menu handle, which will
-/// be needed later to set checkmarks.
+/// Add menus to the menu bar.
 
 void CMain::CreateMenus(){
   HMENU hMenubar = CreateMenu();
@@ -134,6 +133,8 @@ void CMain::CreateMenus(){
 // Other functions
 
 /// Create bitmap `m_pBitmap` and set all pixels to white.
+/// \param w Bitmap width in pixels.
+/// \param h Bitmap height in pixels.
 
 void CMain::CreateBitmap(int w, int h){
   delete m_pBitmap;
@@ -143,7 +144,10 @@ void CMain::CreateBitmap(int w, int h){
   graphics.Clear(Gdiplus::Color::White);
 } //CreateBitmap
 
-/// Generate pixel noise.
+/// Generate pixel noise into the bitmap pointed to by `m_pBitmap`. The
+/// lower byte returned by the C standard function `rand()` is used as
+/// a grayscale value for each pixel. This function generates a new pattern
+/// each time it is called.
 
 void CMain::GeneratePixelNoise(){
   for(UINT i=0; i<m_pBitmap->GetWidth(); i++)
@@ -153,7 +157,10 @@ void CMain::GeneratePixelNoise(){
     } //for
 } //GeneratePixelNoise
 
-/// Generate Perlin noise.
+/// Generate Perlin noise into the bitmap pointed to by `m_pBitmap`. 
+/// This function generates a new pattern each time it is called.
+/// For now, the scale, lacunarity, persistence, and number of octaves
+/// is fixed.
 
 void CMain::GeneratePerlinNoise(){
   initPerlin();
@@ -167,7 +174,10 @@ void CMain::GeneratePerlinNoise(){
     } //for
 } //GeneratePerlinNoise
 
-/// Generate value noise.
+/// Generate value noise into the bitmap pointed to by `m_pBitmap`. 
+/// This function generates a new pattern each time it is called.
+/// For now, the scale, lacunarity, persistence, and number of octaves
+/// is fixed.
 
 void CMain::GenerateValueNoise(){
   initPerlin();
