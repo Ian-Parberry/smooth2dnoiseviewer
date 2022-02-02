@@ -28,6 +28,7 @@
 #include "Includes.h"
 #include "Windows.h"
 #include "WindowsHelpers.h"
+#include "perlin.h"
 
 /// \brief The main class.
 ///
@@ -42,8 +43,11 @@ class CMain{
     ULONG_PTR m_gdiplusToken = 0; ///< GDI+ token.
 
     Gdiplus::Bitmap* m_pBitmap = nullptr; ///< Pointer to a bitmap image.
+    CPerlinNoise2D* m_pPerlin = nullptr; ///< Pointer to Perlin noise generator.
 
     void CreateMenus(); ///< Create menus.
+    void SetPixel(unsigned, unsigned, float); ///< Set pixel grayscale.
+    void SetPixel(unsigned, unsigned, BYTE); ///< Set pixel grayscale.
 
   public:
     CMain(const HWND hwnd); ///< Constructor.

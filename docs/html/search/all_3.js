@@ -1,12 +1,11 @@
 var searchData=
 [
-  ['g_0',['g',['../perlin_8cpp.html#a2c89c2cdb60e218a41732441c9c9f988',1,'perlin.cpp']]],
-  ['g_5fnheight_1',['g_nHeight',['../_main_8cpp.html#a020fb3f7c3d5cdf9a5545a77122bfab3',1,'Main.cpp']]],
-  ['g_5fnwidth_2',['g_nWidth',['../_main_8cpp.html#a087b197ac964bc2b3538592e25d3e960',1,'Main.cpp']]],
-  ['g_5fpmain_3',['g_pMain',['../_main_8cpp.html#a7d247d9b8959e459a6210c0571330248',1,'Main.cpp']]],
-  ['generateperlinnoise_4',['GeneratePerlinNoise',['../class_c_main.html#a9dcef05ee5ccb550b91c7b73831120bb',1,'CMain']]],
-  ['generatepixelnoise_5',['GeneratePixelNoise',['../class_c_main.html#a7fdae5b83ab102e3ca452948f1da25fd',1,'CMain']]],
-  ['generatevaluenoise_6',['GenerateValueNoise',['../class_c_main.html#a95737a2ff5178c4014a73c4ffa09d20d',1,'CMain']]],
-  ['getbitmap_7',['GetBitmap',['../class_c_main.html#ac5f045f96f06e4330e5f8fc103d6527f',1,'CMain']]],
-  ['getencoderclsid_8',['GetEncoderClsid',['../_windows_helpers_8cpp.html#ab446d7eb02f2055da6303a03f9f697ef',1,'WindowsHelpers.cpp']]]
+  ['idm_5ffile_5fquit_0',['IDM_FILE_QUIT',['../_windows_helpers_8h.html#a9a7a0891436ce76ac27b86ba302558ed',1,'WindowsHelpers.h']]],
+  ['idm_5ffile_5fsave_1',['IDM_FILE_SAVE',['../_windows_helpers_8h.html#a65e62ad25e0b57e2f4b59cab2cedfa4b',1,'WindowsHelpers.h']]],
+  ['idm_5fgenerate_5fperlinnoise_2',['IDM_GENERATE_PERLINNOISE',['../_windows_helpers_8h.html#a6071266900f07d7585095032945f0808',1,'WindowsHelpers.h']]],
+  ['idm_5fgenerate_5fpixelnoise_3',['IDM_GENERATE_PIXELNOISE',['../_windows_helpers_8h.html#a1e652e6623f99a934b117d9198bf2b7d',1,'WindowsHelpers.h']]],
+  ['idm_5fgenerate_5fvaluenoise_4',['IDM_GENERATE_VALUENOISE',['../_windows_helpers_8h.html#a347d1f366e7a6e0712f6c3e61d87791c',1,'WindowsHelpers.h']]],
+  ['includes_2eh_5',['Includes.h',['../_includes_8h.html',1,'']]],
+  ['initgdiplus_6',['InitGDIPlus',['../_windows_helpers_8cpp.html#ab90ef52869992f4af6696021ce4a1769',1,'InitGDIPlus():&#160;WindowsHelpers.cpp'],['../_windows_helpers_8h.html#ab90ef52869992f4af6696021ce4a1769',1,'InitGDIPlus():&#160;WindowsHelpers.cpp']]],
+  ['initwindow_7',['InitWindow',['../_main_8cpp.html#ad68cbf778113a9ec082a5090cb2703c0',1,'Main.cpp']]]
 ];

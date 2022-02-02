@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['valuenoise2d_0',['ValueNoise2D',['../perlin_8cpp.html#ab2ec750714a5aad3e8c590820c648aac',1,'ValueNoise2D(float x, float y, float alpha, float beta, unsigned n):&#160;perlin.cpp'],['../perlin_8h.html#afa818cfbd206485d045186a3034edfe1',1,'ValueNoise2D(float, float, float, float, unsigned):&#160;perlin.cpp']]],
-  ['vnoise2_1',['vnoise2',['../perlin_8cpp.html#a13f3ebf4324ccd4b8637a263e01ba484',1,'perlin.cpp']]]
+  ['windowshelpers_2ecpp_0',['WindowsHelpers.cpp',['../_windows_helpers_8cpp.html',1,'']]],
+  ['windowshelpers_2eh_1',['WindowsHelpers.h',['../_windows_helpers_8h.html',1,'']]],
+  ['wndproc_2',['WndProc',['../_main_8cpp.html#a30a1e3b0304f1b083637664cbda94e72',1,'Main.cpp']]],
+  ['wwinmain_3',['wWinMain',['../_main_8cpp.html#ad7483c50ba0ceb8cee64426d4e7e9bb3',1,'Main.cpp']]]
 ];

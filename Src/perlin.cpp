@@ -9,13 +9,13 @@
 
 #include "perlin.h"
 
-#define B 0x100 ///< A power of 2.
-#define BM 0xff ///< Mask.
-
-static int p[B + B + 2]; ///< Permutation.
-static float g[B + B + 2][2];///< Gradients.
-
 const float SQRT2 = (float)M_SQRT2; ///< Square root of 2.
+#define sqr(x) ((x)*(x)) ///< Squaring function.
+
+///////////////////////////////////////////////////////////////////////////////
+// Helper functions.
+
+#pragma region Helper functions
 
 /// \brief Cubic spline.
 ///
@@ -50,76 +50,63 @@ inline float lerp(float t, float a, float b){
   return a + t*(b - a);
 } //lerp
 
-/// \brief Perlin's setup function.
-///
-/// Separate the integer and fractional parts of a floating point value.
-/// \param v A floating point value.
-/// \param b0 The integer part of v masked by BM.
-/// \param b1 The integer part of v plus 1, masked by BM.
-/// \param r0 The fractional part of v.
-/// \param r1 The fractional part of v minus one.
+#pragma endregion
 
-inline void setup(float v, int& b0, int& b1, float& r0, float& r1){
-  b0 = ((int)v) & BM;
-  b1 = (b0 + 1) & BM;
-  r0 = v - (int)v;
-  r1 = r0 - 1.0f;
-} //setup
+////////////////////////////////////////////////////////////////////////////////
+// CPerlinNoise2D functions.
 
-/// \brief Initialize Perlin noise.
-///
-/// Initialize the gradient table and the permutation table for Perlin noise.
+#pragma region CPerlinNoise2D functions
 
-void initPerlin(){
-  for(int i=0; i<B ; i++){
-    p[i] = i;
-    g[i][0] = (float)(rand()%(B+B)-B)/B; 
-    g[i][1] = (float)(rand()%(B+B)-B)/B;
+/// Initialize the gradients in `m_fXGradient` and `m_fYGradient` such that 
+/// the vector [m_fXGradient[i], m_fYGradient[i]] is a unit vector.
 
-    const float s = sqrtf(g[i][0]*g[i][0] + g[i][1]*g[i][1]);
-    g[i][0] /= s; g[i][1] /= s; //normalize gradient g[i]
+void CPerlinNoise2D::RandomizeGradients(){
+  for(size_t i=0; i<512; i++){
+    m_fXGradient[i] = (2.0f*rand())/RAND_MAX - 1.0f; 
+    m_fYGradient[i] = (2.0f*rand())/RAND_MAX - 1.0f;
+    const float s = sqrtf(sqr(m_fXGradient[i]) + sqr(m_fYGradient[i]));
+    m_fXGradient[i] /= s;
+    m_fYGradient[i] /= s;
   } //for
+} //RandomizeGradients
 
-  for(int i=B-1; i>=0; i--)
-    std::swap(p[i], p[rand()%(i+1)]);
+/// Apply gradient to point.
+/// \param h Hash value.
+/// \param x X-coordinate of point.
+/// \param y Y-coordinate of point.
+/// \return The gradient applied to the point.
 
-  for(int i=0; i<B+2; i++){
-    p[B + i] = p[i];
-    g[B + i][0] = g[i][0];
-    g[B + i][1] = g[i][1];
-  } //for
-} //initPerlin
+float CPerlinNoise2D::grad(unsigned h, float x, float y){
+  return x*m_fXGradient[h] + y*m_fYGradient[h];
+} //grad
 
 /// \brief Compute Perlin noise at a given point.
 ///
 /// Compute a single octave of Perlin noise at a 2D point.
 /// \param vec A 2D point.
-/// \return Perlin noise value in [-1, 1] at a given point.
+/// \return Perlin noise value in [-1, 1] at the given point.
 
-float noise2(float vec[2]){
-  int bx0, bx1, by0, by1;
-  float rx0, rx1, ry0, ry1;
+float CPerlinNoise2D::perlinnoise(float x, float y) {
+  const unsigned nX = (unsigned)floorf(x) & 255;
+  const unsigned nY = (unsigned)floorf(y) & 255;
 
-  setup(vec[0], bx0, bx1, rx0, rx1);
-  setup(vec[1], by0, by1, ry0, ry1);
-      
-  const int i = p[bx0], j = p[bx1];
-  const int b00 = p[i+by0], b10 = p[j+by0], b01 = p[i+by1], b11 = p[j+by1];
+  const float fX = x - floorf(x);
+  const float fY = y - floorf(y);
+ 
+  const float u = spline3(fX);
+  const float v = spline3(fY);
+  
+  const int AA = m_nPerm[m_nPerm[nX] + nY]; 
+  const int BA = m_nPerm[m_nPerm[nX + 1] + nY];
+  const int AB = m_nPerm[m_nPerm[nX] + nY + 1]; 
+  const int BB = m_nPerm[m_nPerm[nX + 1] + nY + 1];
 
-  const float sx = spline3(rx0);
+  const float a = lerp(u, grad(AA, fX, fY), grad(BA, fX - 1, fY));
+  const float b = lerp(u, grad(AB, fX, fY - 1), grad(BB, fX - 1, fY - 1));
 
-  float u = g[b00][0]*rx0 + g[b00][1]*ry0;
-  float v = g[b10][0]*rx1 + g[b10][1]*ry0;
-  const float a = lerp(sx, u, v);
-
-  u = g[b01][0]*rx0 + g[b01][1]*ry1;
-  v = g[b11][0]*rx1 + g[b11][1]*ry1;
-  const float b = lerp(sx, u, v);
-   
-  const float sy = spline3(ry0);
-  return lerp(sy, a, b);
-} //noise2
-
+  return lerp(v, a, b);
+} //perlinnoise
+  
 /// \brief Turbulence function for Perlin noise.
 ///
 /// Uses multiple octaves of Perlin noise to compute an effect similar to
@@ -131,19 +118,18 @@ float noise2(float vec[2]){
 /// \param n Number of octaves.
 /// \return Turbulence value in [-1, 1] at point (x, y).
 
-float PerlinNoise2D(float x, float y, float alpha, float beta, unsigned n){
-  float sum = 0.0f, p[2], scale = 1.0f;
-  p[0] = x; p[1] = y;
+float CPerlinNoise2D::PerlinNoise(float x, float y, float alpha, float beta, unsigned n){
+  float sum = 0.0f, scale = 1.0f;
 
   for(unsigned i=0; i<n; i++){
-    sum += noise2(p)*scale;
+    sum += perlinnoise(x, y)*scale;
     scale *= alpha;
-    p[0] *= beta; 
-    p[1] *= beta;
+    x *= beta; 
+    y *= beta;
   } //for
 
   return SQRT2*(1.0f - alpha)*sum/(1.0f - scale); 
-} //PerlinNoise2D
+} //PerlinNoise
 
 /// \brief Compute Value noise at a given point.
 ///
@@ -151,23 +137,26 @@ float PerlinNoise2D(float x, float y, float alpha, float beta, unsigned n){
 /// \param vec A 2D point.
 /// \return Value noise in [-1, 1] at a given point.
 
-float vnoise2(float vec[2]){
-  int bx0, bx1, by0, by1;
-  float rx0, rx1, ry0, ry1;
+float CPerlinNoise2D::valuenoise(float x, float y) {
+  const unsigned nX = (unsigned)floorf(x) & 255;
+  const unsigned nY = (unsigned)floorf(y) & 255;
 
-  setup(vec[0], bx0, bx1, rx0, rx1);
-  setup(vec[1], by0, by1, ry0, ry1);  
+  const float fX = x - floorf(x);
+  const float fY = y - floorf(y);
+ 
+  const float u = spline3(fX);
+  const float v = spline3(fY);
+  
+  const unsigned AA = m_nPerm[m_nPerm[nX] + nY]; 
+  const unsigned BA = m_nPerm[m_nPerm[nX + 1] + nY];
+  const unsigned AB = m_nPerm[m_nPerm[nX] + nY + 1]; 
+  const unsigned BB = m_nPerm[m_nPerm[nX + 1] + nY + 1];
 
-  const int i = p[bx0], j = p[bx1];
-  const int b00 = p[i+by0], b10 = p[j+by0], b01 = p[i+by1], b11 = p[j+by1];
+  const float a = lerp(u, m_fXGradient[AA], m_fXGradient[BA]);
+  const float b = lerp(u, m_fXGradient[AB], m_fXGradient[BB]);
 
-  const float sx = spline3(rx0);
-  const float a = lerp(sx, g[b00][0], g[b10][0]);
-  const float b = lerp(sx, g[b01][0], g[b11][0]);
-   
-  const float sy = spline3(ry0);
-  return lerp(sy, a, b);
-} //vnoise2
+  return lerp(v, a, b);
+} //valuenoise
 
 /// \brief Turbulence function for Value noise.
 ///
@@ -180,16 +169,17 @@ float vnoise2(float vec[2]){
 /// \param n Number of octaves.
 /// \return Turbulence value in [-1, 1] at point (x, y).
 
-float ValueNoise2D(float x, float y, float alpha, float beta, unsigned n){
-  float sum = 0.0f, p[2], scale = 1.0f;
-  p[0] = x; p[1] = y;
+float CPerlinNoise2D::ValueNoise(float x, float y, float alpha, float beta, unsigned n){
+  float sum = 0.0f, scale = 1.0f;
 
   for(unsigned i=0; i<n; i++){
-    sum += vnoise2(p)*scale;
+    sum += valuenoise(x, y)*scale;
     scale *= alpha;
-    p[0] *= beta; 
-    p[1] *= beta;
+    x *= beta; 
+    y *= beta;
   } //for
 
   return (1.0f - alpha)*sum/(1.0f - scale); 
-} //ValueNoise2D
+} //ValueNoise
+
+#pragma endregion

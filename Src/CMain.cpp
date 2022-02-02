@@ -38,15 +38,18 @@
 /// \param hwnd Window handle.
 
 CMain::CMain(const HWND hwnd): m_hWnd(hwnd){
-  srand(timeGetTime()); //seed the PRNG
 
   m_gdiplusToken = InitGDIPlus(); //initialize GDI+
   CreateMenus(); //create the menu bar
+
+  srand(timeGetTime()); //seed the PRNG
+  m_pPerlin = new CPerlinNoise2D();
 } //constructor
 
 /// Delete GDI+ objects, then shut down GDI+.
 
 CMain::~CMain(){
+  delete m_pPerlin;
   delete m_pBitmap; //delete the bitmap
   Gdiplus::GdiplusShutdown(m_gdiplusToken); //shut down GDI+
 } //destructor
@@ -144,6 +147,24 @@ void CMain::CreateBitmap(int w, int h){
   graphics.Clear(Gdiplus::Color::White);
 } //CreateBitmap
 
+/// Set grayscale pixel in `m_pBitmap`.
+/// \param i Row number.
+/// \param j Column number.
+/// \param g Grayscale value in the range \f$[-1, 1]\f$.
+
+void CMain::SetPixel(UINT i, UINT j, float g){
+  SetPixel(i, j, BYTE(float(0xFF)*(g/2 + 0.5f)));
+} //SetPixel
+
+/// Set grayscale pixel in `m_pBitmap`.
+/// \param i Row number.
+/// \param j Column number.
+/// \param g Grayscale value.
+
+void CMain::SetPixel(UINT i, UINT j, BYTE b){
+  m_pBitmap->SetPixel(i, j, Gdiplus::Color(255, b, b, b));
+} //SetPixel
+
 /// Generate pixel noise into the bitmap pointed to by `m_pBitmap`. The
 /// lower byte returned by the C standard function `rand()` is used as
 /// a grayscale value for each pixel. This function generates a new pattern
@@ -151,10 +172,8 @@ void CMain::CreateBitmap(int w, int h){
 
 void CMain::GeneratePixelNoise(){
   for(UINT i=0; i<m_pBitmap->GetWidth(); i++)
-    for(UINT j=0; j<m_pBitmap->GetHeight(); j++){
-      const BYTE gray = (BYTE)rand();
-      m_pBitmap->SetPixel(i, j, Gdiplus::Color(255, gray, gray, gray));
-    } //for
+    for(UINT j=0; j<m_pBitmap->GetHeight(); j++)
+      SetPixel(i, j, (BYTE)rand());
 } //GeneratePixelNoise
 
 /// Generate Perlin noise into the bitmap pointed to by `m_pBitmap`. 
@@ -163,15 +182,12 @@ void CMain::GeneratePixelNoise(){
 /// is fixed.
 
 void CMain::GeneratePerlinNoise(){
-  initPerlin();
+  m_pPerlin->RandomizeGradients();
   const float fScale = 64.0f;
 
   for(UINT i=0; i<m_pBitmap->GetWidth(); i++)
-    for(UINT j=0; j<m_pBitmap->GetHeight(); j++){
-      const float fPerlin = PerlinNoise2D(i/fScale, j/fScale, 0.5f, 2.0f, 4);
-      const BYTE gray = BYTE(float(0xFF)*(fPerlin/2.0f + 0.5f));
-      m_pBitmap->SetPixel(i, j, Gdiplus::Color(255, gray, gray, gray));
-    } //for
+    for(UINT j=0; j<m_pBitmap->GetHeight(); j++)
+      SetPixel(i, j, m_pPerlin->PerlinNoise(i/fScale, j/fScale, 0.5f, 2.0f, 4));
 } //GeneratePerlinNoise
 
 /// Generate value noise into the bitmap pointed to by `m_pBitmap`. 
@@ -180,15 +196,12 @@ void CMain::GeneratePerlinNoise(){
 /// is fixed.
 
 void CMain::GenerateValueNoise(){
-  initPerlin();
+  m_pPerlin->RandomizeGradients();
   const float fScale = 64.0f;
 
   for(UINT i=0; i<m_pBitmap->GetWidth(); i++)
-    for(UINT j=0; j<m_pBitmap->GetHeight(); j++){
-      const float fPerlin = ValueNoise2D(i/fScale, j/fScale, 0.5f, 2.0f, 4);
-      const BYTE gray = BYTE(float(0xFF)*(fPerlin/2.0f + 0.5f));
-      m_pBitmap->SetPixel(i, j, Gdiplus::Color(255, gray, gray, gray));
-    } //for
+    for(UINT j=0; j<m_pBitmap->GetHeight(); j++)
+      SetPixel(i, j, m_pPerlin->ValueNoise(i/fScale, j/fScale, 0.5f, 2.0f, 4));
 } //GeneratePerlinNoise
 
 /// Reader function for the bitmap pointer `m_pBitmap`.

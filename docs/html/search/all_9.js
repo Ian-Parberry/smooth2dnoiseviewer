@@ -1,7 +1,10 @@
 var searchData=
 [
-  ['p_0',['p',['../perlin_8cpp.html#a09f989b7f26dc75f590f4ad4b2f54d99',1,'perlin.cpp']]],
-  ['perlin_2ecpp_1',['perlin.cpp',['../perlin_8cpp.html',1,'']]],
-  ['perlin_2eh_2',['perlin.h',['../perlin_8h.html',1,'']]],
-  ['perlinnoise2d_3',['PerlinNoise2D',['../perlin_8cpp.html#ad83b7009cbc3a0da3b24438bd8e06b26',1,'PerlinNoise2D(float x, float y, float alpha, float beta, unsigned n):&#160;perlin.cpp'],['../perlin_8h.html#a55d1ee1e7c7f7074a4c166d528f00c1a',1,'PerlinNoise2D(float, float, float, float, unsigned):&#160;perlin.cpp']]]
+  ['savebitmap_0',['SaveBitmap',['../_windows_helpers_8cpp.html#abcbcd456d1d87a2063d358460e5ec0aa',1,'SaveBitmap(HWND hwnd, Gdiplus::Bitmap *pBitmap):&#160;WindowsHelpers.cpp'],['../_windows_helpers_8h.html#a1cb7feb5f1f8c6485b074189db2719b8',1,'SaveBitmap(HWND, Gdiplus::Bitmap *):&#160;WindowsHelpers.cpp']]],
+  ['setpixel_1',['SetPixel',['../class_c_main.html#af60823490907b84c9d5eeef69b67b936',1,'CMain::SetPixel(unsigned, unsigned, float)'],['../class_c_main.html#a1909ce1e95d2cc390709af27d34adf3a',1,'CMain::SetPixel(unsigned, unsigned, BYTE)']]],
+  ['smooth_202d_20noise_20viewer_2',['Smooth 2D Noise Viewer',['../index.html',1,'']]],
+  ['spline3_3',['spline3',['../perlin_8cpp.html#acc5a7c420f318cb0978cc8bd0e32e9bc',1,'perlin.cpp']]],
+  ['spline5_4',['spline5',['../perlin_8cpp.html#a27072f52b19d33db76ae3f73ef035bcd',1,'perlin.cpp']]],
+  ['sqr_5',['sqr',['../perlin_8cpp.html#adee8c6d2fc20a1194cf64c481e7b6353',1,'perlin.cpp']]],
+  ['sqrt2_6',['SQRT2',['../perlin_8cpp.html#a939872c7d19add0e4b330e7d8e1552c0',1,'perlin.cpp']]]
 ];
