@@ -146,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\CMain.h" />
+    <ClInclude Include="Src\Defines.h" />
     <ClInclude Include="Src\Includes.h" />
     <ClInclude Include="Src\perlin.h" />
     <ClInclude Include="Src\resource.h" />

@@ -1,12 +1,13 @@
 var indexSectionsWithContent =
 {
-  0: "_cgilmoprsvw~",
+  0: "_cdegilmnoprsw~",
   1: "c",
-  2: "cimpw",
-  3: "cgiloprsvw~",
-  4: "gms",
-  5: "_is",
-  6: "s"
+  2: "cdimpw",
+  3: "cgilnorsw~",
+  4: "gmps",
+  5: "e",
+  6: "_i",
+  7: "s"
 };
 
 var indexSectionNames =
@@ -16,8 +17,9 @@ var indexSectionNames =
   2: "files",
   3: "functions",
   4: "variables",
-  5: "defines",
-  6: "pages"
+  5: "enums",
+  6: "defines",
+  7: "pages"
 };
 
 var indexSectionLabels =
@@ -27,7 +29,8 @@ var indexSectionLabels =
   2: "Files",
   3: "Functions",
   4: "Variables",
-  5: "Macros",
-  6: "Pages"
+  5: "Enumerations",
+  6: "Macros",
+  7: "Pages"
 };
 

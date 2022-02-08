@@ -23,7 +23,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-#pragma once
+#ifndef __CMAIN_H__
+#define __CMAIN_H__
 
 #include "Includes.h"
 #include "Windows.h"
@@ -46,8 +47,8 @@ class CMain{
     CPerlinNoise2D* m_pPerlin = nullptr; ///< Pointer to Perlin noise generator.
 
     void CreateMenus(); ///< Create menus.
-    void SetPixel(unsigned, unsigned, float); ///< Set pixel grayscale.
-    void SetPixel(unsigned, unsigned, BYTE); ///< Set pixel grayscale.
+    void SetPixel(UINT, UINT, float); ///< Set pixel grayscale.
+    void SetPixel(UINT, UINT, BYTE); ///< Set pixel grayscale.
 
   public:
     CMain(const HWND hwnd); ///< Constructor.
@@ -55,9 +56,12 @@ class CMain{
     
     void CreateBitmap(int w, int h); ///< Create bitmap.
     void GeneratePixelNoise(); ///< Generate pixel noise.
-    void GeneratePerlinNoise(); ///< Generate Perlin noise.
-    void GenerateValueNoise(); ///< Generate value noise.
+    void GeneratePerlinNoise(eNoise); ///< Generate noise.
+
+    void SetDistribution(eDistribution); ///< Set probability distribution.
 
     void OnPaint(); ///< Paint the client area of the window.
     Gdiplus::Bitmap* GetBitmap(); ///< Get pointer to bitmap.
 }; //CMain
+
+#endif //__CMAIN_H__

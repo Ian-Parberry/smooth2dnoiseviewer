@@ -1,6 +1,5 @@
-/// \file perlin.h
-///
-/// \brief Interface for the Perlin and Value noise generators.
+/// \file Defines.h
+/// \brief Useful defines, constants, and types.
 
 // MIT License
 //
@@ -24,32 +23,29 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-#ifndef __PERLIN_H__
-#define __PERLIN_H__
+#ifndef __DEFINES_H__
+#define __DEFINES_H__
 
-#include "Defines.h"
+#define _USE_MATH_DEFINES ///< Enable use of constant M_SQRT2 in math.h
+#include <math.h>
 
-/// \brief 2D Perlin and Value noise generator.
+const float SQRT2 = (float)M_SQRT2; ///< Square root of 2.
+const float PI = (float)M_PI; ///< Pi.
 
-class CPerlinNoise2D{
-  private:
-    size_t m_nSize = 0; ///< Repeat size, must be a power of 2.
-    size_t m_nMask = 0; ///< Mask for values less than `m_nSize1.
-    size_t* m_nPerm = nullptr; ///< Random permutation.
-    float* m_fGradient = nullptr; ///< Gradients.
+/// \brief Perlin noise type.
+///
+/// Enumerated type for Perlin noise.
 
-    const float grad(size_t, float, float) const; ///< Apply gradients.
-    const float noise(float, float, eNoise) const; ///< Perlin noise.
+enum class eNoise{
+  Perlin, Value
+}; //eNoise
 
+/// \brief Distribution.
+///
+/// Enumerated type for probability distribution.
 
-  public:
-    CPerlinNoise2D(size_t); ///< Constructor.
-    ~CPerlinNoise2D(); ///<Destructor.
-    
-    void SetDistribution(eDistribution); ///< Set distribution.
-    void Randomize(); ///< Randomize permutation.
-    
-    const float generate(float, float, eNoise, float, float, size_t) const; ///< Perlin noise.
-}; //CPerlinNoise2D
+enum class eDistribution{
+  Uniform, Cosine, Normal, Exponential
+}; //eDistribution
 
-#endif //__PERLIN_H__
+#endif //__DEFINES_H__

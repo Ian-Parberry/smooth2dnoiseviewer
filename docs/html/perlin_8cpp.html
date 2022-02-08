@@ -75,9 +75,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a> &#124;
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">perlin.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -85,23 +83,16 @@ $(function() {
 <p>Code for the Perlin and Value noise generators.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdlib.h&gt;</code><br />
-<code>#include &lt;math.h&gt;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
+<code>#include &lt;random&gt;</code><br />
 <code>#include &quot;<a class="el" href="perlin_8h_source.html">perlin.h</a>&quot;</code><br />
 </div>
 <p><a href="perlin_8cpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a525335710b53cb064ca56b936120431e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="perlin_8cpp.html#a525335710b53cb064ca56b936120431e">_USE_MATH_DEFINES</a></td></tr>
-<tr class="memdesc:a525335710b53cb064ca56b936120431e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Enable use of constant M_SQRT2 in math.h.  <a href="perlin_8cpp.html#a525335710b53cb064ca56b936120431e">More...</a><br /></td></tr>
-<tr class="separator:a525335710b53cb064ca56b936120431e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adee8c6d2fc20a1194cf64c481e7b6353"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="perlin_8cpp.html#adee8c6d2fc20a1194cf64c481e7b6353">sqr</a>(x)&#160;&#160;&#160;((x)*(x))</td></tr>
-<tr class="memdesc:adee8c6d2fc20a1194cf64c481e7b6353"><td class="mdescLeft">&#160;</td><td class="mdescRight">Squaring function.  <a href="perlin_8cpp.html#adee8c6d2fc20a1194cf64c481e7b6353">More...</a><br /></td></tr>
-<tr class="separator:adee8c6d2fc20a1194cf64c481e7b6353"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a5f277ca052b6a3f09c72d636a5038569"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="perlin_8cpp.html#a5f277ca052b6a3f09c72d636a5038569">clamp</a> (float lower, float x, float upper)</td></tr>
+<tr class="separator:a5f277ca052b6a3f09c72d636a5038569"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acc5a7c420f318cb0978cc8bd0e32e9bc"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="perlin_8cpp.html#acc5a7c420f318cb0978cc8bd0e32e9bc">spline3</a> (float t)</td></tr>
 <tr class="memdesc:acc5a7c420f318cb0978cc8bd0e32e9bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cubic spline.  <a href="perlin_8cpp.html#acc5a7c420f318cb0978cc8bd0e32e9bc">More...</a><br /></td></tr>
 <tr class="separator:acc5a7c420f318cb0978cc8bd0e32e9bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -111,51 +102,44 @@ Functions</h2></td></tr>
 <tr class="memitem:a2097b72018f65a32fb59d429d81a2294"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="perlin_8cpp.html#a2097b72018f65a32fb59d429d81a2294">lerp</a> (float t, float a, float b)</td></tr>
 <tr class="memdesc:a2097b72018f65a32fb59d429d81a2294"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear interpolation.  <a href="perlin_8cpp.html#a2097b72018f65a32fb59d429d81a2294">More...</a><br /></td></tr>
 <tr class="separator:a2097b72018f65a32fb59d429d81a2294"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a939872c7d19add0e4b330e7d8e1552c0"><td class="memItemLeft" align="right" valign="top">const float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="perlin_8cpp.html#a939872c7d19add0e4b330e7d8e1552c0">SQRT2</a> = (float)M_SQRT2</td></tr>
-<tr class="memdesc:a939872c7d19add0e4b330e7d8e1552c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Square root of 2.  <a href="perlin_8cpp.html#a939872c7d19add0e4b330e7d8e1552c0">More...</a><br /></td></tr>
-<tr class="separator:a939872c7d19add0e4b330e7d8e1552c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="a525335710b53cb064ca56b936120431e" name="a525335710b53cb064ca56b936120431e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a525335710b53cb064ca56b936120431e">&#9670;&nbsp;</a></span>_USE_MATH_DEFINES</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define _USE_MATH_DEFINES</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00006">6</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
-
-</div>
-</div>
-<a id="adee8c6d2fc20a1194cf64c481e7b6353" name="adee8c6d2fc20a1194cf64c481e7b6353"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adee8c6d2fc20a1194cf64c481e7b6353">&#9670;&nbsp;</a></span>sqr</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define sqr</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">x</td><td>)</td>
-          <td>&#160;&#160;&#160;((x)*(x))</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00013">13</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
-
-</div>
-</div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a5f277ca052b6a3f09c72d636a5038569" name="a5f277ca052b6a3f09c72d636a5038569"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f277ca052b6a3f09c72d636a5038569">&#9670;&nbsp;</a></span>clamp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float clamp </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>lower</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>upper</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00038">38</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
+
+</div>
+</div>
 <a id="a2097b72018f65a32fb59d429d81a2294" name="a2097b72018f65a32fb59d429d81a2294"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2097b72018f65a32fb59d429d81a2294">&#9670;&nbsp;</a></span>lerp()</h2>
 
@@ -205,7 +189,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>\((1-t)a + tb\). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00049">49</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00071">71</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -240,7 +224,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Cubic spline of parameter. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00026">26</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00048">48</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -275,31 +259,14 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Quintic spline of parameter. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00037">37</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="a939872c7d19add0e4b330e7d8e1552c0" name="a939872c7d19add0e4b330e7d8e1552c0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a939872c7d19add0e4b330e7d8e1552c0">&#9670;&nbsp;</a></span>SQRT2</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const float SQRT2 = (float)M_SQRT2</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00012">12</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00059">59</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 1 2022 18:15:12 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
+Generated on Tue Feb 8 2022 16:00:28 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
 </small></address>
 </body>
 </html>

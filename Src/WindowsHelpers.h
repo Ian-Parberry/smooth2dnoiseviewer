@@ -26,7 +26,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-#pragma once
+#ifndef __WINDOWSHELPERS_H__
+#define __WINDOWSHELPERS_H__
 
 #include "Includes.h"
 
@@ -38,9 +39,14 @@
 #define IDM_FILE_SAVE 1 ///< Menu id for Save.
 #define IDM_FILE_QUIT 2 ///< Menu id for Quit.
 
-#define IDM_GENERATE_PIXELNOISE 3 ///< Menu id for Pixel Noise.
+#define IDM_GENERATE_PIXELNOISE  3 ///< Menu id for Pixel Noise.
 #define IDM_GENERATE_PERLINNOISE 4 ///< Menu id for Perlin Noise.
-#define IDM_GENERATE_VALUENOISE 5 ///< Menu id for value Noise.
+#define IDM_GENERATE_VALUENOISE  5 ///< Menu id for value Noise.
+
+#define IDM_DISTRIBUTION_UNIFORM  6 ///< Menu id for uniform distribution.
+#define IDM_DISTRIBUTION_COSINE   7 ///< Menu id for cosine distribution.
+#define IDM_DISTRIBUTION_NORMAL   8 ///< Menu id for normal distribution.
+#define IDM_DISTRIBUTION_EXPONENTIAL  9 ///< Menu id for exponential distribution.
 
 #pragma endregion Menu IDs
 
@@ -58,3 +64,5 @@ ULONG_PTR InitGDIPlus(); ///< Initialize GDI+.
 HRESULT SaveBitmap(HWND, Gdiplus::Bitmap*); ///< Save bitmap to file.
 
 #pragma endregion Helper functions
+
+#endif //__WINDOWSHELPERS_H__

@@ -25,31 +25,32 @@
 
 #include "CMain.h"
 #include "WindowsHelpers.h"
-#include "perlin.h"
+#include "Perlin.h"
+#include "Defines.h"
 
-#pragma comment(lib,"Winmm.lib")
 
 ///////////////////////////////////////////////////////////////////////////////
 // Constructors and destructors
 
 #pragma region Constructors and destructors
 
-/// Initialize GDI+, create the menus, create a white bitmap.
+/// Initialize GDI+, create the menus, seed the pseudorandom number generator
+/// from `timeGetTime()`, and create the Perlin noise generator.
 /// \param hwnd Window handle.
 
 CMain::CMain(const HWND hwnd): m_hWnd(hwnd){
-
   m_gdiplusToken = InitGDIPlus(); //initialize GDI+
   CreateMenus(); //create the menu bar
 
   srand(timeGetTime()); //seed the PRNG
-  m_pPerlin = new CPerlinNoise2D();
+  m_pPerlin = new CPerlinNoise2D(8); //Perlin noise generator
 } //constructor
 
-/// Delete GDI+ objects, then shut down GDI+.
+/// Delete the Perlin noise generator, delete the GDI+ objects, then shut
+/// down GDI+.
 
 CMain::~CMain(){
-  delete m_pPerlin;
+  delete m_pPerlin; //delete the Perlin noise generator
   delete m_pBitmap; //delete the bitmap
   Gdiplus::GdiplusShutdown(m_gdiplusToken); //shut down GDI+
 } //destructor
@@ -126,6 +127,14 @@ void CMain::CreateMenus(){
   AppendMenuW(hMenu, MF_STRING, IDM_GENERATE_VALUENOISE,   L"Value noise");
 
   AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&Generate");
+  hMenu = CreateMenu();
+
+  AppendMenuW(hMenu, MF_STRING, IDM_DISTRIBUTION_UNIFORM, L"Uniform");
+  AppendMenuW(hMenu, MF_STRING, IDM_DISTRIBUTION_COSINE,  L"Cosine");
+  AppendMenuW(hMenu, MF_STRING, IDM_DISTRIBUTION_NORMAL,  L"Normal");
+  AppendMenuW(hMenu, MF_STRING, IDM_DISTRIBUTION_EXPONENTIAL, L"Exponential");
+
+  AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&Distribution");
 
   SetMenu(m_hWnd, hMenubar);
 } //CreateMenus
@@ -180,28 +189,14 @@ void CMain::GeneratePixelNoise(){
 /// This function generates a new pattern each time it is called.
 /// For now, the scale, lacunarity, persistence, and number of octaves
 /// is fixed.
+/// \param t Type of Perlin noise.
 
-void CMain::GeneratePerlinNoise(){
-  m_pPerlin->RandomizeGradients();
+void CMain::GeneratePerlinNoise(eNoise t){ 
   const float fScale = 64.0f;
 
   for(UINT i=0; i<m_pBitmap->GetWidth(); i++)
     for(UINT j=0; j<m_pBitmap->GetHeight(); j++)
-      SetPixel(i, j, m_pPerlin->PerlinNoise(i/fScale, j/fScale, 0.5f, 2.0f, 4));
-} //GeneratePerlinNoise
-
-/// Generate value noise into the bitmap pointed to by `m_pBitmap`. 
-/// This function generates a new pattern each time it is called.
-/// For now, the scale, lacunarity, persistence, and number of octaves
-/// is fixed.
-
-void CMain::GenerateValueNoise(){
-  m_pPerlin->RandomizeGradients();
-  const float fScale = 64.0f;
-
-  for(UINT i=0; i<m_pBitmap->GetWidth(); i++)
-    for(UINT j=0; j<m_pBitmap->GetHeight(); j++)
-      SetPixel(i, j, m_pPerlin->ValueNoise(i/fScale, j/fScale, 0.5f, 2.0f, 4));
+      SetPixel(i, j, m_pPerlin->generate(i/fScale, j/fScale, t, 0.5f, 2.0f, 4));
 } //GeneratePerlinNoise
 
 /// Reader function for the bitmap pointer `m_pBitmap`.
@@ -210,4 +205,11 @@ void CMain::GenerateValueNoise(){
 Gdiplus::Bitmap* CMain::GetBitmap(){
   return m_pBitmap;
 } //GetBitmap
+
+/// Set Perlin noise probability distrbution.
+/// \param d Probability distribution enumerated type.
+
+void CMain::SetDistribution(eDistribution d){
+  m_pPerlin->SetDistribution(d);
+} //SetDistribution
 

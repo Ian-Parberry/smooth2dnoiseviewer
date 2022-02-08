@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['randomizegradients_0',['RandomizeGradients',['../class_c_perlin_noise2_d.html#a6deebc18e48e1d6a9ba63aaa2398106d',1,'CPerlinNoise2D']]]
+  ['randomize_0',['Randomize',['../class_c_perlin_noise2_d.html#a560193f5624c76b7a9d86a045ba5d178',1,'CPerlinNoise2D']]]
 ];

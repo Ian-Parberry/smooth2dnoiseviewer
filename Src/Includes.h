@@ -23,14 +23,17 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-#pragma once
+#ifndef __INCLUDES_H__
+#define __INCLUDES_H__
 
-#pragma comment(lib,"Gdiplus.lib")
+#pragma comment(lib,"Gdiplus.lib") //for GDI+
+#pragma comment(lib,"Winmm.lib") //for timeGetTime()
 
 #include <windows.h>
 #include <windowsx.h>
-#include <objidl.h>
 #include <gdiplus.h>
 
 #include <cmath>
 #include <string>
+
+#endif //__INCLUDES_H__

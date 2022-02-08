@@ -64,7 +64,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
 
       switch(nMenuId){  
         case IDM_GENERATE_PERLINNOISE:
-          g_pMain->GeneratePerlinNoise();
+          g_pMain->GeneratePerlinNoise(eNoise::Perlin);
           InvalidateRect(hWnd, nullptr, FALSE);
           break;
 
@@ -74,8 +74,24 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
           break;
 
         case IDM_GENERATE_VALUENOISE:
-          g_pMain->GenerateValueNoise();
+          g_pMain->GeneratePerlinNoise(eNoise::Value);
           InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+            
+        case IDM_DISTRIBUTION_UNIFORM:
+          g_pMain->SetDistribution(eDistribution::Uniform);
+          break;
+
+        case IDM_DISTRIBUTION_COSINE:
+          g_pMain->SetDistribution(eDistribution::Cosine);
+          break; 
+
+        case IDM_DISTRIBUTION_NORMAL:
+          g_pMain->SetDistribution(eDistribution::Normal);
+          break;
+
+        case IDM_DISTRIBUTION_EXPONENTIAL:
+          g_pMain->SetDistribution(eDistribution::Exponential);
           break;
 
         case IDM_FILE_SAVE: //save bitmap to image file       
