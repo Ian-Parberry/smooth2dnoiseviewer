@@ -40,6 +40,9 @@
 class CMain{
   private:
     HWND m_hWnd = nullptr; ///< Window handle.
+    HMENU m_hDistMenu =  nullptr; ///< Handle to the `Distribution` menu.
+
+    eDistribution m_eCurDist = eDistribution::Uniform; ///< Current distribution.
     
     ULONG_PTR m_gdiplusToken = 0; ///< GDI+ token.
 

@@ -23,11 +23,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
+#include <random>
+
 #include "CMain.h"
 #include "WindowsHelpers.h"
 #include "Perlin.h"
 #include "Defines.h"
-
+#include "Helpers.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Constructors and destructors
@@ -127,12 +129,16 @@ void CMain::CreateMenus(){
   AppendMenuW(hMenu, MF_STRING, IDM_GENERATE_VALUENOISE,   L"Value noise");
 
   AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&Generate");
+
   hMenu = CreateMenu();
 
   AppendMenuW(hMenu, MF_STRING, IDM_DISTRIBUTION_UNIFORM, L"Uniform");
+  CheckMenuItem(hMenu, IDM_DISTRIBUTION_UNIFORM, MF_CHECKED);
   AppendMenuW(hMenu, MF_STRING, IDM_DISTRIBUTION_COSINE,  L"Cosine");
   AppendMenuW(hMenu, MF_STRING, IDM_DISTRIBUTION_NORMAL,  L"Normal");
   AppendMenuW(hMenu, MF_STRING, IDM_DISTRIBUTION_EXPONENTIAL, L"Exponential");
+
+  m_hDistMenu = hMenu;
 
   AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&Distribution");
 
@@ -168,7 +174,7 @@ void CMain::SetPixel(UINT i, UINT j, float g){
 /// Set grayscale pixel in `m_pBitmap`.
 /// \param i Row number.
 /// \param j Column number.
-/// \param g Grayscale value.
+/// \param b Grayscale value in the range \f$[0, 255]\f$.
 
 void CMain::SetPixel(UINT i, UINT j, BYTE b){
   m_pBitmap->SetPixel(i, j, Gdiplus::Color(255, b, b, b));
@@ -179,10 +185,40 @@ void CMain::SetPixel(UINT i, UINT j, BYTE b){
 /// a grayscale value for each pixel. This function generates a new pattern
 /// each time it is called.
 
-void CMain::GeneratePixelNoise(){
-  for(UINT i=0; i<m_pBitmap->GetWidth(); i++)
-    for(UINT j=0; j<m_pBitmap->GetHeight(); j++)
-      SetPixel(i, j, (BYTE)rand());
+void CMain::GeneratePixelNoise(){ 
+  std::default_random_engine g;
+
+  switch(m_eCurDist){
+    case eDistribution::Uniform: {
+      std::uniform_real_distribution<float> d(-1.0f, 1.0f);
+
+      for(UINT i=0; i<m_pBitmap->GetWidth(); i++)
+        for(UINT j=0; j<m_pBitmap->GetHeight(); j++)
+          SetPixel(i, j, clamp(-1.0f, d(g), 1.0f));
+    } //case
+    break;
+      
+    case eDistribution::Cosine:
+      break;
+      
+    case eDistribution::Normal:{   
+      std::normal_distribution<float> d(500.0f, 200.0f);
+
+      for(UINT i=0; i<m_pBitmap->GetWidth(); i++)
+        for(UINT j=0; j<m_pBitmap->GetHeight(); j++)
+          SetPixel(i, j, 2.0f*clamp(0.0f, d(g)/1000.0f, 1.0f) - 1.0f);
+    } //case
+    break;
+      
+    case eDistribution::Exponential: {
+      std::exponential_distribution<float> d(3.5f);
+
+      for(UINT i=0; i<m_pBitmap->GetWidth(); i++)
+        for(UINT j=0; j<m_pBitmap->GetHeight(); j++)
+          SetPixel(i, j, ((rand() & 1)? -1.0f: 1.0f)*clamp(0.0f, d(g), 1.0f));
+    } //case
+    break;
+  } //switch
 } //GeneratePixelNoise
 
 /// Generate Perlin noise into the bitmap pointed to by `m_pBitmap`. 
@@ -193,6 +229,7 @@ void CMain::GeneratePixelNoise(){
 
 void CMain::GeneratePerlinNoise(eNoise t){ 
   const float fScale = 64.0f;
+  m_pPerlin->Randomize();
 
   for(UINT i=0; i<m_pBitmap->GetWidth(); i++)
     for(UINT j=0; j<m_pBitmap->GetHeight(); j++)
@@ -210,6 +247,31 @@ Gdiplus::Bitmap* CMain::GetBitmap(){
 /// \param d Probability distribution enumerated type.
 
 void CMain::SetDistribution(eDistribution d){
+  m_eCurDist = d;
+
+  CheckMenuItem(m_hDistMenu, IDM_DISTRIBUTION_UNIFORM, MF_UNCHECKED);
+  CheckMenuItem(m_hDistMenu, IDM_DISTRIBUTION_COSINE,  MF_UNCHECKED);
+  CheckMenuItem(m_hDistMenu, IDM_DISTRIBUTION_NORMAL,  MF_UNCHECKED);
+  CheckMenuItem(m_hDistMenu, IDM_DISTRIBUTION_EXPONENTIAL, MF_UNCHECKED);
+
+  switch(d){
+    case eDistribution::Uniform:
+      CheckMenuItem(m_hDistMenu, IDM_DISTRIBUTION_UNIFORM, MF_CHECKED);
+      break;
+      
+    case eDistribution::Cosine:
+      CheckMenuItem(m_hDistMenu, IDM_DISTRIBUTION_COSINE, MF_CHECKED);
+      break;
+      
+    case eDistribution::Normal:
+      CheckMenuItem(m_hDistMenu, IDM_DISTRIBUTION_NORMAL, MF_CHECKED);
+      break;
+      
+    case eDistribution::Exponential:
+      CheckMenuItem(m_hDistMenu, IDM_DISTRIBUTION_EXPONENTIAL, MF_CHECKED);
+      break;
+  } //switch
+
   m_pPerlin->SetDistribution(d);
 } //SetDistribution
 

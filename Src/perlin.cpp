@@ -29,15 +29,12 @@
 #include <random>
 
 #include "perlin.h"
+#include "Helpers.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Helper functions.
 
 #pragma region Helper functions
-
-float clamp(float lower, float x, float upper){
-  return std::max(lower, std::min(x, upper));
-} //clamp
 
 /// \brief Cubic spline.
 ///
@@ -135,7 +132,7 @@ void CPerlinNoise2D::SetDistribution(eDistribution d){
       std::normal_distribution<float> d(500.0f, 200.0f);
 
       for(size_t i=0; i<m_nSize; i++)
-        m_fGradient[i] = 2.0f*clamp(0.0f, (d(g))/1000.0f, 1.0f) - 1.0f;
+        m_fGradient[i] = 2.0f*clamp(0.0f, d(g)/1000.0f, 1.0f) - 1.0f;
       } //case
     break;
 

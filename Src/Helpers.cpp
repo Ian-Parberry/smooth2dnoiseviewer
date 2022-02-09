@@ -1,6 +1,6 @@
-/// \file perlin.h
+/// \file Helpers.cpp
 ///
-/// \brief Interface for the Perlin and Value noise generators.
+/// \brief Code for helper functions.
 
 // MIT License
 //
@@ -24,32 +24,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 
-#ifndef __PERLIN_H__
-#define __PERLIN_H__
+#include <algorithm>
 
-#include "Defines.h"
-
-/// \brief 2D Perlin and Value noise generator.
-
-class CPerlinNoise2D{
-  private:
-    size_t m_nSize = 0; ///< Repeat size, must be a power of 2.
-    size_t m_nMask = 0; ///< Mask for values less than `m_nSize`.
-
-    size_t* m_nPerm = nullptr; ///< Random permutation.
-    float* m_fGradient = nullptr; ///< Gradients.
-
-    const float grad(size_t, float, float) const; ///< Apply gradients.
-    const float noise(float, float, eNoise) const; ///< Perlin noise.
-
-  public:
-    CPerlinNoise2D(size_t); ///< Constructor.
-    ~CPerlinNoise2D(); ///<Destructor.
-    
-    void SetDistribution(eDistribution); ///< Set distribution.
-    void Randomize(); ///< Randomize permutation.
-    
-    const float generate(float, float, eNoise, float, float, size_t) const; ///< Perlin noise.
-}; //CPerlinNoise2D
-
-#endif //__PERLIN_H__
+float clamp(float lower, float x, float upper){
+  return std::max(lower, std::min(x, upper));
+} //clamp
