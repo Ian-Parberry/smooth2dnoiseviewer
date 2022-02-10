@@ -1,15 +1,6 @@
 var searchData=
 [
-  ['idm_5fdistribution_5fcosine_0',['IDM_DISTRIBUTION_COSINE',['../_windows_helpers_8h.html#adacb6c438e5f4e3b0981408817f719fe',1,'WindowsHelpers.h']]],
-  ['idm_5fdistribution_5fexponential_1',['IDM_DISTRIBUTION_EXPONENTIAL',['../_windows_helpers_8h.html#a35079cf3abba513b7e6170f67fc63afa',1,'WindowsHelpers.h']]],
-  ['idm_5fdistribution_5fnormal_2',['IDM_DISTRIBUTION_NORMAL',['../_windows_helpers_8h.html#a5a9c09120c2bdc2f8d91f01413eb0a31',1,'WindowsHelpers.h']]],
-  ['idm_5fdistribution_5funiform_3',['IDM_DISTRIBUTION_UNIFORM',['../_windows_helpers_8h.html#a3bb87fc65c9f2181386776de1e133f40',1,'WindowsHelpers.h']]],
-  ['idm_5ffile_5fquit_4',['IDM_FILE_QUIT',['../_windows_helpers_8h.html#a9a7a0891436ce76ac27b86ba302558ed',1,'WindowsHelpers.h']]],
-  ['idm_5ffile_5fsave_5',['IDM_FILE_SAVE',['../_windows_helpers_8h.html#a65e62ad25e0b57e2f4b59cab2cedfa4b',1,'WindowsHelpers.h']]],
-  ['idm_5fgenerate_5fperlinnoise_6',['IDM_GENERATE_PERLINNOISE',['../_windows_helpers_8h.html#a6071266900f07d7585095032945f0808',1,'WindowsHelpers.h']]],
-  ['idm_5fgenerate_5fpixelnoise_7',['IDM_GENERATE_PIXELNOISE',['../_windows_helpers_8h.html#a1e652e6623f99a934b117d9198bf2b7d',1,'WindowsHelpers.h']]],
-  ['idm_5fgenerate_5fvaluenoise_8',['IDM_GENERATE_VALUENOISE',['../_windows_helpers_8h.html#a347d1f366e7a6e0712f6c3e61d87791c',1,'WindowsHelpers.h']]],
-  ['includes_2eh_9',['Includes.h',['../_includes_8h.html',1,'']]],
-  ['initgdiplus_10',['InitGDIPlus',['../_windows_helpers_8cpp.html#ab90ef52869992f4af6696021ce4a1769',1,'InitGDIPlus():&#160;WindowsHelpers.cpp'],['../_windows_helpers_8h.html#ab90ef52869992f4af6696021ce4a1769',1,'InitGDIPlus():&#160;WindowsHelpers.cpp']]],
-  ['initwindow_11',['InitWindow',['../_main_8cpp.html#ad68cbf778113a9ec082a5090cb2703c0',1,'Main.cpp']]]
+  ['hash_0',['hash',['../class_c_perlin_noise2_d.html#ad9328f900323484c58d462a33954209f',1,'CPerlinNoise2D']]],
+  ['helpers_2ecpp_1',['Helpers.cpp',['../_helpers_8cpp.html',1,'']]],
+  ['helpers_2eh_2',['Helpers.h',['../_helpers_8h.html',1,'']]]
 ];

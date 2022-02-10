@@ -77,25 +77,44 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
           g_pMain->GeneratePerlinNoise(eNoise::Value);
           InvalidateRect(hWnd, nullptr, FALSE);
           break;
+
+        case IDM_GENERATE_RANDOMIZE:
+          g_pMain->Randomize();
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
             
         case IDM_DISTRIBUTION_UNIFORM:
-          g_pMain->SetDistribution(eDistribution::Uniform);
+          g_pMain->Initialize(eDistribution::Uniform);
+          InvalidateRect(hWnd, nullptr, FALSE);
           break;
 
         case IDM_DISTRIBUTION_COSINE:
-          g_pMain->SetDistribution(eDistribution::Cosine);
+          g_pMain->Initialize(eDistribution::Cosine);
+          InvalidateRect(hWnd, nullptr, FALSE);
           break; 
 
         case IDM_DISTRIBUTION_NORMAL:
-          g_pMain->SetDistribution(eDistribution::Normal);
+          g_pMain->Initialize(eDistribution::Normal);
+          InvalidateRect(hWnd, nullptr, FALSE);
           break;
 
         case IDM_DISTRIBUTION_EXPONENTIAL:
-          g_pMain->SetDistribution(eDistribution::Exponential);
+          g_pMain->Initialize(eDistribution::Exponential);
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        case IDM_SPLINE_CUBIC:
+          g_pMain->SetSpline(eSpline::Cubic);
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        case IDM_SPLINE_QUINTIC:
+          g_pMain->SetSpline(eSpline::Quintic);
+          InvalidateRect(hWnd, nullptr, FALSE);
           break;
 
         case IDM_FILE_SAVE: //save bitmap to image file       
-          SaveBitmap(hWnd, g_pMain->GetBitmap());
+          SaveBitmap(hWnd, g_pMain->GetFileName(), g_pMain->GetBitmap());
           break;
 
         case IDM_FILE_QUIT: //so long, farewell, auf weidersehn, goodbye!
@@ -116,7 +135,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
 /// \param WndProc Window procedure.
 
 void InitWindow(HINSTANCE hInst, INT nShow, WNDPROC WndProc){
-  const LPCWSTR appname = L"2DNoiseGenerator";
+  const LPCWSTR appname = L"2D Noise Generator";
    
   WNDCLASSEX wndClass = {0}; //extended window class structure
 

@@ -27,6 +27,10 @@
 #ifndef __HELPERS_H__
 #define __HELPERS_H__
 
-float clamp(float, float, float); ///< Clamp between two values.
+inline float spline3(float); ///< Cubic spline.
+inline float spline5(float); ///< Quintic spline.
+
+inline float lerp(float, float, float); ///< Linear interpolation.
+inline float clamp(float, float, float); ///< Clamp between two values.
 
 #endif //__HELPERS_H__

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['wndproc_0',['WndProc',['../_main_8cpp.html#a30a1e3b0304f1b083637664cbda94e72',1,'Main.cpp']]],
-  ['wwinmain_1',['wWinMain',['../_main_8cpp.html#ad7483c50ba0ceb8cee64426d4e7e9bb3',1,'Main.cpp']]]
+  ['randomize_0',['Randomize',['../class_c_main.html#a408be5fae15676939166439f29ec92e0',1,'CMain::Randomize()'],['../class_c_perlin_noise2_d.html#a560193f5624c76b7a9d86a045ba5d178',1,'CPerlinNoise2D::Randomize()']]],
+  ['regenerate_1',['Regenerate',['../class_c_main.html#aaf956204211d4bb7aeb8e5e458cc5842',1,'CMain']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['randomize_0',['Randomize',['../class_c_perlin_noise2_d.html#a560193f5624c76b7a9d86a045ba5d178',1,'CPerlinNoise2D']]]
+  ['onpaint_0',['OnPaint',['../class_c_main.html#ae49d2d96b54cef7272d64b77171cffad',1,'CMain']]]
 ];

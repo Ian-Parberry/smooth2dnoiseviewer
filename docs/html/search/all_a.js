@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['perlin_2ecpp_0',['perlin.cpp',['../perlin_8cpp.html',1,'']]],
-  ['perlin_2eh_1',['perlin.h',['../perlin_8h.html',1,'']]],
-  ['pi_2',['PI',['../_defines_8h.html#aa08a577393243b86dfd2a97e61443673',1,'Defines.h']]]
+  ['onpaint_0',['OnPaint',['../class_c_main.html#ae49d2d96b54cef7272d64b77171cffad',1,'CMain']]]
 ];

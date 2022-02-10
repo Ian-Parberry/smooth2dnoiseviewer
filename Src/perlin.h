@@ -36,17 +36,24 @@ class CPerlinNoise2D{
     size_t m_nSize = 0; ///< Repeat size, must be a power of 2.
     size_t m_nMask = 0; ///< Mask for values less than `m_nSize`.
 
-    size_t* m_nPerm = nullptr; ///< Random permutation.
-    float* m_fGradient = nullptr; ///< Gradients.
+    size_t* m_nPerm = nullptr; ///< Random permutation, used for hash function.
+    float* m_fTable = nullptr; ///< Table of gradients or values.
+    
+    eSpline m_eSpline = eSpline::Cubic; ///< Spline function type.
+    
+    inline const size_t pair(size_t, size_t) const; ///< Perlin pairing function.
+    inline const size_t hash(size_t) const; ///< Perlin hash function.
 
-    const float grad(size_t, float, float) const; ///< Apply gradients.
+    inline const float grad(size_t, float, float) const; ///< Apply gradients.
     const float noise(float, float, eNoise) const; ///< Perlin noise.
 
   public:
     CPerlinNoise2D(size_t); ///< Constructor.
     ~CPerlinNoise2D(); ///<Destructor.
     
-    void SetDistribution(eDistribution); ///< Set distribution.
+    void Initialize(eDistribution); ///< Initialize table from distribution.
+    void SetSpline(eSpline); ///< Set spline function.
+
     void Randomize(); ///< Randomize permutation.
     
     const float generate(float, float, eNoise, float, float, size_t) const; ///< Perlin noise.

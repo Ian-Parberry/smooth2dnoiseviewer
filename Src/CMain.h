@@ -40,10 +40,16 @@
 class CMain{
   private:
     HWND m_hWnd = nullptr; ///< Window handle.
-    HMENU m_hDistMenu =  nullptr; ///< Handle to the `Distribution` menu.
-
-    eDistribution m_eCurDist = eDistribution::Uniform; ///< Current distribution.
+    HMENU m_hFileMenu = nullptr; ///< Handle to the `File` menu.
+    HMENU m_hGenMenu = nullptr; ///< Handle to the `Generate` menu.
+    HMENU m_hDistMenu = nullptr; ///< Handle to the `Distribution` menu.
+    HMENU m_hSplineMenu = nullptr; ///< Handle to the `Spline` menu.
     
+    eNoise m_eNoise = eNoise::None; ///< Noise type.
+    eDistribution m_eCurDist = eDistribution::Uniform; ///< Current distribution.
+    eSpline m_eCurSpline = eSpline::Cubic; ///< Current spline function.
+    UINT m_nSeed = 0; ///< Pseudorandom number seed.
+
     ULONG_PTR m_gdiplusToken = 0; ///< GDI+ token.
 
     Gdiplus::Bitmap* m_pBitmap = nullptr; ///< Pointer to a bitmap image.
@@ -58,13 +64,19 @@ class CMain{
     ~CMain(); ///< Destructor.
     
     void CreateBitmap(int w, int h); ///< Create bitmap.
+
     void GeneratePixelNoise(); ///< Generate pixel noise.
     void GeneratePerlinNoise(eNoise); ///< Generate noise.
+    void Regenerate(); ///< Generate with saved parameters.
+    void Clear(); ///< Clear noise array.
+    void Randomize(); ///< Randomize noise.
 
-    void SetDistribution(eDistribution); ///< Set probability distribution.
+    void Initialize(eDistribution); ///< Set probability distribution.
+    void SetSpline(eSpline); ///< Set spline function.
 
     void OnPaint(); ///< Paint the client area of the window.
     Gdiplus::Bitmap* GetBitmap(); ///< Get pointer to bitmap.
+    const std::wstring GetFileName() const; ///< Get save file name.
 }; //CMain
 
 #endif //__CMAIN_H__

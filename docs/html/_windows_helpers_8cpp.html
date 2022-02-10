@@ -96,9 +96,9 @@ Functions</h2></td></tr>
 <tr class="separator:ab90ef52869992f4af6696021ce4a1769"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab446d7eb02f2055da6303a03f9f697ef"><td class="memItemLeft" align="right" valign="top">HRESULT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_windows_helpers_8cpp.html#ab446d7eb02f2055da6303a03f9f697ef">GetEncoderClsid</a> (const WCHAR *format, CLSID *pClsid)</td></tr>
 <tr class="separator:ab446d7eb02f2055da6303a03f9f697ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abcbcd456d1d87a2063d358460e5ec0aa"><td class="memItemLeft" align="right" valign="top">HRESULT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_windows_helpers_8cpp.html#abcbcd456d1d87a2063d358460e5ec0aa">SaveBitmap</a> (HWND hwnd, Gdiplus::Bitmap *pBitmap)</td></tr>
-<tr class="memdesc:abcbcd456d1d87a2063d358460e5ec0aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save bitmap to file.  <a href="_windows_helpers_8cpp.html#abcbcd456d1d87a2063d358460e5ec0aa">More...</a><br /></td></tr>
-<tr class="separator:abcbcd456d1d87a2063d358460e5ec0aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabd2792287ecf527c5f5f9519e4f556b"><td class="memItemLeft" align="right" valign="top">HRESULT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_windows_helpers_8cpp.html#aabd2792287ecf527c5f5f9519e4f556b">SaveBitmap</a> (HWND hwnd, const std::wstring &amp;wstrName, Gdiplus::Bitmap *pBitmap)</td></tr>
+<tr class="memdesc:aabd2792287ecf527c5f5f9519e4f556b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save bitmap to file.  <a href="_windows_helpers_8cpp.html#aabd2792287ecf527c5f5f9519e4f556b">More...</a><br /></td></tr>
+<tr class="separator:aabd2792287ecf527c5f5f9519e4f556b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >These platform-dependent functions are hidden away so that the faint-of-heart don't have to see them if they're offended by them. <br  />
@@ -164,8 +164,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="abcbcd456d1d87a2063d358460e5ec0aa" name="abcbcd456d1d87a2063d358460e5ec0aa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abcbcd456d1d87a2063d358460e5ec0aa">&#9670;&nbsp;</a></span>SaveBitmap()</h2>
+<a id="aabd2792287ecf527c5f5f9519e4f556b" name="aabd2792287ecf527c5f5f9519e4f556b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabd2792287ecf527c5f5f9519e4f556b">&#9670;&nbsp;</a></span>SaveBitmap()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -175,6 +175,12 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">HWND&#160;</td>
           <td class="paramname"><em>hwnd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::wstring &amp;&#160;</td>
+          <td class="paramname"><em>wstrName</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -192,20 +198,21 @@ Functions</h2></td></tr>
 <p >Display a <code>Save</code> dialog box for png files and save a bitmap to the file name that the user selects. Only files with a <code>.png</code> extension are allowed. The default file name is "ImageN.png", where N is the number of images saved so far in the current instance of this program. This prevents any collisions with files already saved by this instance. If there is a collision with a file from a previous instance, then the user is prompted to overwrite or rename it in the normal fashion. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">hwnd</td><td>Window handle. </td></tr>
+    <tr><td class="paramname">wstrName</td><td>File name without extension. </td></tr>
     <tr><td class="paramname">pBitmap</td><td>Pointer to a bitmap. </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>S_OK for success, E_FAIL for failure. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_windows_helpers_8cpp_source.html#l00096">96</a> of file <a class="el" href="_windows_helpers_8cpp_source.html">WindowsHelpers.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8cpp_source.html#l00097">97</a> of file <a class="el" href="_windows_helpers_8cpp_source.html">WindowsHelpers.cpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 8 2022 16:00:28 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
+Generated on Thu Feb 10 2022 15:25:54 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
 </small></address>
 </body>
 </html>

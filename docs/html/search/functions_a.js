@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['_7ecmain_0',['~CMain',['../class_c_main.html#a4fe4429d06d7bcba0fbf8a19c29d0488',1,'CMain']]]
+  ['wndproc_0',['WndProc',['../_main_8cpp.html#a30a1e3b0304f1b083637664cbda94e72',1,'Main.cpp']]],
+  ['wwinmain_1',['wWinMain',['../_main_8cpp.html#ad7483c50ba0ceb8cee64426d4e7e9bb3',1,'Main.cpp']]]
 ];

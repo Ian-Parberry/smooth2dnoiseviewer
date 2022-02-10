@@ -115,32 +115,44 @@ void CMain::OnPaint(){
 
 void CMain::CreateMenus(){
   HMENU hMenubar = CreateMenu();
-  HMENU hMenu = CreateMenu();
+  m_hFileMenu = CreateMenu();
   
-  AppendMenuW(hMenu, MF_STRING, IDM_FILE_SAVE,     L"Save...");
-  AppendMenuW(hMenu, MF_STRING, IDM_FILE_QUIT,     L"Quit");
+  AppendMenuW(m_hFileMenu, MF_STRING, IDM_FILE_SAVE,     L"Save...");
+  EnableMenuItem(m_hFileMenu, IDM_FILE_SAVE, MF_GRAYED);
+  AppendMenuW(m_hFileMenu, MF_STRING, IDM_FILE_QUIT,     L"Quit");
 
-  AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&File");
+  AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)m_hFileMenu, L"&File");
   
-  hMenu = CreateMenu();
+  m_hGenMenu = CreateMenu();
 
-  AppendMenuW(hMenu, MF_STRING, IDM_GENERATE_PIXELNOISE,   L"Pixel noise");
-  AppendMenuW(hMenu, MF_STRING, IDM_GENERATE_PERLINNOISE,  L"Perlin noise");
-  AppendMenuW(hMenu, MF_STRING, IDM_GENERATE_VALUENOISE,   L"Value noise");
+  AppendMenuW(m_hGenMenu, MF_STRING, IDM_GENERATE_PIXELNOISE,  L"Pixel noise");
+  AppendMenuW(m_hGenMenu, MF_STRING, IDM_GENERATE_PERLINNOISE, L"Perlin noise");
+  AppendMenuW(m_hGenMenu, MF_STRING, IDM_GENERATE_VALUENOISE,  L"Value noise");
+  AppendMenuW(m_hGenMenu, MF_SEPARATOR, 0, nullptr);
+  AppendMenuW(m_hGenMenu, MF_STRING, IDM_GENERATE_RANDOMIZE,   L"Randomize");
+  EnableMenuItem(m_hGenMenu, IDM_GENERATE_RANDOMIZE, MF_GRAYED);
 
-  AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&Generate");
+  AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)m_hGenMenu, L"&Generate");
+  
+  m_hDistMenu = CreateMenu();
 
-  hMenu = CreateMenu();
+  AppendMenuW(m_hDistMenu, MF_STRING, IDM_DISTRIBUTION_UNIFORM, L"Uniform");
+  CheckMenuItem(m_hDistMenu, IDM_DISTRIBUTION_UNIFORM, MF_CHECKED);
+  AppendMenuW(m_hDistMenu, MF_STRING, IDM_DISTRIBUTION_COSINE,  L"Cosine");
+  AppendMenuW(m_hDistMenu, MF_STRING, IDM_DISTRIBUTION_NORMAL,  L"Normal");
+  AppendMenuW(m_hDistMenu, MF_STRING, IDM_DISTRIBUTION_EXPONENTIAL, L"Exponential");
 
-  AppendMenuW(hMenu, MF_STRING, IDM_DISTRIBUTION_UNIFORM, L"Uniform");
-  CheckMenuItem(hMenu, IDM_DISTRIBUTION_UNIFORM, MF_CHECKED);
-  AppendMenuW(hMenu, MF_STRING, IDM_DISTRIBUTION_COSINE,  L"Cosine");
-  AppendMenuW(hMenu, MF_STRING, IDM_DISTRIBUTION_NORMAL,  L"Normal");
-  AppendMenuW(hMenu, MF_STRING, IDM_DISTRIBUTION_EXPONENTIAL, L"Exponential");
+  AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)m_hDistMenu, L"&Distribution");
 
-  m_hDistMenu = hMenu;
+  m_hSplineMenu = CreateMenu();
 
-  AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&Distribution");
+  AppendMenuW(m_hSplineMenu, MF_STRING, IDM_SPLINE_CUBIC, L"Cubic");
+  CheckMenuItem(m_hSplineMenu, IDM_SPLINE_CUBIC, MF_CHECKED);
+  EnableMenuItem(m_hSplineMenu, IDM_SPLINE_CUBIC, MF_GRAYED);
+  AppendMenuW(m_hSplineMenu, MF_STRING, IDM_SPLINE_QUINTIC,  L"Quintic");
+  EnableMenuItem(m_hSplineMenu, IDM_SPLINE_QUINTIC, MF_GRAYED);
+
+  AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)m_hSplineMenu, L"&Spline");
 
   SetMenu(m_hWnd, hMenubar);
 } //CreateMenus
@@ -162,7 +174,8 @@ void CMain::CreateBitmap(int w, int h){
   graphics.Clear(Gdiplus::Color::White);
 } //CreateBitmap
 
-/// Set grayscale pixel in `m_pBitmap`.
+/// Set grayscale pixel in `m_pBitmap` from a floating point value in 
+/// \f$[-1, 1]\f$, where \f$-1\f$ is black and \f$+1\f$ is white.
 /// \param i Row number.
 /// \param j Column number.
 /// \param g Grayscale value in the range \f$[-1, 1]\f$.
@@ -186,7 +199,18 @@ void CMain::SetPixel(UINT i, UINT j, BYTE b){
 /// each time it is called.
 
 void CMain::GeneratePixelNoise(){ 
+  m_eNoise = eNoise::Pixel;
+
+  EnableMenuItem(m_hFileMenu, IDM_FILE_SAVE, MF_ENABLED); 
+  CheckMenuItem(m_hGenMenu, IDM_GENERATE_PIXELNOISE, MF_CHECKED);
+  CheckMenuItem(m_hGenMenu, IDM_GENERATE_PERLINNOISE, MF_UNCHECKED);
+  CheckMenuItem(m_hGenMenu, IDM_GENERATE_VALUENOISE, MF_UNCHECKED);
+  EnableMenuItem(m_hGenMenu, IDM_GENERATE_RANDOMIZE, MF_ENABLED);
+  EnableMenuItem(m_hSplineMenu, IDM_SPLINE_CUBIC, MF_GRAYED);
+  EnableMenuItem(m_hSplineMenu, IDM_SPLINE_QUINTIC, MF_GRAYED);
+
   std::default_random_engine g;
+  g.seed(m_nSeed);
 
   switch(m_eCurDist){
     case eDistribution::Uniform: {
@@ -194,12 +218,18 @@ void CMain::GeneratePixelNoise(){
 
       for(UINT i=0; i<m_pBitmap->GetWidth(); i++)
         for(UINT j=0; j<m_pBitmap->GetHeight(); j++)
-          SetPixel(i, j, clamp(-1.0f, d(g), 1.0f));
+          SetPixel(i, j, d(g));
     } //case
     break;
       
-    case eDistribution::Cosine:
-      break;
+    case eDistribution::Cosine: {
+      std::uniform_real_distribution<float> d(0.0f, PI);
+
+      for(UINT i=0; i<m_pBitmap->GetWidth(); i++)
+        for(UINT j=0; j<m_pBitmap->GetHeight(); j++)
+          SetPixel(i, j, cosf(d(g)));
+    } //case
+    break;
       
     case eDistribution::Normal:{   
       std::normal_distribution<float> d(500.0f, 200.0f);
@@ -222,14 +252,24 @@ void CMain::GeneratePixelNoise(){
 } //GeneratePixelNoise
 
 /// Generate Perlin noise into the bitmap pointed to by `m_pBitmap`. 
-/// This function generates a new pattern each time it is called.
 /// For now, the scale, lacunarity, persistence, and number of octaves
 /// is fixed.
 /// \param t Type of Perlin noise.
 
 void CMain::GeneratePerlinNoise(eNoise t){ 
+  m_eNoise = t;
+
+  EnableMenuItem(m_hFileMenu, IDM_FILE_SAVE, MF_ENABLED);
+  CheckMenuItem(m_hGenMenu, IDM_GENERATE_PIXELNOISE, MF_UNCHECKED);
+  CheckMenuItem(m_hGenMenu, IDM_GENERATE_PERLINNOISE, 
+    (t == eNoise::Perlin)? MF_CHECKED: MF_UNCHECKED);
+  CheckMenuItem(m_hGenMenu, IDM_GENERATE_VALUENOISE, 
+    (t == eNoise::Value)? MF_CHECKED: MF_UNCHECKED);
+  EnableMenuItem(m_hGenMenu, IDM_GENERATE_RANDOMIZE, MF_ENABLED);
+  EnableMenuItem(m_hSplineMenu, IDM_SPLINE_CUBIC, MF_ENABLED);
+  EnableMenuItem(m_hSplineMenu, IDM_SPLINE_QUINTIC, MF_ENABLED);
+
   const float fScale = 64.0f;
-  m_pPerlin->Randomize();
 
   for(UINT i=0; i<m_pBitmap->GetWidth(); i++)
     for(UINT j=0; j<m_pBitmap->GetHeight(); j++)
@@ -243,10 +283,45 @@ Gdiplus::Bitmap* CMain::GetBitmap(){
   return m_pBitmap;
 } //GetBitmap
 
-/// Set Perlin noise probability distrbution.
+/// Clear the noise to white.
+
+void CMain::Clear(){ 
+  for(UINT i=0; i<m_pBitmap->GetWidth(); i++)
+    for(UINT j=0; j<m_pBitmap->GetHeight(); j++)
+      SetPixel(i, j, 0.0f);
+} //Clear
+
+/// Randomize the noise generator and regenerate noise.
+
+void CMain::Randomize(){
+  m_nSeed = timeGetTime(); //for pixel noise
+  m_pPerlin->Randomize(); //for Perlin and Value noise
+  Regenerate();
+} //Randomize
+
+/// Generate last type of noise again.
+
+void CMain::Regenerate(){
+ switch(m_eNoise){
+   case eNoise::Pixel:
+     GeneratePixelNoise();
+     break;
+
+   case eNoise::Perlin:
+   case eNoise::Value:
+     GeneratePerlinNoise(m_eNoise);
+     break;
+
+   default:
+     Clear();
+     break;
+ } //switch
+} //Regenerate
+
+/// Set Perlin noise probability distribution and regenerate noise.
 /// \param d Probability distribution enumerated type.
 
-void CMain::SetDistribution(eDistribution d){
+void CMain::Initialize(eDistribution d){
   m_eCurDist = d;
 
   CheckMenuItem(m_hDistMenu, IDM_DISTRIBUTION_UNIFORM, MF_UNCHECKED);
@@ -272,6 +347,57 @@ void CMain::SetDistribution(eDistribution d){
       break;
   } //switch
 
-  m_pPerlin->SetDistribution(d);
-} //SetDistribution
+  m_pPerlin->Initialize(d);
+  Regenerate();
+} //Initialize
+
+/// Set Perlin noise spline function and regenerate noise.
+/// \param d Spline function enumerated type.
+
+void CMain::SetSpline(eSpline d){
+  m_eCurSpline = d;
+
+  switch(d){
+    case eSpline::Cubic:
+      CheckMenuItem(m_hSplineMenu, IDM_SPLINE_QUINTIC, MF_UNCHECKED);
+      CheckMenuItem(m_hSplineMenu, IDM_SPLINE_CUBIC, MF_CHECKED);
+      break;
+      
+    case eSpline::Quintic:
+      CheckMenuItem(m_hSplineMenu, IDM_SPLINE_QUINTIC, MF_CHECKED);
+      CheckMenuItem(m_hSplineMenu, IDM_SPLINE_CUBIC, MF_UNCHECKED);
+      break;  
+  } //switch
+
+  m_pPerlin->SetSpline(d);
+  Regenerate();
+} //SetSpline
+
+/// Get save file name from noise settings.
+/// \param return Save file name without extension.
+
+const std::wstring CMain::GetFileName() const{
+  std::wstring wstr;
+
+  switch(m_eNoise){
+    case eNoise::Pixel:  wstr = L"Pixel";  break;
+    case eNoise::Perlin: wstr = L"Perlin"; break;
+    case eNoise::Value:  wstr = L"Value";  break;
+  } //switch
+
+  switch(m_eCurDist){
+    case eDistribution::Uniform: break; //nothing   
+    case eDistribution::Cosine:  wstr += L"-Cos"; break;   
+    case eDistribution::Normal:  wstr += L"-Norm"; break;    
+    case eDistribution::Exponential: wstr += L"-Exp"; break;
+  } //switch
+
+  if(m_eNoise != eNoise::Pixel)
+    switch(m_eCurSpline){
+      case eSpline::Cubic: break; //nothing
+      case eSpline::Quintic:wstr += L"-Quintic"; break;
+    } //switch
+
+  return wstr;
+} //GetFileName
 

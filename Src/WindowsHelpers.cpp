@@ -90,18 +90,19 @@ HRESULT GetEncoderClsid(const WCHAR* format, CLSID* pClsid){
 /// file from a previous instance, then the user is prompted to overwrite or
 /// rename it in the normal fashion. 
 /// \param hwnd Window handle.
+/// \param wstrName File name without extension.
 /// \param pBitmap Pointer to a bitmap.
 /// \return S_OK for success, E_FAIL for failure.
 
-HRESULT SaveBitmap(HWND hwnd, Gdiplus::Bitmap* pBitmap){
+HRESULT SaveBitmap(HWND hwnd, const std::wstring& wstrName, 
+  Gdiplus::Bitmap* pBitmap)
+{
   COMDLG_FILTERSPEC filetypes[] = { //png files only
     {L"PNG Files", L"*.png"}
   }; //filetypes
 
   std::wstring wstrFileName; //result
   CComPtr<IFileSaveDialog> pDlg; //pointer to save dialog box
-  static int n = 0; //number of images saved in this run
-  std::wstring wstrName = L"Image" + std::to_wstring(n++); //default file name
   CComPtr<IShellItem> pItem; //item pointer
   LPWSTR pwsz = nullptr; //pointer to null-terminated wide string for result
 

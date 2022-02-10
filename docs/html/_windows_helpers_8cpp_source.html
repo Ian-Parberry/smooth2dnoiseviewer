@@ -149,53 +149,53 @@ $(function() {
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>  <span class="keywordflow">return</span> hr;</div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>} <span class="comment">//GetEncoderClsid</span></div>
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="_windows_helpers_8cpp.html#abcbcd456d1d87a2063d358460e5ec0aa">   96</a></span>HRESULT <a class="code hl_function" href="_windows_helpers_8cpp.html#abcbcd456d1d87a2063d358460e5ec0aa">SaveBitmap</a>(HWND hwnd, Gdiplus::Bitmap* pBitmap){</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>  COMDLG_FILTERSPEC filetypes[] = { <span class="comment">//png files only</span></div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    {L<span class="stringliteral">&quot;PNG Files&quot;</span>, L<span class="stringliteral">&quot;*.png&quot;</span>}</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>  }; <span class="comment">//filetypes</span></div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>  std::wstring wstrFileName; <span class="comment">//result</span></div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>  CComPtr&lt;IFileSaveDialog&gt; pDlg; <span class="comment">//pointer to save dialog box</span></div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>  <span class="keyword">static</span> <span class="keywordtype">int</span> n = 0; <span class="comment">//number of images saved in this run</span></div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>  std::wstring wstrName = L<span class="stringliteral">&quot;Image&quot;</span> + std::to_wstring(n++); <span class="comment">//default file name</span></div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>  CComPtr&lt;IShellItem&gt; pItem; <span class="comment">//item pointer</span></div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>  LPWSTR pwsz = <span class="keyword">nullptr</span>; <span class="comment">//pointer to null-terminated wide string for result</span></div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>  <span class="comment">//fire up the save dialog box</span></div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>  <span class="keywordflow">if</span>(FAILED(pDlg.CoCreateInstance(__uuidof(FileSaveDialog))))<span class="keywordflow">return</span> E_FAIL; </div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>  pDlg-&gt;SetFileTypes(_countof(filetypes), filetypes); <span class="comment">//set file types to png</span></div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>  pDlg-&gt;SetTitle(L<span class="stringliteral">&quot;Save Image&quot;</span>); <span class="comment">//set title bar text</span></div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>  pDlg-&gt;SetFileName(wstrName.c_str()); <span class="comment">//set default file name</span></div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>  pDlg-&gt;SetDefaultExtension(L<span class="stringliteral">&quot;png&quot;</span>); <span class="comment">//set default extension</span></div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>  <span class="keywordflow">if</span>(FAILED(pDlg-&gt;Show(hwnd)))<span class="keywordflow">return</span> E_FAIL; <span class="comment">//show the dialog box     </span></div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>  <span class="keywordflow">if</span>(FAILED(pDlg-&gt;GetResult(&amp;pItem)))<span class="keywordflow">return</span> E_FAIL; <span class="comment">//get the result item</span></div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>  <span class="keywordflow">if</span>(FAILED(pItem-&gt;GetDisplayName(SIGDN_FILESYSPATH, &amp;pwsz)))<span class="keywordflow">return</span> E_FAIL; <span class="comment">//get file name </span></div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>  <span class="comment">//wstrFileName should now contain the selected file name</span></div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span> </div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>  CLSID clsid; <span class="comment">//for PNG class id</span></div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>  <span class="keywordflow">if</span>(FAILED(<a class="code hl_function" href="_windows_helpers_8cpp.html#ab446d7eb02f2055da6303a03f9f697ef">GetEncoderClsid</a>((WCHAR*)L<span class="stringliteral">&quot;image/png&quot;</span>, &amp;clsid)))<span class="keywordflow">return</span> E_FAIL; <span class="comment">//get</span></div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>  pBitmap-&gt;Save(pwsz, &amp;clsid, <span class="keyword">nullptr</span>); <span class="comment">//the actual save happens here</span></div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>  CoTaskMemFree(pwsz); <span class="comment">//clean up</span></div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>  <span class="keywordflow">return</span> S_OK;</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>} <span class="comment">//SaveBitmap</span></div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span><span class="preprocessor">#pragma endregion Save</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="_windows_helpers_8cpp.html#aabd2792287ecf527c5f5f9519e4f556b">   97</a></span>HRESULT <a class="code hl_function" href="_windows_helpers_8cpp.html#aabd2792287ecf527c5f5f9519e4f556b">SaveBitmap</a>(HWND hwnd, <span class="keyword">const</span> std::wstring&amp; wstrName, </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>  Gdiplus::Bitmap* pBitmap)</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>{</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>  COMDLG_FILTERSPEC filetypes[] = { <span class="comment">//png files only</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    {L<span class="stringliteral">&quot;PNG Files&quot;</span>, L<span class="stringliteral">&quot;*.png&quot;</span>}</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>  }; <span class="comment">//filetypes</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>  std::wstring wstrFileName; <span class="comment">//result</span></div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>  CComPtr&lt;IFileSaveDialog&gt; pDlg; <span class="comment">//pointer to save dialog box</span></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>  CComPtr&lt;IShellItem&gt; pItem; <span class="comment">//item pointer</span></div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>  LPWSTR pwsz = <span class="keyword">nullptr</span>; <span class="comment">//pointer to null-terminated wide string for result</span></div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>  <span class="comment">//fire up the save dialog box</span></div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>  <span class="keywordflow">if</span>(FAILED(pDlg.CoCreateInstance(__uuidof(FileSaveDialog))))<span class="keywordflow">return</span> E_FAIL; </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>  pDlg-&gt;SetFileTypes(_countof(filetypes), filetypes); <span class="comment">//set file types to png</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>  pDlg-&gt;SetTitle(L<span class="stringliteral">&quot;Save Image&quot;</span>); <span class="comment">//set title bar text</span></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>  pDlg-&gt;SetFileName(wstrName.c_str()); <span class="comment">//set default file name</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>  pDlg-&gt;SetDefaultExtension(L<span class="stringliteral">&quot;png&quot;</span>); <span class="comment">//set default extension</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>  <span class="keywordflow">if</span>(FAILED(pDlg-&gt;Show(hwnd)))<span class="keywordflow">return</span> E_FAIL; <span class="comment">//show the dialog box     </span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>  <span class="keywordflow">if</span>(FAILED(pDlg-&gt;GetResult(&amp;pItem)))<span class="keywordflow">return</span> E_FAIL; <span class="comment">//get the result item</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>  <span class="keywordflow">if</span>(FAILED(pItem-&gt;GetDisplayName(SIGDN_FILESYSPATH, &amp;pwsz)))<span class="keywordflow">return</span> E_FAIL; <span class="comment">//get file name </span></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>  <span class="comment">//wstrFileName should now contain the selected file name</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>  CLSID clsid; <span class="comment">//for PNG class id</span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>  <span class="keywordflow">if</span>(FAILED(<a class="code hl_function" href="_windows_helpers_8cpp.html#ab446d7eb02f2055da6303a03f9f697ef">GetEncoderClsid</a>((WCHAR*)L<span class="stringliteral">&quot;image/png&quot;</span>, &amp;clsid)))<span class="keywordflow">return</span> E_FAIL; <span class="comment">//get</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>  pBitmap-&gt;Save(pwsz, &amp;clsid, <span class="keyword">nullptr</span>); <span class="comment">//the actual save happens here</span></div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>  CoTaskMemFree(pwsz); <span class="comment">//clean up</span></div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>  <span class="keywordflow">return</span> S_OK;</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>} <span class="comment">//SaveBitmap</span></div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span><span class="preprocessor">#pragma endregion Save</span></div>
 <div class="ttc" id="a_includes_8h_html"><div class="ttname"><a href="_includes_8h.html">Includes.h</a></div><div class="ttdoc">Useful includes.</div></div>
+<div class="ttc" id="a_windows_helpers_8cpp_html_aabd2792287ecf527c5f5f9519e4f556b"><div class="ttname"><a href="_windows_helpers_8cpp.html#aabd2792287ecf527c5f5f9519e4f556b">SaveBitmap</a></div><div class="ttdeci">HRESULT SaveBitmap(HWND hwnd, const std::wstring &amp;wstrName, Gdiplus::Bitmap *pBitmap)</div><div class="ttdoc">Save bitmap to file.</div><div class="ttdef"><b>Definition:</b> <a href="_windows_helpers_8cpp_source.html#l00097">WindowsHelpers.cpp:97</a></div></div>
 <div class="ttc" id="a_windows_helpers_8cpp_html_ab446d7eb02f2055da6303a03f9f697ef"><div class="ttname"><a href="_windows_helpers_8cpp.html#ab446d7eb02f2055da6303a03f9f697ef">GetEncoderClsid</a></div><div class="ttdeci">HRESULT GetEncoderClsid(const WCHAR *format, CLSID *pClsid)</div><div class="ttdef"><b>Definition:</b> <a href="_windows_helpers_8cpp_source.html#l00062">WindowsHelpers.cpp:62</a></div></div>
 <div class="ttc" id="a_windows_helpers_8cpp_html_ab90ef52869992f4af6696021ce4a1769"><div class="ttname"><a href="_windows_helpers_8cpp.html#ab90ef52869992f4af6696021ce4a1769">InitGDIPlus</a></div><div class="ttdeci">ULONG_PTR InitGDIPlus()</div><div class="ttdoc">Initialize GDI+.</div><div class="ttdef"><b>Definition:</b> <a href="_windows_helpers_8cpp_source.html#l00043">WindowsHelpers.cpp:43</a></div></div>
-<div class="ttc" id="a_windows_helpers_8cpp_html_abcbcd456d1d87a2063d358460e5ec0aa"><div class="ttname"><a href="_windows_helpers_8cpp.html#abcbcd456d1d87a2063d358460e5ec0aa">SaveBitmap</a></div><div class="ttdeci">HRESULT SaveBitmap(HWND hwnd, Gdiplus::Bitmap *pBitmap)</div><div class="ttdoc">Save bitmap to file.</div><div class="ttdef"><b>Definition:</b> <a href="_windows_helpers_8cpp_source.html#l00096">WindowsHelpers.cpp:96</a></div></div>
 <div class="ttc" id="a_windows_helpers_8h_html"><div class="ttname"><a href="_windows_helpers_8h.html">WindowsHelpers.h</a></div><div class="ttdoc">Interface for some helpful Windows-specific functions.</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 8 2022 16:00:28 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
+Generated on Thu Feb 10 2022 15:25:54 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
 </small></address>
 </body>
 </html>

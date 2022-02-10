@@ -37,7 +37,7 @@ const float PI = (float)M_PI; ///< Pi.
 /// Enumerated type for Perlin noise.
 
 enum class eNoise{
-  Perlin, Value
+  None, Pixel, Perlin, Value
 }; //eNoise
 
 /// \brief Distribution.
@@ -47,5 +47,13 @@ enum class eNoise{
 enum class eDistribution{
   Uniform, Cosine, Normal, Exponential
 }; //eDistribution
+
+/// \brief Spline type.
+///
+/// Enumerated type for spline functions.
+
+enum class eSpline{
+  Cubic, Quintic
+}; //eSpline
 
 #endif //__DEFINES_H__

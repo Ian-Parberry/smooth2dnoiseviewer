@@ -92,9 +92,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab64ed71875e7a1bf88e75876dec377a0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_perlin_noise2_d.html#ab64ed71875e7a1bf88e75876dec377a0">~CPerlinNoise2D</a> ()</td></tr>
 <tr class="memdesc:ab64ed71875e7a1bf88e75876dec377a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="class_c_perlin_noise2_d.html#ab64ed71875e7a1bf88e75876dec377a0">More...</a><br /></td></tr>
 <tr class="separator:ab64ed71875e7a1bf88e75876dec377a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:affa400db7b66ed3c6521677fec3c0cad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_perlin_noise2_d.html#affa400db7b66ed3c6521677fec3c0cad">SetDistribution</a> (<a class="el" href="_defines_8h.html#a352389712570c16202dd2f89203c916b">eDistribution</a>)</td></tr>
-<tr class="memdesc:affa400db7b66ed3c6521677fec3c0cad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set distribution.  <a href="class_c_perlin_noise2_d.html#affa400db7b66ed3c6521677fec3c0cad">More...</a><br /></td></tr>
-<tr class="separator:affa400db7b66ed3c6521677fec3c0cad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf5b10480a72a1167feaabeac40598f0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_perlin_noise2_d.html#adf5b10480a72a1167feaabeac40598f0">Initialize</a> (<a class="el" href="_defines_8h.html#a352389712570c16202dd2f89203c916b">eDistribution</a>)</td></tr>
+<tr class="memdesc:adf5b10480a72a1167feaabeac40598f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize table from distribution.  <a href="class_c_perlin_noise2_d.html#adf5b10480a72a1167feaabeac40598f0">More...</a><br /></td></tr>
+<tr class="separator:adf5b10480a72a1167feaabeac40598f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d558dbb9f6b7eb7530e9c188b7215c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_perlin_noise2_d.html#a8d558dbb9f6b7eb7530e9c188b7215c2">SetSpline</a> (<a class="el" href="_defines_8h.html#a3affdf47188b2b2c1e80e405b74e3c61">eSpline</a>)</td></tr>
+<tr class="memdesc:a8d558dbb9f6b7eb7530e9c188b7215c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set spline function.  <a href="class_c_perlin_noise2_d.html#a8d558dbb9f6b7eb7530e9c188b7215c2">More...</a><br /></td></tr>
+<tr class="separator:a8d558dbb9f6b7eb7530e9c188b7215c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a560193f5624c76b7a9d86a045ba5d178"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_perlin_noise2_d.html#a560193f5624c76b7a9d86a045ba5d178">Randomize</a> ()</td></tr>
 <tr class="memdesc:a560193f5624c76b7a9d86a045ba5d178"><td class="mdescLeft">&#160;</td><td class="mdescRight">Randomize permutation.  <a href="class_c_perlin_noise2_d.html#a560193f5624c76b7a9d86a045ba5d178">More...</a><br /></td></tr>
 <tr class="separator:a560193f5624c76b7a9d86a045ba5d178"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -104,6 +107,12 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
+<tr class="memitem:a1e8bb89018dce154e3e9fa8ed54f64ba"><td class="memItemLeft" align="right" valign="top">const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_perlin_noise2_d.html#a1e8bb89018dce154e3e9fa8ed54f64ba">pair</a> (size_t, size_t) const</td></tr>
+<tr class="memdesc:a1e8bb89018dce154e3e9fa8ed54f64ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perlin pairing function.  <a href="class_c_perlin_noise2_d.html#a1e8bb89018dce154e3e9fa8ed54f64ba">More...</a><br /></td></tr>
+<tr class="separator:a1e8bb89018dce154e3e9fa8ed54f64ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9328f900323484c58d462a33954209f"><td class="memItemLeft" align="right" valign="top">const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_perlin_noise2_d.html#ad9328f900323484c58d462a33954209f">hash</a> (size_t) const</td></tr>
+<tr class="memdesc:ad9328f900323484c58d462a33954209f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perlin hash function.  <a href="class_c_perlin_noise2_d.html#ad9328f900323484c58d462a33954209f">More...</a><br /></td></tr>
+<tr class="separator:ad9328f900323484c58d462a33954209f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0124bee036fcd1f7367a599e8a82a29f"><td class="memItemLeft" align="right" valign="top">const float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_perlin_noise2_d.html#a0124bee036fcd1f7367a599e8a82a29f">grad</a> (size_t, float, float) const</td></tr>
 <tr class="memdesc:a0124bee036fcd1f7367a599e8a82a29f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply gradients.  <a href="class_c_perlin_noise2_d.html#a0124bee036fcd1f7367a599e8a82a29f">More...</a><br /></td></tr>
 <tr class="separator:a0124bee036fcd1f7367a599e8a82a29f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -117,14 +126,17 @@ Private Attributes</h2></td></tr>
 <tr class="memdesc:a5b8bf38d90904ed09aceebe563eeb94a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Repeat size, must be a power of 2.  <a href="class_c_perlin_noise2_d.html#a5b8bf38d90904ed09aceebe563eeb94a">More...</a><br /></td></tr>
 <tr class="separator:a5b8bf38d90904ed09aceebe563eeb94a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a96d4a2344350734da0843f42bd97b317"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_perlin_noise2_d.html#a96d4a2344350734da0843f42bd97b317">m_nMask</a> = 0</td></tr>
-<tr class="memdesc:a96d4a2344350734da0843f42bd97b317"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mask for values less than `m_nSize1.  <a href="class_c_perlin_noise2_d.html#a96d4a2344350734da0843f42bd97b317">More...</a><br /></td></tr>
+<tr class="memdesc:a96d4a2344350734da0843f42bd97b317"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mask for values less than <code>m_nSize</code>.  <a href="class_c_perlin_noise2_d.html#a96d4a2344350734da0843f42bd97b317">More...</a><br /></td></tr>
 <tr class="separator:a96d4a2344350734da0843f42bd97b317"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9300670687267f73b8fd830a09b71963"><td class="memItemLeft" align="right" valign="top">size_t *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_perlin_noise2_d.html#a9300670687267f73b8fd830a09b71963">m_nPerm</a> = nullptr</td></tr>
-<tr class="memdesc:a9300670687267f73b8fd830a09b71963"><td class="mdescLeft">&#160;</td><td class="mdescRight">Random permutation.  <a href="class_c_perlin_noise2_d.html#a9300670687267f73b8fd830a09b71963">More...</a><br /></td></tr>
+<tr class="memdesc:a9300670687267f73b8fd830a09b71963"><td class="mdescLeft">&#160;</td><td class="mdescRight">Random permutation, used for hash function.  <a href="class_c_perlin_noise2_d.html#a9300670687267f73b8fd830a09b71963">More...</a><br /></td></tr>
 <tr class="separator:a9300670687267f73b8fd830a09b71963"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95bd36e57927cb401da36fb83ce3f0ca"><td class="memItemLeft" align="right" valign="top">float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_perlin_noise2_d.html#a95bd36e57927cb401da36fb83ce3f0ca">m_fGradient</a> = nullptr</td></tr>
-<tr class="memdesc:a95bd36e57927cb401da36fb83ce3f0ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gradients.  <a href="class_c_perlin_noise2_d.html#a95bd36e57927cb401da36fb83ce3f0ca">More...</a><br /></td></tr>
-<tr class="separator:a95bd36e57927cb401da36fb83ce3f0ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a507194c77de4c242e92f4e78bcd1d6db"><td class="memItemLeft" align="right" valign="top">float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_perlin_noise2_d.html#a507194c77de4c242e92f4e78bcd1d6db">m_fTable</a> = nullptr</td></tr>
+<tr class="memdesc:a507194c77de4c242e92f4e78bcd1d6db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Table of gradients or values.  <a href="class_c_perlin_noise2_d.html#a507194c77de4c242e92f4e78bcd1d6db">More...</a><br /></td></tr>
+<tr class="separator:a507194c77de4c242e92f4e78bcd1d6db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f05957b8a8bae5b4a7c32df061e7679"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_defines_8h.html#a3affdf47188b2b2c1e80e405b74e3c61">eSpline</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_perlin_noise2_d.html#a9f05957b8a8bae5b4a7c32df061e7679">m_eSpline</a> = eSpline::Cubic</td></tr>
+<tr class="memdesc:a9f05957b8a8bae5b4a7c32df061e7679"><td class="mdescLeft">&#160;</td><td class="mdescRight">Spline function type.  <a href="class_c_perlin_noise2_d.html#a9f05957b8a8bae5b4a7c32df061e7679">More...</a><br /></td></tr>
+<tr class="separator:a9f05957b8a8bae5b4a7c32df061e7679"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
@@ -145,14 +157,14 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >The constructor initializes the size, which must be a power of 2, and the mask, which must be a consecutive sequence of 1 bits that is one less than the size. It also creates space for the permutation and initializes it to a pseudorandom permutation. </p><dl class="params"><dt>Parameters</dt><dd>
+<p >The constructor initializes the size, which must be a power of 2, and the mask, which must be a consecutive sequence of 1 bits that is one less than the size. It also creates space for the permutation and initializes it to a pseudorandom permutation and creates space for the gradient/height array and fills it with pseudorandom values from a uniform dietribution. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">n</td><td>Number of consecutive 1 bits in the mask. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00088">88</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00046">46</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -170,9 +182,9 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >The destructor deletes the permutation and gradient array created in the constructor. </p>
+<p >The destructor deletes the permutation and gradient/height array created in the constructor. </p>
 
-<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00101">101</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00059">59</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -239,7 +251,7 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Turbulence value in [-1, 1] at point (x, y). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00217">217</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00211">211</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -278,13 +290,13 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 <p >Apply gradient to a point. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">h</td><td>Hash value. </td></tr>
+    <tr><td class="paramname">h</td><td>Hash value for gradient. </td></tr>
     <tr><td class="paramname">x</td><td>X-coordinate of point. </td></tr>
     <tr><td class="paramname">y</td><td>Y-coordinate of point. </td></tr>
   </table>
@@ -292,7 +304,68 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The gradient applied to the point. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00164">164</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00135">135</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ad9328f900323484c58d462a33954209f" name="ad9328f900323484c58d462a33954209f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9328f900323484c58d462a33954209f">&#9670;&nbsp;</a></span>hash()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const size_t CPerlinNoise2D::hash </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>x</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Perlin's hash function, which uses a random permutation. Note that this means that it repeats with a period of m_nSize. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>An unsigned integer. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A hashed value of x in the range [0, m_nSize - 1]. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00153">153</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
+
+</div>
+</div>
+<a id="adf5b10480a72a1167feaabeac40598f0" name="adf5b10480a72a1167feaabeac40598f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf5b10480a72a1167feaabeac40598f0">&#9670;&nbsp;</a></span>Initialize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CPerlinNoise2D::Initialize </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="_defines_8h.html#a352389712570c16202dd2f89203c916b">eDistribution</a>&#160;</td>
+          <td class="paramname"><em>d</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Initialize the table to pseudorandom gradients in \([-1, 1]\) according to some probability distribution. The pseudorandom number generators are unseeded, which means that the table contents are the same each time this function is called with the same parameter. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">d</td><td>Probability distribution enumerated type. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00085">85</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -345,7 +418,53 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Perlin noise value in [-1, 1] at the given point. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00174">174</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00163">163</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a1e8bb89018dce154e3e9fa8ed54f64ba" name="a1e8bb89018dce154e3e9fa8ed54f64ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e8bb89018dce154e3e9fa8ed54f64ba">&#9670;&nbsp;</a></span>pair()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const size_t CPerlinNoise2D::pair </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Perlin's pairing function, which combines two unsigned integers into one. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>First unsigned integer. </td></tr>
+    <tr><td class="paramname">y</td><td>Second unsigned integer. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An unsigned integer that depends upin x and y. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00144">144</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -363,41 +482,41 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Initialize the permutation in <code>m_nPerm</code> using the standard random permutation algorithm so that each permutation is equally likely. </p>
+<p >Set the permutation in <code>m_nPerm</code> using the standard random permutation algorithm so that each permutation is equally likely. </p>
 
-<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00109">109</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00071">71</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
 
 </div>
 </div>
-<a id="affa400db7b66ed3c6521677fec3c0cad" name="affa400db7b66ed3c6521677fec3c0cad"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#affa400db7b66ed3c6521677fec3c0cad">&#9670;&nbsp;</a></span>SetDistribution()</h2>
+<a id="a8d558dbb9f6b7eb7530e9c188b7215c2" name="a8d558dbb9f6b7eb7530e9c188b7215c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d558dbb9f6b7eb7530e9c188b7215c2">&#9670;&nbsp;</a></span>SetSpline()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void CPerlinNoise2D::SetDistribution </td>
+          <td class="memname">void CPerlinNoise2D::SetSpline </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="_defines_8h.html#a352389712570c16202dd2f89203c916b">eDistribution</a>&#160;</td>
+          <td class="paramtype"><a class="el" href="_defines_8h.html#a3affdf47188b2b2c1e80e405b74e3c61">eSpline</a>&#160;</td>
           <td class="paramname"><em>d</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Initialize the gradient array to pseudorandom gradients in [-1, 1] according to some probability distribution. </p><dl class="params"><dt>Parameters</dt><dd>
+<p >Set the spline function type. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">d</td><td>Probability distribution enumerated type. </td></tr>
+    <tr><td class="paramname">d</td><td>Spline function enumerated type. </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00121">121</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00125">125</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a id="a95bd36e57927cb401da36fb83ce3f0ca" name="a95bd36e57927cb401da36fb83ce3f0ca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a95bd36e57927cb401da36fb83ce3f0ca">&#9670;&nbsp;</a></span>m_fGradient</h2>
+<a id="a9f05957b8a8bae5b4a7c32df061e7679" name="a9f05957b8a8bae5b4a7c32df061e7679"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f05957b8a8bae5b4a7c32df061e7679">&#9670;&nbsp;</a></span>m_eSpline</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -406,7 +525,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">float* CPerlinNoise2D::m_fGradient = nullptr</td>
+          <td class="memname"><a class="el" href="_defines_8h.html#a3affdf47188b2b2c1e80e405b74e3c61">eSpline</a> CPerlinNoise2D::m_eSpline = eSpline::Cubic</td>
         </tr>
       </table>
   </td>
@@ -416,7 +535,31 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="perlin_8h_source.html#l00039">39</a> of file <a class="el" href="perlin_8h_source.html">perlin.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="perlin_8h_source.html#l00042">42</a> of file <a class="el" href="perlin_8h_source.html">perlin.h</a>.</p>
+
+</div>
+</div>
+<a id="a507194c77de4c242e92f4e78bcd1d6db" name="a507194c77de4c242e92f4e78bcd1d6db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a507194c77de4c242e92f4e78bcd1d6db">&#9670;&nbsp;</a></span>m_fTable</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float* CPerlinNoise2D::m_fTable = nullptr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="perlin_8h_source.html#l00040">40</a> of file <a class="el" href="perlin_8h_source.html">perlin.h</a>.</p>
 
 </div>
 </div>
@@ -464,7 +607,7 @@ Private Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="perlin_8h_source.html#l00038">38</a> of file <a class="el" href="perlin_8h_source.html">perlin.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="perlin_8h_source.html#l00039">39</a> of file <a class="el" href="perlin_8h_source.html">perlin.h</a>.</p>
 
 </div>
 </div>
@@ -495,7 +638,7 @@ Private Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 8 2022 16:00:28 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
+Generated on Thu Feb 10 2022 15:25:54 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
 </small></address>
 </body>
 </html>
