@@ -152,6 +152,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
           SaveBitmap(hWnd, g_pMain->GetFileName(), g_pMain->GetBitmap());
           break;
 
+        case IDM_FILE_PROPS: //display noise properties       
+          g_pMain->DisplayProperties();
+          break;
+
         case IDM_FILE_QUIT: //so long, farewell, auf weidersehn, goodbye!
           SendMessage(hWnd, WM_CLOSE, 0, 0);
           break;

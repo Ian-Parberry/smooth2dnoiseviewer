@@ -118,6 +118,8 @@ void CMain::CreateMenus(){
   
   AppendMenuW(m_hFileMenu, MF_STRING, IDM_FILE_SAVE,     L"Save...");
   EnableMenuItem(m_hFileMenu, IDM_FILE_SAVE, MF_GRAYED);
+  AppendMenuW(m_hFileMenu, MF_STRING, IDM_FILE_PROPS,     L"Properties...");
+  EnableMenuItem(m_hFileMenu, IDM_FILE_PROPS, MF_GRAYED);
   AppendMenuW(m_hFileMenu, MF_STRING, IDM_FILE_QUIT,     L"Quit");
 
   AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)m_hFileMenu, L"&File");
@@ -169,11 +171,40 @@ void CMain::CreateMenus(){
     L"Increase table size");
   AppendMenuW(m_hSetMenu, MF_STRING, IDM_SETTINGS_TSIZE_DN, 
     L"Decrease table size");
+  GrayOutSettingsMenu();
   
   AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)m_hSetMenu, L"&Settings");
 
   SetMenu(m_hWnd, hMenubar);
 } //CreateMenus
+
+void CMain::GrayOutSettingsMenu(){
+  if(m_eNoise == eNoise::None){
+    EnableMenuItem(m_hSetMenu, IDM_SETTINGS_OCTAVE_UP, MF_GRAYED);
+    EnableMenuItem(m_hSetMenu, IDM_SETTINGS_OCTAVE_DN, MF_GRAYED);
+    EnableMenuItem(m_hSetMenu, IDM_SETTINGS_SCALE_UP, MF_GRAYED);
+    EnableMenuItem(m_hSetMenu, IDM_SETTINGS_SCALE_DN, MF_GRAYED);
+    EnableMenuItem(m_hSetMenu, IDM_SETTINGS_TSIZE_UP, MF_GRAYED);
+    EnableMenuItem(m_hSetMenu, IDM_SETTINGS_TSIZE_DN, MF_GRAYED);
+  } //if
+
+  else{
+    EnableMenuItem(m_hSetMenu, IDM_SETTINGS_OCTAVE_UP, 
+      (m_nNumOctaves < m_nMaxOctaves)? MF_ENABLED: MF_GRAYED);
+    EnableMenuItem(m_hSetMenu, IDM_SETTINGS_OCTAVE_DN,
+      (m_nNumOctaves > m_nMinOctaves)? MF_ENABLED: MF_GRAYED);
+
+    EnableMenuItem(m_hSetMenu, IDM_SETTINGS_SCALE_UP,
+      (m_fScale < m_fMaxScale)? MF_ENABLED: MF_GRAYED);
+    EnableMenuItem(m_hSetMenu, IDM_SETTINGS_SCALE_DN,
+      (m_fScale > m_fMinScale)? MF_ENABLED: MF_GRAYED);
+
+    EnableMenuItem(m_hSetMenu, IDM_SETTINGS_TSIZE_UP,
+      (m_nLog2TableSize < m_nMaxLog2TableSize)? MF_ENABLED: MF_GRAYED);
+    EnableMenuItem(m_hSetMenu, IDM_SETTINGS_TSIZE_DN,
+      (m_nLog2TableSize > m_nMinLog2TableSize)? MF_ENABLED: MF_GRAYED);
+  } //else
+} //GrayOutSettingsMenu
 
 #pragma endregion Menu functions
 
@@ -211,9 +242,9 @@ void CMain::SetPixel(UINT i, UINT j, BYTE b){
   m_pBitmap->SetPixel(i, j, Gdiplus::Color(255, b, b, b));
 } //SetPixel
 
-/// Set the window title to reflect the type of noise generated.
+/// Display dialog box containing noise properties.
 
-void CMain::SetWindowTitle(){
+void CMain::DisplayProperties(){
   std::wstring wstr;
 
   switch(m_eNoise){
@@ -228,32 +259,34 @@ void CMain::SetWindowTitle(){
     wstr += std::to_wstring(m_nNumOctaves) + L" octaves, ";
 
   switch(m_eCurDist){
-    case eDistribution::Uniform: wstr += L"uniform "; break; //nothing   
-    case eDistribution::Cosine:  wstr += L"cosine "; break;   
-    case eDistribution::Normal:  wstr += L"normal "; break;    
+    case eDistribution::Uniform: wstr += L"uniform"; break; //nothing   
+    case eDistribution::Cosine:  wstr += L"cosine"; break;   
+    case eDistribution::Normal:  wstr += L"normal"; break;    
     case eDistribution::Exponential: wstr += L"exponential"; break;
   } //switch
 
-  wstr += L" distribution, ";
+  wstr += L" distribution";
 
-  if(m_eNoise != eNoise::Pixel)
+  if(m_eNoise != eNoise::Pixel){
+    wstr += L", ";
+
     switch(m_eCurSpline){
-      case eSpline::None: wstr += L"no "; break; 
-      case eSpline::Cubic: wstr += L"cubic "; break; //nothing
-      case eSpline::Quintic: wstr += L"quintic "; break;
+      case eSpline::None: wstr += L"no"; break; 
+      case eSpline::Cubic: wstr += L"cubic"; break; //nothing
+      case eSpline::Quintic: wstr += L"quintic"; break;
     } //switch
 
-  wstr += L" spline";
+    wstr += L" spline, scale ";
+    wstr += std::to_wstring((size_t)round(m_fScale));
 
-  MessageBox(
-        nullptr,
-        wstr.c_str(),
-        L"Properties",
-        MB_ICONEXCLAMATION | MB_OK
-    );
-  
-  //SetWindowText(m_hWnd, wstr.c_str());
-} //SetWindowTitle
+    wstr += L", table size ";
+    wstr += std::to_wstring((size_t)roundf(pow(2, m_nLog2TableSize)));
+  } //if
+
+  wstr += L".";
+
+  MessageBox(nullptr, wstr.c_str(), L"Properties", MB_ICONINFORMATION | MB_OK);
+} //DisplayProperties
 
 /// Generate pixel noise into the bitmap pointed to by `m_pBitmap`. The
 /// lower byte returned by the C standard function `rand()` is used as
@@ -263,9 +296,7 @@ void CMain::SetWindowTitle(){
 void CMain::GeneratePixelNoise(){ 
   m_eNoise = eNoise::Pixel;
 
-  SetWindowTitle();
-
-  EnableMenuItem(m_hFileMenu, IDM_FILE_SAVE, MF_ENABLED); 
+  EnableMenuItem(m_hFileMenu, IDM_FILE_PROPS, MF_ENABLED); 
   CheckMenuItem(m_hGenMenu, IDM_GENERATE_PIXELNOISE, MF_CHECKED);
   CheckMenuItem(m_hGenMenu, IDM_GENERATE_PERLINNOISE, MF_UNCHECKED);
   CheckMenuItem(m_hGenMenu, IDM_GENERATE_VALUENOISE, MF_UNCHECKED);
@@ -273,6 +304,7 @@ void CMain::GeneratePixelNoise(){
   EnableMenuItem(m_hSplineMenu, IDM_SPLINE_NONE, MF_GRAYED);
   EnableMenuItem(m_hSplineMenu, IDM_SPLINE_CUBIC, MF_GRAYED);
   EnableMenuItem(m_hSplineMenu, IDM_SPLINE_QUINTIC, MF_GRAYED);
+  GrayOutSettingsMenu();
 
   std::default_random_engine g;
   g.seed(m_nSeed);
@@ -322,9 +354,7 @@ void CMain::GeneratePixelNoise(){
 void CMain::GeneratePerlinNoise(eNoise t){ 
   m_eNoise = t;
 
-  SetWindowTitle();
-
-  EnableMenuItem(m_hFileMenu, IDM_FILE_SAVE, MF_ENABLED);
+  EnableMenuItem(m_hFileMenu, IDM_FILE_PROPS, MF_ENABLED);
   CheckMenuItem(m_hGenMenu, IDM_GENERATE_PIXELNOISE, MF_UNCHECKED);
   CheckMenuItem(m_hGenMenu, IDM_GENERATE_PERLINNOISE, 
     (t == eNoise::Perlin)? MF_CHECKED: MF_UNCHECKED);
@@ -334,6 +364,7 @@ void CMain::GeneratePerlinNoise(eNoise t){
   EnableMenuItem(m_hSplineMenu, IDM_SPLINE_NONE, MF_ENABLED);
   EnableMenuItem(m_hSplineMenu, IDM_SPLINE_CUBIC, MF_ENABLED);
   EnableMenuItem(m_hSplineMenu, IDM_SPLINE_QUINTIC, MF_ENABLED);
+  GrayOutSettingsMenu();
 
   for(UINT i=0; i<m_pBitmap->GetWidth(); i++)
     for(UINT j=0; j<m_pBitmap->GetHeight(); j++)
@@ -446,38 +477,38 @@ void CMain::SetSpline(eSpline d){
   Regenerate();
 } //SetSpline
 
-/// Increase the number of octaves by one, to a maximum of 8.
+/// Increase the number of octaves by one.
 
 void CMain::IncreaseOctaves(){
-  m_nNumOctaves = std::min<size_t>(m_nNumOctaves + 1, 8);
+  m_nNumOctaves = std::min<size_t>(m_nNumOctaves + 1, m_nMaxOctaves);
   Regenerate();
 } //IncreaseOctaves
 
-/// Decrease the number of octaves by one, to a minimum of 1.
+/// Decrease the number of octaves by one.
 
 void CMain::DecreaseOctaves(){
-  m_nNumOctaves = std::max<size_t>(1, m_nNumOctaves - 1);
+  m_nNumOctaves = std::max<size_t>(m_nMinOctaves, m_nNumOctaves - 1);
   Regenerate();
 } //DecreaseOctaves
 
-/// Increase the scale, to a maximum of 512
+/// Increase the scale.
 
 void CMain::IncreaseScale(){
-  m_fScale = std::min<float>(2.0f*m_fScale, 512.0f);
+  m_fScale = std::min<float>(2.0f*m_fScale, m_fMaxScale);
   Regenerate();
 } //IncreaseScale
 
-/// Decrease the scale, to a minimum of 8.
+/// Decrease the scale.
 
 void CMain::DecreaseScale(){
-  m_fScale = std::max<float>(8.0f, m_fScale/2.0f);
+  m_fScale = std::max<float>(m_fMinScale, m_fScale/2.0f);
   Regenerate();
 } //DecreaseScale
 
-/// Increase the table size, to a maximum of 1024.
+/// Increase the table size.
 
 void CMain::IncreaseTableSize(){
-  m_nLog2TableSize = std::min<UINT>(m_nLog2TableSize + 1, 10);
+  m_nLog2TableSize = std::min<UINT>(m_nLog2TableSize + 1, m_nMaxLog2TableSize);
   delete m_pPerlin;
   m_pPerlin = new CPerlinNoise2D(m_nLog2TableSize);
   Regenerate();
@@ -486,7 +517,7 @@ void CMain::IncreaseTableSize(){
 /// Decrease the table size, to a minimum of 8.
 
 void CMain::DecreaseTableSize(){
-  m_nLog2TableSize = std::max<UINT>(3, m_nLog2TableSize - 1);
+  m_nLog2TableSize = std::max<UINT>(m_nMinLog2TableSize, m_nLog2TableSize - 1);
   delete m_pPerlin;
   m_pPerlin = new CPerlinNoise2D(m_nLog2TableSize);
   Regenerate();

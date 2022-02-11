@@ -50,9 +50,18 @@ class CMain{
     eDistribution m_eCurDist = eDistribution::Uniform; ///< Current distribution.
     eSpline m_eCurSpline = eSpline::Cubic; ///< Current spline function.
     UINT m_nSeed = 0; ///< Pseudorandom number seed.
+
     size_t m_nNumOctaves = 4; ///< Number of octaves of noise.
+    const size_t m_nMinOctaves = 1; ///< Minimum number of octaves of noise.
+    const size_t m_nMaxOctaves = 8; ///< Maximum number of octaves of noise.
+
     float m_fScale = 64.0f; ///< Scale.
+    const float m_fMinScale = 8.0f; ///< Minimum scale.
+    const float m_fMaxScale = 512.0f; ///< Minimum scale.
+    
     UINT m_nLog2TableSize = 8; ///< Log base 2 of table size.
+    const UINT m_nMinLog2TableSize = 3; ///< Max log base 2 of table size.
+    const UINT m_nMaxLog2TableSize = 10; ///< Max log base 2 of table size.
 
     ULONG_PTR m_gdiplusToken = 0; ///< GDI+ token.
 
@@ -60,9 +69,10 @@ class CMain{
     CPerlinNoise2D* m_pPerlin = nullptr; ///< Pointer to Perlin noise generator.
 
     void CreateMenus(); ///< Create menus.
+    void GrayOutSettingsMenu(); ///< Gray out parts of the settings menu.
+
     void SetPixel(UINT, UINT, float); ///< Set pixel grayscale.
     void SetPixel(UINT, UINT, BYTE); ///< Set pixel grayscale.
-    void SetWindowTitle(); ///< Set window title text.
 
   public:
     CMain(const HWND hwnd); ///< Constructor.
@@ -85,6 +95,8 @@ class CMain{
     void DecreaseScale(); ///< Decrease scale.
     void IncreaseTableSize(); ///< Increase table size.
     void DecreaseTableSize(); ///< Decrease table size.
+
+    void DisplayProperties(); ///< Display noise properties.
 
     void OnPaint(); ///< Paint the client area of the window.
     Gdiplus::Bitmap* GetBitmap(); ///< Get pointer to bitmap.
