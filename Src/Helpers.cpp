@@ -55,12 +55,16 @@ float lerp(float t, float a, float b){
 } //lerp
 
 /// Clamp between two bounds.
+/// \tparam t Number type.
 /// \param a Lower bound, assumed to be less than \f$\mathsf{b}\f$.
 /// \param x Value to be clamped.
 /// \param b Upper bound, assumed to be greater than \f$\mathsf{a}\f$.
 /// \return Closest value to \f$\mathsf{x}\f$ between the lower and upper,
 /// bounds (inclusive), that is, \f$\mathsf{\max(a, \min(x, b))}\f$.
 
-float clamp(float a, float x, float b){
+template <typename t> t clamp(t a, t x, t b){
   return std::max(a, std::min(x, b));
 } //clamp
+
+template float clamp<float>(float, float, float);
+template size_t clamp<size_t>(size_t, size_t, size_t);

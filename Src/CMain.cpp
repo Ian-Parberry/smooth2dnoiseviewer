@@ -24,6 +24,7 @@
 // IN THE SOFTWARE.
 
 #include <random>
+#include <algorithm>
 
 #include "CMain.h"
 #include "WindowsHelpers.h"
@@ -43,9 +44,7 @@
 CMain::CMain(const HWND hwnd): m_hWnd(hwnd){
   m_gdiplusToken = InitGDIPlus(); //initialize GDI+
   CreateMenus(); //create the menu bar
-
-  srand(timeGetTime()); //seed the PRNG
-  m_pPerlin = new CPerlinNoise2D(8); //Perlin noise generator
+  m_pPerlin = new CPerlinNoise2D(m_nLog2TableSize); //Perlin noise generator
 } //constructor
 
 /// Delete the Perlin noise generator, delete the GDI+ objects, then shut
@@ -145,7 +144,9 @@ void CMain::CreateMenus(){
   AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)m_hDistMenu, L"&Distribution");
 
   m_hSplineMenu = CreateMenu();
-
+  
+  AppendMenuW(m_hSplineMenu, MF_STRING, IDM_SPLINE_NONE, L"None");
+  EnableMenuItem(m_hSplineMenu, IDM_SPLINE_NONE, MF_GRAYED);
   AppendMenuW(m_hSplineMenu, MF_STRING, IDM_SPLINE_CUBIC, L"Cubic");
   CheckMenuItem(m_hSplineMenu, IDM_SPLINE_CUBIC, MF_CHECKED);
   EnableMenuItem(m_hSplineMenu, IDM_SPLINE_CUBIC, MF_GRAYED);
@@ -153,6 +154,23 @@ void CMain::CreateMenus(){
   EnableMenuItem(m_hSplineMenu, IDM_SPLINE_QUINTIC, MF_GRAYED);
 
   AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)m_hSplineMenu, L"&Spline");
+
+  m_hSetMenu = CreateMenu();
+  
+  AppendMenuW(m_hSetMenu, MF_STRING, IDM_SETTINGS_OCTAVE_UP, 
+    L"Increase number of octaves");
+  AppendMenuW(m_hSetMenu, MF_STRING, IDM_SETTINGS_OCTAVE_DN,
+    L"Decrease number of octaves");
+  AppendMenuW(m_hSetMenu, MF_SEPARATOR, 0, nullptr);
+  AppendMenuW(m_hSetMenu, MF_STRING, IDM_SETTINGS_SCALE_UP, L"Scale in");
+  AppendMenuW(m_hSetMenu, MF_STRING, IDM_SETTINGS_SCALE_DN, L"Scale out");
+  AppendMenuW(m_hSetMenu, MF_SEPARATOR, 0, nullptr);
+  AppendMenuW(m_hSetMenu, MF_STRING, IDM_SETTINGS_TSIZE_UP, 
+    L"Increase table size");
+  AppendMenuW(m_hSetMenu, MF_STRING, IDM_SETTINGS_TSIZE_DN, 
+    L"Decrease table size");
+  
+  AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)m_hSetMenu, L"&Settings");
 
   SetMenu(m_hWnd, hMenubar);
 } //CreateMenus
@@ -206,6 +224,7 @@ void CMain::GeneratePixelNoise(){
   CheckMenuItem(m_hGenMenu, IDM_GENERATE_PERLINNOISE, MF_UNCHECKED);
   CheckMenuItem(m_hGenMenu, IDM_GENERATE_VALUENOISE, MF_UNCHECKED);
   EnableMenuItem(m_hGenMenu, IDM_GENERATE_RANDOMIZE, MF_ENABLED);
+  EnableMenuItem(m_hSplineMenu, IDM_SPLINE_NONE, MF_GRAYED);
   EnableMenuItem(m_hSplineMenu, IDM_SPLINE_CUBIC, MF_GRAYED);
   EnableMenuItem(m_hSplineMenu, IDM_SPLINE_QUINTIC, MF_GRAYED);
 
@@ -251,9 +270,7 @@ void CMain::GeneratePixelNoise(){
   } //switch
 } //GeneratePixelNoise
 
-/// Generate Perlin noise into the bitmap pointed to by `m_pBitmap`. 
-/// For now, the scale, lacunarity, persistence, and number of octaves
-/// is fixed.
+/// Generate Perlin noise into the bitmap pointed to by `m_pBitmap`.
 /// \param t Type of Perlin noise.
 
 void CMain::GeneratePerlinNoise(eNoise t){ 
@@ -266,14 +283,14 @@ void CMain::GeneratePerlinNoise(eNoise t){
   CheckMenuItem(m_hGenMenu, IDM_GENERATE_VALUENOISE, 
     (t == eNoise::Value)? MF_CHECKED: MF_UNCHECKED);
   EnableMenuItem(m_hGenMenu, IDM_GENERATE_RANDOMIZE, MF_ENABLED);
+  EnableMenuItem(m_hSplineMenu, IDM_SPLINE_NONE, MF_ENABLED);
   EnableMenuItem(m_hSplineMenu, IDM_SPLINE_CUBIC, MF_ENABLED);
   EnableMenuItem(m_hSplineMenu, IDM_SPLINE_QUINTIC, MF_ENABLED);
 
-  const float fScale = 64.0f;
-
   for(UINT i=0; i<m_pBitmap->GetWidth(); i++)
     for(UINT j=0; j<m_pBitmap->GetHeight(); j++)
-      SetPixel(i, j, m_pPerlin->generate(i/fScale, j/fScale, t, 0.5f, 2.0f, 4));
+      SetPixel(i, j, m_pPerlin->generate(i/m_fScale, j/m_fScale,
+        t, 0.5f, 2.0f, m_nNumOctaves));
 } //GeneratePerlinNoise
 
 /// Reader function for the bitmap pointer `m_pBitmap`.
@@ -358,20 +375,74 @@ void CMain::SetSpline(eSpline d){
   m_eCurSpline = d;
 
   switch(d){
-    case eSpline::Cubic:
+    case eSpline::None:
+      CheckMenuItem(m_hSplineMenu, IDM_SPLINE_NONE, MF_CHECKED);
+      CheckMenuItem(m_hSplineMenu, IDM_SPLINE_CUBIC, MF_UNCHECKED);
       CheckMenuItem(m_hSplineMenu, IDM_SPLINE_QUINTIC, MF_UNCHECKED);
+      break;
+
+    case eSpline::Cubic:
+      CheckMenuItem(m_hSplineMenu, IDM_SPLINE_NONE, MF_UNCHECKED);
       CheckMenuItem(m_hSplineMenu, IDM_SPLINE_CUBIC, MF_CHECKED);
+      CheckMenuItem(m_hSplineMenu, IDM_SPLINE_QUINTIC, MF_UNCHECKED);
       break;
       
     case eSpline::Quintic:
-      CheckMenuItem(m_hSplineMenu, IDM_SPLINE_QUINTIC, MF_CHECKED);
+      CheckMenuItem(m_hSplineMenu, IDM_SPLINE_NONE, MF_UNCHECKED);
       CheckMenuItem(m_hSplineMenu, IDM_SPLINE_CUBIC, MF_UNCHECKED);
+      CheckMenuItem(m_hSplineMenu, IDM_SPLINE_QUINTIC, MF_CHECKED);
       break;  
   } //switch
 
   m_pPerlin->SetSpline(d);
   Regenerate();
 } //SetSpline
+
+/// Increase the number of octaves by one, to a maximum of 8.
+
+void CMain::IncreaseOctaves(){
+  m_nNumOctaves = std::min<size_t>(m_nNumOctaves + 1, 8);
+  Regenerate();
+} //IncreaseOctaves
+
+/// Decrease the number of octaves by one, to a minimum of 1.
+
+void CMain::DecreaseOctaves(){
+  m_nNumOctaves = std::max<size_t>(1, m_nNumOctaves - 1);
+  Regenerate();
+} //DecreaseOctaves
+
+/// Increase the scale, to a maximum of 512
+
+void CMain::IncreaseScale(){
+  m_fScale = std::min<float>(2.0f*m_fScale, 512.0f);
+  Regenerate();
+} //IncreaseScale
+
+/// Decrease the scale, to a minimum of 8.
+
+void CMain::DecreaseScale(){
+  m_fScale = std::max<float>(8.0f, m_fScale/2.0f);
+  Regenerate();
+} //DecreaseScale
+
+/// Increase the table size, to a maximum of 1024.
+
+void CMain::IncreaseTableSize(){
+  m_nLog2TableSize = std::min<UINT>(m_nLog2TableSize + 1, 10);
+  delete m_pPerlin;
+  m_pPerlin = new CPerlinNoise2D(m_nLog2TableSize);
+  Regenerate();
+} //IncreaseTableSize
+
+/// Decrease the table size, to a minimum of 8.
+
+void CMain::DecreaseTableSize(){
+  m_nLog2TableSize = std::max<UINT>(3, m_nLog2TableSize - 1);
+  delete m_pPerlin;
+  m_pPerlin = new CPerlinNoise2D(m_nLog2TableSize);
+  Regenerate();
+} //DecreaseTableSize
 
 /// Get save file name from noise settings.
 /// \param return Save file name without extension.
@@ -394,6 +465,7 @@ const std::wstring CMain::GetFileName() const{
 
   if(m_eNoise != eNoise::Pixel)
     switch(m_eCurSpline){
+      case eSpline::None: L"-NoSpline"; break; 
       case eSpline::Cubic: break; //nothing
       case eSpline::Quintic:wstr += L"-Quintic"; break;
     } //switch

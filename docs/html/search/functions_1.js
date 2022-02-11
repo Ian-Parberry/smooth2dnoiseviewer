@@ -1,10 +1,6 @@
 var searchData=
 [
-  ['generate_0',['generate',['../class_c_perlin_noise2_d.html#a4e72937ef19c27b7fd83bf014826dbed',1,'CPerlinNoise2D']]],
-  ['generateperlinnoise_1',['GeneratePerlinNoise',['../class_c_main.html#a7e851a30e080ca6395a3f3044e935299',1,'CMain']]],
-  ['generatepixelnoise_2',['GeneratePixelNoise',['../class_c_main.html#a7fdae5b83ab102e3ca452948f1da25fd',1,'CMain']]],
-  ['getbitmap_3',['GetBitmap',['../class_c_main.html#ac5f045f96f06e4330e5f8fc103d6527f',1,'CMain']]],
-  ['getencoderclsid_4',['GetEncoderClsid',['../_windows_helpers_8cpp.html#ab446d7eb02f2055da6303a03f9f697ef',1,'WindowsHelpers.cpp']]],
-  ['getfilename_5',['GetFileName',['../class_c_main.html#a38ec032adc4aea492deade4baa33c668',1,'CMain']]],
-  ['grad_6',['grad',['../class_c_perlin_noise2_d.html#a0124bee036fcd1f7367a599e8a82a29f',1,'CPerlinNoise2D']]]
+  ['decreaseoctaves_117',['DecreaseOctaves',['../class_c_main.html#ab8b051fc096863d03b834c05caf620d5',1,'CMain']]],
+  ['decreasescale_118',['DecreaseScale',['../class_c_main.html#a299ace5f15b2f430f1ea8e1b850dd8a5',1,'CMain']]],
+  ['decreasetablesize_119',['DecreaseTableSize',['../class_c_main.html#a7adbd8a103542b39450b2f32e3cc607b',1,'CMain']]]
 ];

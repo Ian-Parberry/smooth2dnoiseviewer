@@ -31,6 +31,6 @@ inline float spline3(float); ///< Cubic spline.
 inline float spline5(float); ///< Quintic spline.
 
 inline float lerp(float, float, float); ///< Linear interpolation.
-inline float clamp(float, float, float); ///< Clamp between two values.
+template <typename t> inline t clamp(t, t, t); ///< Clamp between two values.
 
 #endif //__HELPERS_H__
