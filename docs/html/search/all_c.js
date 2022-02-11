@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['quintic_0',['Quintic',['../_defines_8h.html#a3affdf47188b2b2c1e80e405b74e3c61a29c67dc92b59a55961609c1dc546280a',1,'Defines.h']]]
+  ['randomize_0',['Randomize',['../class_c_main.html#a408be5fae15676939166439f29ec92e0',1,'CMain::Randomize()'],['../class_c_perlin_noise2_d.html#a560193f5624c76b7a9d86a045ba5d178',1,'CPerlinNoise2D::Randomize()']]],
+  ['regenerate_1',['Regenerate',['../class_c_main.html#aaf956204211d4bb7aeb8e5e458cc5842',1,'CMain']]]
 ];

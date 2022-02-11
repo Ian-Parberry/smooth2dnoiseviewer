@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['uniform_0',['Uniform',['../_defines_8h.html#a352389712570c16202dd2f89203c916baf19516d11f2946f894070e92fcb56b6d',1,'Defines.h']]]
+  ['_7ecmain_0',['~CMain',['../class_c_main.html#a4fe4429d06d7bcba0fbf8a19c29d0488',1,'CMain']]],
+  ['_7ecperlinnoise2d_1',['~CPerlinNoise2D',['../class_c_perlin_noise2_d.html#ab64ed71875e7a1bf88e75876dec377a0',1,'CPerlinNoise2D']]]
 ];
