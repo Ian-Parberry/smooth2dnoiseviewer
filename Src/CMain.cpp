@@ -211,6 +211,50 @@ void CMain::SetPixel(UINT i, UINT j, BYTE b){
   m_pBitmap->SetPixel(i, j, Gdiplus::Color(255, b, b, b));
 } //SetPixel
 
+/// Set the window title to reflect the type of noise generated.
+
+void CMain::SetWindowTitle(){
+  std::wstring wstr;
+
+  switch(m_eNoise){
+    case eNoise::Pixel:  wstr = L"Pixel";  break;
+    case eNoise::Perlin: wstr = L"Perlin"; break;
+    case eNoise::Value:  wstr = L"Value";  break;
+  } //switch
+  
+  wstr += L" noise, ";
+
+  if(m_eNoise == eNoise::Perlin || m_eNoise == eNoise::Value)
+    wstr += std::to_wstring(m_nNumOctaves) + L" octaves, ";
+
+  switch(m_eCurDist){
+    case eDistribution::Uniform: wstr += L"uniform "; break; //nothing   
+    case eDistribution::Cosine:  wstr += L"cosine "; break;   
+    case eDistribution::Normal:  wstr += L"normal "; break;    
+    case eDistribution::Exponential: wstr += L"exponential"; break;
+  } //switch
+
+  wstr += L" distribution, ";
+
+  if(m_eNoise != eNoise::Pixel)
+    switch(m_eCurSpline){
+      case eSpline::None: wstr += L"no "; break; 
+      case eSpline::Cubic: wstr += L"cubic "; break; //nothing
+      case eSpline::Quintic: wstr += L"quintic "; break;
+    } //switch
+
+  wstr += L" spline";
+
+  MessageBox(
+        nullptr,
+        wstr.c_str(),
+        L"Properties",
+        MB_ICONEXCLAMATION | MB_OK
+    );
+  
+  //SetWindowText(m_hWnd, wstr.c_str());
+} //SetWindowTitle
+
 /// Generate pixel noise into the bitmap pointed to by `m_pBitmap`. The
 /// lower byte returned by the C standard function `rand()` is used as
 /// a grayscale value for each pixel. This function generates a new pattern
@@ -218,6 +262,8 @@ void CMain::SetPixel(UINT i, UINT j, BYTE b){
 
 void CMain::GeneratePixelNoise(){ 
   m_eNoise = eNoise::Pixel;
+
+  SetWindowTitle();
 
   EnableMenuItem(m_hFileMenu, IDM_FILE_SAVE, MF_ENABLED); 
   CheckMenuItem(m_hGenMenu, IDM_GENERATE_PIXELNOISE, MF_CHECKED);
@@ -275,6 +321,8 @@ void CMain::GeneratePixelNoise(){
 
 void CMain::GeneratePerlinNoise(eNoise t){ 
   m_eNoise = t;
+
+  SetWindowTitle();
 
   EnableMenuItem(m_hFileMenu, IDM_FILE_SAVE, MF_ENABLED);
   CheckMenuItem(m_hGenMenu, IDM_GENERATE_PIXELNOISE, MF_UNCHECKED);

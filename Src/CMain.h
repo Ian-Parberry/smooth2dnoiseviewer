@@ -62,6 +62,7 @@ class CMain{
     void CreateMenus(); ///< Create menus.
     void SetPixel(UINT, UINT, float); ///< Set pixel grayscale.
     void SetPixel(UINT, UINT, BYTE); ///< Set pixel grayscale.
+    void SetWindowTitle(); ///< Set window title text.
 
   public:
     CMain(const HWND hwnd); ///< Constructor.
