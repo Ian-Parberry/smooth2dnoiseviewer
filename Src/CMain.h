@@ -44,11 +44,15 @@ class CMain{
     HMENU m_hGenMenu = nullptr; ///< Handle to the `Generate` menu.
     HMENU m_hDistMenu = nullptr; ///< Handle to the `Distribution` menu.
     HMENU m_hSplineMenu = nullptr; ///< Handle to the `Spline` menu.
+    HMENU m_hSetMenu = nullptr; ///< Handle to the `Settings` menu.
     
     eNoise m_eNoise = eNoise::None; ///< Noise type.
     eDistribution m_eCurDist = eDistribution::Uniform; ///< Current distribution.
     eSpline m_eCurSpline = eSpline::Cubic; ///< Current spline function.
     UINT m_nSeed = 0; ///< Pseudorandom number seed.
+    size_t m_nNumOctaves = 4; ///< Number of octaves of noise.
+    float m_fScale = 64.0f; ///< Scale.
+    UINT m_nLog2TableSize = 8; ///< Log base 2 of table size.
 
     ULONG_PTR m_gdiplusToken = 0; ///< GDI+ token.
 
@@ -73,6 +77,13 @@ class CMain{
 
     void Initialize(eDistribution); ///< Set probability distribution.
     void SetSpline(eSpline); ///< Set spline function.
+
+    void IncreaseOctaves(); ///< Increase number of octaves.
+    void DecreaseOctaves(); ///< Decrease number of octaves.
+    void IncreaseScale(); ///< Increase scale.
+    void DecreaseScale(); ///< Decrease scale.
+    void IncreaseTableSize(); ///< Increase table size.
+    void DecreaseTableSize(); ///< Decrease table size.
 
     void OnPaint(); ///< Paint the client area of the window.
     Gdiplus::Bitmap* GetBitmap(); ///< Get pointer to bitmap.

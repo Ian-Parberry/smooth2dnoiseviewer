@@ -167,11 +167,16 @@ const float CPerlinNoise2D::noise(float x, float y, eNoise t) const{
   const float fX = x - floorf(x); //fractional part of x
   const float fY = y - floorf(y); //fractional part of y
  
-  //spline function
-  const float u = (m_eSpline == eSpline::Cubic)? spline3(fX): spline5(fX);
-  const float v = (m_eSpline == eSpline::Cubic)? spline3(fY): spline5(fY);
+  float u, v; //for spline function along x-axis
+
+  switch(m_eSpline){
+    case eSpline::None:    u = fX;          v = fY; break;
+    case eSpline::Cubic:   u = spline3(fX); v = spline3(fY); break;
+    case eSpline::Quintic: u = spline5(fX); v = spline5(fY);break;
+  } //switch
   
   //hash value at corners of surrounding square with integer coordinates
+
   const size_t AA = hash(pair(nX,     nY)); 
   const size_t BA = hash(pair(nX + 1, nY));
   const size_t AB = hash(pair(nX,     nY + 1)); 
@@ -211,16 +216,21 @@ const float CPerlinNoise2D::noise(float x, float y, eNoise t) const{
 const float CPerlinNoise2D::generate(float x, float y, eNoise t, float alpha, 
   float beta, size_t n) const
 {
-  float sum = 0.0f, scale = 1.0f;
+  float sum = 0.0f; //for sum of octaves
+  float scale = 1.0f; //for octave scale
 
-  for(size_t i=0; i<n; i++){
-    sum += scale*noise(x, y, t);
-    scale *= alpha;
+  for(size_t i=0; i<n; i++){ //for each octave
+    sum += scale*noise(x, y, t); //scale noise by octave scale
+    scale *= alpha; //reduce octave scale
     x *= beta; 
     y *= beta;
   } //for
 
-  return (t == eNoise::Perlin? SQRT2: 1.0f)*(1.0f - alpha)*sum/(1.0f - scale);
+  //scale result by sum of geometric progression
+  const float result = (1 - alpha)*sum/(1 - scale); 
+
+  //scale up for Perlin noise
+  return (t == eNoise::Perlin)? SQRT2*result: result;
 } //generate
 
 #pragma endregion

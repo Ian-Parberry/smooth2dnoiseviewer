@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['clamp_0',['clamp',['../_helpers_8cpp.html#a4ad79aabad9850c3a5ca045e82b4358a',1,'clamp(float a, float x, float b):&#160;Helpers.cpp'],['../_helpers_8h.html#aa307cdaee4bfd00a4eb6e1e2892fffcc',1,'clamp(float, float, float):&#160;Helpers.cpp']]],
+  ['clamp_0',['clamp',['../_helpers_8cpp.html#a8146bf4d2736fba62771611a3063f10f',1,'clamp(t a, t x, t b):&#160;Helpers.cpp'],['../_helpers_8h.html#aab84cfadeb4d9ac3c7612c4c6c9e0317',1,'clamp(t, t, t):&#160;Helpers.cpp']]],
   ['clear_1',['Clear',['../class_c_main.html#aeaf12eaec0cc9effc58b275c73255faf',1,'CMain']]],
   ['cmain_2',['CMain',['../class_c_main.html',1,'CMain'],['../class_c_main.html#a8f0b4bc26ae2a337989080d3181aaddf',1,'CMain::CMain()']]],
   ['cmain_2ecpp_3',['CMain.cpp',['../_c_main_8cpp.html',1,'']]],

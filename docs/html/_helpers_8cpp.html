@@ -97,36 +97,45 @@ Functions</h2></td></tr>
 <tr class="memitem:a2097b72018f65a32fb59d429d81a2294"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_helpers_8cpp.html#a2097b72018f65a32fb59d429d81a2294">lerp</a> (float t, float a, float b)</td></tr>
 <tr class="memdesc:a2097b72018f65a32fb59d429d81a2294"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear interpolation.  <a href="_helpers_8cpp.html#a2097b72018f65a32fb59d429d81a2294">More...</a><br /></td></tr>
 <tr class="separator:a2097b72018f65a32fb59d429d81a2294"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ad79aabad9850c3a5ca045e82b4358a"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_helpers_8cpp.html#a4ad79aabad9850c3a5ca045e82b4358a">clamp</a> (float a, float x, float b)</td></tr>
-<tr class="memdesc:a4ad79aabad9850c3a5ca045e82b4358a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clamp between two values.  <a href="_helpers_8cpp.html#a4ad79aabad9850c3a5ca045e82b4358a">More...</a><br /></td></tr>
-<tr class="separator:a4ad79aabad9850c3a5ca045e82b4358a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8146bf4d2736fba62771611a3063f10f"><td class="memTemplParams" colspan="2">template&lt;typename t &gt; </td></tr>
+<tr class="memitem:a8146bf4d2736fba62771611a3063f10f"><td class="memTemplItemLeft" align="right" valign="top">t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_helpers_8cpp.html#a8146bf4d2736fba62771611a3063f10f">clamp</a> (t a, t x, t b)</td></tr>
+<tr class="memdesc:a8146bf4d2736fba62771611a3063f10f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clamp between two values.  <a href="_helpers_8cpp.html#a8146bf4d2736fba62771611a3063f10f">More...</a><br /></td></tr>
+<tr class="separator:a8146bf4d2736fba62771611a3063f10f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7979a80b41bb48731d0b2c28553419ba"><td class="memItemLeft" align="right" valign="top"><a id="a7979a80b41bb48731d0b2c28553419ba" name="a7979a80b41bb48731d0b2c28553419ba"></a>
+template float&#160;</td><td class="memItemRight" valign="bottom"><b>clamp&lt; float &gt;</b> (float, float, float)</td></tr>
+<tr class="separator:a7979a80b41bb48731d0b2c28553419ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb4f847257c05a08dd7b756191f3c420"><td class="memItemLeft" align="right" valign="top"><a id="aeb4f847257c05a08dd7b756191f3c420" name="aeb4f847257c05a08dd7b756191f3c420"></a>
+template size_t&#160;</td><td class="memItemRight" valign="bottom"><b>clamp&lt; size_t &gt;</b> (size_t, size_t, size_t)</td></tr>
+<tr class="separator:aeb4f847257c05a08dd7b756191f3c420"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a4ad79aabad9850c3a5ca045e82b4358a" name="a4ad79aabad9850c3a5ca045e82b4358a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4ad79aabad9850c3a5ca045e82b4358a">&#9670;&nbsp;</a></span>clamp()</h2>
+<a id="a8146bf4d2736fba62771611a3063f10f" name="a8146bf4d2736fba62771611a3063f10f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8146bf4d2736fba62771611a3063f10f">&#9670;&nbsp;</a></span>clamp()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename t &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">float clamp </td>
+          <td class="memname">t clamp </td>
           <td>(</td>
-          <td class="paramtype">float&#160;</td>
+          <td class="paramtype">t&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float&#160;</td>
+          <td class="paramtype">t&#160;</td>
           <td class="paramname"><em>x</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float&#160;</td>
+          <td class="paramtype">t&#160;</td>
           <td class="paramname"><em>b</em>&#160;</td>
         </tr>
         <tr>
@@ -141,7 +150,13 @@ Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p >Clamp between two bounds. </p><dl class="params"><dt>Parameters</dt><dd>
+<p >Clamp between two bounds. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">t</td><td>Number type. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">a</td><td>Lower bound, assumed to be less than \(\mathsf{b}\). </td></tr>
     <tr><td class="paramname">x</td><td>Value to be clamped. </td></tr>
@@ -151,7 +166,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Closest value to \(\mathsf{x}\) between the lower and upper, bounds (inclusive), that is, \(\mathsf{\max(a, \min(x, b))}\). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_helpers_8cpp_source.html#l00064">64</a> of file <a class="el" href="_helpers_8cpp_source.html">Helpers.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_helpers_8cpp_source.html#l00065">65</a> of file <a class="el" href="_helpers_8cpp_source.html">Helpers.cpp</a>.</p>
 
 </div>
 </div>
@@ -281,7 +296,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 11 2022 11:46:04 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
+Generated on Fri Feb 11 2022 11:51:07 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
 </small></address>
 </body>
 </html>

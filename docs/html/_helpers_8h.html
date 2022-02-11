@@ -96,36 +96,39 @@ Functions</h2></td></tr>
 <tr class="memitem:afb1e7aa02eac9964d8111757aa24e781"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_helpers_8h.html#afb1e7aa02eac9964d8111757aa24e781">lerp</a> (float, float, float)</td></tr>
 <tr class="memdesc:afb1e7aa02eac9964d8111757aa24e781"><td class="mdescLeft">&#160;</td><td class="mdescRight">Linear interpolation.  <a href="_helpers_8h.html#afb1e7aa02eac9964d8111757aa24e781">More...</a><br /></td></tr>
 <tr class="separator:afb1e7aa02eac9964d8111757aa24e781"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa307cdaee4bfd00a4eb6e1e2892fffcc"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_helpers_8h.html#aa307cdaee4bfd00a4eb6e1e2892fffcc">clamp</a> (float, float, float)</td></tr>
-<tr class="memdesc:aa307cdaee4bfd00a4eb6e1e2892fffcc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clamp between two values.  <a href="_helpers_8h.html#aa307cdaee4bfd00a4eb6e1e2892fffcc">More...</a><br /></td></tr>
-<tr class="separator:aa307cdaee4bfd00a4eb6e1e2892fffcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab84cfadeb4d9ac3c7612c4c6c9e0317"><td class="memTemplParams" colspan="2">template&lt;typename t &gt; </td></tr>
+<tr class="memitem:aab84cfadeb4d9ac3c7612c4c6c9e0317"><td class="memTemplItemLeft" align="right" valign="top">t&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_helpers_8h.html#aab84cfadeb4d9ac3c7612c4c6c9e0317">clamp</a> (t, t, t)</td></tr>
+<tr class="memdesc:aab84cfadeb4d9ac3c7612c4c6c9e0317"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clamp between two values.  <a href="_helpers_8h.html#aab84cfadeb4d9ac3c7612c4c6c9e0317">More...</a><br /></td></tr>
+<tr class="separator:aab84cfadeb4d9ac3c7612c4c6c9e0317"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="aa307cdaee4bfd00a4eb6e1e2892fffcc" name="aa307cdaee4bfd00a4eb6e1e2892fffcc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa307cdaee4bfd00a4eb6e1e2892fffcc">&#9670;&nbsp;</a></span>clamp()</h2>
+<a id="aab84cfadeb4d9ac3c7612c4c6c9e0317" name="aab84cfadeb4d9ac3c7612c4c6c9e0317"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab84cfadeb4d9ac3c7612c4c6c9e0317">&#9670;&nbsp;</a></span>clamp()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename t &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">float clamp </td>
+          <td class="memname">t clamp </td>
           <td>(</td>
-          <td class="paramtype">float&#160;</td>
+          <td class="paramtype">t&#160;</td>
           <td class="paramname"><em>a</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float&#160;</td>
+          <td class="paramtype">t&#160;</td>
           <td class="paramname"><em>x</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">float&#160;</td>
+          <td class="paramtype">t&#160;</td>
           <td class="paramname"><em>b</em>&#160;</td>
         </tr>
         <tr>
@@ -140,7 +143,13 @@ Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p >Clamp between two bounds. </p><dl class="params"><dt>Parameters</dt><dd>
+<p >Clamp between two bounds. </p><dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">t</td><td>Number type. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">a</td><td>Lower bound, assumed to be less than \(\mathsf{b}\). </td></tr>
     <tr><td class="paramname">x</td><td>Value to be clamped. </td></tr>
@@ -150,7 +159,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Closest value to \(\mathsf{x}\) between the lower and upper, bounds (inclusive), that is, \(\mathsf{\max(a, \min(x, b))}\). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_helpers_8cpp_source.html#l00064">64</a> of file <a class="el" href="_helpers_8cpp_source.html">Helpers.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_helpers_8cpp_source.html#l00065">65</a> of file <a class="el" href="_helpers_8cpp_source.html">Helpers.cpp</a>.</p>
 
 </div>
 </div>
@@ -280,7 +289,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 11 2022 11:46:04 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
+Generated on Fri Feb 11 2022 11:51:07 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
 </small></address>
 </body>
 </html>

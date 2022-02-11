@@ -63,6 +63,36 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
       nMenuId = LOWORD(wParam); //menu id
 
       switch(nMenuId){  
+        case IDM_SETTINGS_OCTAVE_UP:
+          g_pMain->IncreaseOctaves();
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        case IDM_SETTINGS_OCTAVE_DN:
+          g_pMain->DecreaseOctaves();
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        case IDM_SETTINGS_SCALE_UP:
+          g_pMain->IncreaseScale();
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        case IDM_SETTINGS_SCALE_DN:
+          g_pMain->DecreaseScale();
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        case IDM_SETTINGS_TSIZE_UP:
+          g_pMain->IncreaseTableSize();
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        case IDM_SETTINGS_TSIZE_DN:
+          g_pMain->DecreaseTableSize();
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
         case IDM_GENERATE_PERLINNOISE:
           g_pMain->GeneratePerlinNoise(eNoise::Perlin);
           InvalidateRect(hWnd, nullptr, FALSE);
@@ -100,6 +130,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
 
         case IDM_DISTRIBUTION_EXPONENTIAL:
           g_pMain->Initialize(eDistribution::Exponential);
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        case IDM_SPLINE_NONE:
+          g_pMain->SetSpline(eSpline::None);
           InvalidateRect(hWnd, nullptr, FALSE);
           break;
 

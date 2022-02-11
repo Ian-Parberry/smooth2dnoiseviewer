@@ -10,6 +10,13 @@ var searchData=
   ['idm_5fgenerate_5fpixelnoise_7',['IDM_GENERATE_PIXELNOISE',['../_windows_helpers_8h.html#a1e652e6623f99a934b117d9198bf2b7d',1,'WindowsHelpers.h']]],
   ['idm_5fgenerate_5frandomize_8',['IDM_GENERATE_RANDOMIZE',['../_windows_helpers_8h.html#ade099a08a343fa8051bc9f341cb95cf1',1,'WindowsHelpers.h']]],
   ['idm_5fgenerate_5fvaluenoise_9',['IDM_GENERATE_VALUENOISE',['../_windows_helpers_8h.html#a347d1f366e7a6e0712f6c3e61d87791c',1,'WindowsHelpers.h']]],
-  ['idm_5fspline_5fcubic_10',['IDM_SPLINE_CUBIC',['../_windows_helpers_8h.html#ac6a6eb38f85b7a70ccab0bba7f06839a',1,'WindowsHelpers.h']]],
-  ['idm_5fspline_5fquintic_11',['IDM_SPLINE_QUINTIC',['../_windows_helpers_8h.html#a6869db1805448a9fc51fedb292ea6cfe',1,'WindowsHelpers.h']]]
+  ['idm_5fsettings_5foctave_5fdn_10',['IDM_SETTINGS_OCTAVE_DN',['../_windows_helpers_8h.html#acb3fcfb08e4e55ba3d66e82379bd0162',1,'WindowsHelpers.h']]],
+  ['idm_5fsettings_5foctave_5fup_11',['IDM_SETTINGS_OCTAVE_UP',['../_windows_helpers_8h.html#abe91d08e897857414b29bf5b4664ebef',1,'WindowsHelpers.h']]],
+  ['idm_5fsettings_5fscale_5fdn_12',['IDM_SETTINGS_SCALE_DN',['../_windows_helpers_8h.html#a86c82115525d86f1569a8d4d5de60cdc',1,'WindowsHelpers.h']]],
+  ['idm_5fsettings_5fscale_5fup_13',['IDM_SETTINGS_SCALE_UP',['../_windows_helpers_8h.html#a73df3086fe883780f425340e916c3e0d',1,'WindowsHelpers.h']]],
+  ['idm_5fsettings_5ftsize_5fdn_14',['IDM_SETTINGS_TSIZE_DN',['../_windows_helpers_8h.html#aba980cfbd0d15be69374c291553d72d4',1,'WindowsHelpers.h']]],
+  ['idm_5fsettings_5ftsize_5fup_15',['IDM_SETTINGS_TSIZE_UP',['../_windows_helpers_8h.html#a13f5fd957d35a07ba59a0077a447ead0',1,'WindowsHelpers.h']]],
+  ['idm_5fspline_5fcubic_16',['IDM_SPLINE_CUBIC',['../_windows_helpers_8h.html#ac6a6eb38f85b7a70ccab0bba7f06839a',1,'WindowsHelpers.h']]],
+  ['idm_5fspline_5fnone_17',['IDM_SPLINE_NONE',['../_windows_helpers_8h.html#a69bd76966bb500d6caa7bc8bb60d815e',1,'WindowsHelpers.h']]],
+  ['idm_5fspline_5fquintic_18',['IDM_SPLINE_QUINTIC',['../_windows_helpers_8h.html#a6869db1805448a9fc51fedb292ea6cfe',1,'WindowsHelpers.h']]]
 ];

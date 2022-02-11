@@ -53,7 +53,7 @@ enum class eDistribution{
 /// Enumerated type for spline functions.
 
 enum class eSpline{
-  Cubic, Quintic
+  None, Cubic, Quintic
 }; //eSpline
 
 #endif //__DEFINES_H__

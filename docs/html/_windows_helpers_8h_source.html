@@ -123,32 +123,41 @@ $(function() {
 <div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="_windows_helpers_8h.html#a5a9c09120c2bdc2f8d91f01413eb0a31">   49</a></span><span class="preprocessor">#define IDM_DISTRIBUTION_NORMAL   9 </span></div>
 <div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="_windows_helpers_8h.html#a35079cf3abba513b7e6170f67fc63afa">   50</a></span><span class="preprocessor">#define IDM_DISTRIBUTION_EXPONENTIAL  10 </span></div>
 <div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="_windows_helpers_8h.html#ac6a6eb38f85b7a70ccab0bba7f06839a">   52</a></span><span class="preprocessor">#define IDM_SPLINE_CUBIC    11 </span></div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="_windows_helpers_8h.html#a6869db1805448a9fc51fedb292ea6cfe">   53</a></span><span class="preprocessor">#define IDM_SPLINE_QUINTIC  12 </span></div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#pragma endregion Menu IDs</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="_windows_helpers_8h.html#a69bd76966bb500d6caa7bc8bb60d815e">   52</a></span><span class="preprocessor">#define IDM_SPLINE_NONE     11 </span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="_windows_helpers_8h.html#ac6a6eb38f85b7a70ccab0bba7f06839a">   53</a></span><span class="preprocessor">#define IDM_SPLINE_CUBIC    12 </span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="_windows_helpers_8h.html#a6869db1805448a9fc51fedb292ea6cfe">   54</a></span><span class="preprocessor">#define IDM_SPLINE_QUINTIC  13 </span></div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="comment">// Helper functions</span></div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#pragma region Helper functions</span></div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="comment">//initialization functions</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="_windows_helpers_8h.html#abe91d08e897857414b29bf5b4664ebef">   56</a></span><span class="preprocessor">#define IDM_SETTINGS_OCTAVE_UP  14 </span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="_windows_helpers_8h.html#acb3fcfb08e4e55ba3d66e82379bd0162">   57</a></span><span class="preprocessor">#define IDM_SETTINGS_OCTAVE_DN  15 </span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="_windows_helpers_8h.html#a73df3086fe883780f425340e916c3e0d">   58</a></span><span class="preprocessor">#define IDM_SETTINGS_SCALE_UP   16 </span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="_windows_helpers_8h.html#a86c82115525d86f1569a8d4d5de60cdc">   59</a></span><span class="preprocessor">#define IDM_SETTINGS_SCALE_DN   17 </span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="_windows_helpers_8h.html#a13f5fd957d35a07ba59a0077a447ead0">   60</a></span><span class="preprocessor">#define IDM_SETTINGS_TSIZE_UP   18 </span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="_windows_helpers_8h.html#aba980cfbd0d15be69374c291553d72d4">   61</a></span><span class="preprocessor">#define IDM_SETTINGS_TSIZE_DN   19 </span></div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>ULONG_PTR <a class="code hl_function" href="_windows_helpers_8h.html#ab90ef52869992f4af6696021ce4a1769">InitGDIPlus</a>(); </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="preprocessor">#pragma endregion Menu IDs</span></div>
 <div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="comment">//others</span></div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>HRESULT <a class="code hl_function" href="_windows_helpers_8h.html#afb835879aed96ef38e71b9aff281d0b2">SaveBitmap</a>(HWND, <span class="keyword">const</span> std::wstring&amp;, Gdiplus::Bitmap*); </div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="preprocessor">#pragma endregion Helper functions</span></div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor">#endif </span><span class="comment">//__WINDOWSHELPERS_H__</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span><span class="comment">// Helper functions</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="preprocessor">#pragma region Helper functions</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="comment">//initialization functions</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>ULONG_PTR <a class="code hl_function" href="_windows_helpers_8h.html#ab90ef52869992f4af6696021ce4a1769">InitGDIPlus</a>(); </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span><span class="comment">//others</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>HRESULT <a class="code hl_function" href="_windows_helpers_8h.html#afb835879aed96ef38e71b9aff281d0b2">SaveBitmap</a>(HWND, <span class="keyword">const</span> std::wstring&amp;, Gdiplus::Bitmap*); </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="preprocessor">#pragma endregion Helper functions</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="preprocessor">#endif </span><span class="comment">//__WINDOWSHELPERS_H__</span></div>
 <div class="ttc" id="a_includes_8h_html"><div class="ttname"><a href="_includes_8h.html">Includes.h</a></div><div class="ttdoc">Useful includes.</div></div>
 <div class="ttc" id="a_windows_helpers_8h_html_ab90ef52869992f4af6696021ce4a1769"><div class="ttname"><a href="_windows_helpers_8h.html#ab90ef52869992f4af6696021ce4a1769">InitGDIPlus</a></div><div class="ttdeci">ULONG_PTR InitGDIPlus()</div><div class="ttdoc">Initialize GDI+.</div><div class="ttdef"><b>Definition:</b> <a href="_windows_helpers_8cpp_source.html#l00043">WindowsHelpers.cpp:43</a></div></div>
 <div class="ttc" id="a_windows_helpers_8h_html_afb835879aed96ef38e71b9aff281d0b2"><div class="ttname"><a href="_windows_helpers_8h.html#afb835879aed96ef38e71b9aff281d0b2">SaveBitmap</a></div><div class="ttdeci">HRESULT SaveBitmap(HWND, const std::wstring &amp;, Gdiplus::Bitmap *)</div><div class="ttdoc">Save bitmap to file.</div><div class="ttdef"><b>Definition:</b> <a href="_windows_helpers_8cpp_source.html#l00097">WindowsHelpers.cpp:97</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 11 2022 11:46:04 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
+Generated on Fri Feb 11 2022 11:51:07 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
 </small></address>
 </body>
 </html>
