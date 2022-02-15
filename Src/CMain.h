@@ -74,6 +74,9 @@ class CMain{
     void SetPixel(UINT, UINT, float); ///< Set pixel grayscale from float.
     void SetPixel(UINT, UINT, BYTE); ///< Set pixel grayscale from byte.
 
+    void Smooth(); ///< Smooth bitmap.
+    UINT GetPixel(UINT, UINT); ///< Get pixel from bitmap.
+
   public:
     CMain(const HWND hwnd); ///< Constructor.
     ~CMain(); ///< Destructor.
