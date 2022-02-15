@@ -32,7 +32,7 @@
 #include "Helpers.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-// CPerlinNoise2D functions.
+// Constructor and destructor.
 
 #pragma region Constructor and destructor
 
@@ -63,7 +63,10 @@ CPerlinNoise2D::~CPerlinNoise2D(){
 
 #pragma endregion Constructor and destructor
 
-#pragma region General CPerlinNoise2D functions
+////////////////////////////////////////////////////////////////////////////////
+// Functions that change noise settings.
+
+#pragma region Functions that change noise settings
 
 /// Set the permutation in `m_nPerm` using the standard random
 /// permutation algorithm so that each permutation is equally likely.
@@ -105,7 +108,7 @@ void CPerlinNoise2D::Initialize(eDistribution d){
 
     case eDistribution::Exponential: {
       std::default_random_engine g;
-      std::exponential_distribution<float> d(3.5f);
+      std::exponential_distribution<float> d(8.0f);
 
       const size_t half = m_nSize/2;
 
@@ -126,11 +129,18 @@ void CPerlinNoise2D::SetSpline(eSpline d){
   m_eSpline = d;
 } //SetSpline
 
+#pragma endregion Functions that change noise settings
+
+////////////////////////////////////////////////////////////////////////////////
+// Helper functions.
+
+#pragma region Helper functions
+
 /// Apply gradient to a point.
-/// \param h Hash value for gradient.
+/// \param h Hash value for X and Y gradient.
 /// \param x X-coordinate of point.
 /// \param y Y-coordinate of point.
-/// \return The gradient applied to the point.
+/// \return The X and Y gradients times the point.
 
 inline const float CPerlinNoise2D::grad(size_t h, float x, float y) const{
   return x*m_fTable[h] + y*m_fTable[m_nPerm[h]];
@@ -139,7 +149,7 @@ inline const float CPerlinNoise2D::grad(size_t h, float x, float y) const{
 /// Perlin's pairing function, which combines two unsigned integers into one.
 /// \param x First unsigned integer.
 /// \param y Second unsigned integer.
-/// \return An unsigned integer that depends upin x and y.
+/// \return An unsigned integer that depends upon x and y.
 
 inline const size_t CPerlinNoise2D::pair(size_t x, size_t y) const{
   return hash(x) + y;
@@ -153,6 +163,13 @@ inline const size_t CPerlinNoise2D::pair(size_t x, size_t y) const{
 inline const size_t CPerlinNoise2D::hash(size_t x) const{
   return m_nPerm[x & m_nMask];
 } //hash
+
+#pragma endregion Helper functions
+
+////////////////////////////////////////////////////////////////////////////////
+// Noise generation functions.
+
+#pragma region Noise generation functions
 
 /// Compute a single octave of Perlin noise at a 2D point.
 /// \param x X-coordinate of point.
@@ -208,22 +225,22 @@ const float CPerlinNoise2D::noise(float x, float y, eNoise t) const{
 /// \param x X-coordinate of a 2D point.
 /// \param y Y-coordinate of a 2D point.
 /// \param t Noise type.
-/// \param alpha Lacunarity.
-/// \param beta Persistence.
 /// \param n Number of octaves.
+/// \param alpha Lacunarity. Defaults to 0.5f.
+/// \param beta Persistence. Defaults to 2.0f.
 /// \return Turbulence value in [-1, 1] at point (x, y).
 
-const float CPerlinNoise2D::generate(float x, float y, eNoise t, float alpha, 
-  float beta, size_t n) const
+const float CPerlinNoise2D::generate(float x, float y, eNoise t, size_t n, float alpha, 
+  float beta) const
 {
   float sum = 0.0f; //for sum of octaves
   float scale = 1.0f; //for octave scale
 
   for(size_t i=0; i<n; i++){ //for each octave
     sum += scale*noise(x, y, t); //scale noise by octave scale
-    scale *= alpha; //reduce octave scale
-    x *= beta; 
-    y *= beta;
+    scale *= alpha; //reduce octave scale by lacunarity
+    x *= beta; //increase X-coordinate by persistence
+    y *= beta; //increase Y-coordinate by persistence
   } //for
 
   //scale result by sum of geometric progression
@@ -233,4 +250,4 @@ const float CPerlinNoise2D::generate(float x, float y, eNoise t, float alpha,
   return (t == eNoise::Perlin)? SQRT2*result: result;
 } //generate
 
-#pragma endregion
+#pragma endregion Noise generation functions

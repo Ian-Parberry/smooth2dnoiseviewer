@@ -84,6 +84,7 @@ $(function() {
 <p>Interface for some helpful Windows-specific functions.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="_includes_8h_source.html">Includes.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_defines_8h_source.html">Defines.h</a>&quot;</code><br />
 </div>
 <p><a href="_windows_helpers_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -158,6 +159,45 @@ Functions</h2></td></tr>
 <tr class="memitem:afb835879aed96ef38e71b9aff281d0b2"><td class="memItemLeft" align="right" valign="top">HRESULT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_windows_helpers_8h.html#afb835879aed96ef38e71b9aff281d0b2">SaveBitmap</a> (HWND, const std::wstring &amp;, Gdiplus::Bitmap *)</td></tr>
 <tr class="memdesc:afb835879aed96ef38e71b9aff281d0b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Save bitmap to file.  <a href="_windows_helpers_8h.html#afb835879aed96ef38e71b9aff281d0b2">More...</a><br /></td></tr>
 <tr class="separator:afb835879aed96ef38e71b9aff281d0b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05c26fae023153fee11687b4843f6358"><td class="memItemLeft" align="right" valign="top">HMENU&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_windows_helpers_8h.html#a05c26fae023153fee11687b4843f6358">CreateFileMenu</a> (HMENU)</td></tr>
+<tr class="memdesc:a05c26fae023153fee11687b4843f6358"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <code>File</code> menu.  <a href="_windows_helpers_8h.html#a05c26fae023153fee11687b4843f6358">More...</a><br /></td></tr>
+<tr class="separator:a05c26fae023153fee11687b4843f6358"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5db1f583f6b19f34002eb2478f2cd07e"><td class="memItemLeft" align="right" valign="top">HMENU&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_windows_helpers_8h.html#a5db1f583f6b19f34002eb2478f2cd07e">CreateGenerateMenu</a> (HMENU)</td></tr>
+<tr class="memdesc:a5db1f583f6b19f34002eb2478f2cd07e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <code>Generate</code> menu.  <a href="_windows_helpers_8h.html#a5db1f583f6b19f34002eb2478f2cd07e">More...</a><br /></td></tr>
+<tr class="separator:a5db1f583f6b19f34002eb2478f2cd07e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc6822a6792a3d33e8a0c3554868ba84"><td class="memItemLeft" align="right" valign="top">HMENU&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_windows_helpers_8h.html#abc6822a6792a3d33e8a0c3554868ba84">CreateDistributionMenu</a> (HMENU)</td></tr>
+<tr class="memdesc:abc6822a6792a3d33e8a0c3554868ba84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <code>Distribution</code> menu.  <a href="_windows_helpers_8h.html#abc6822a6792a3d33e8a0c3554868ba84">More...</a><br /></td></tr>
+<tr class="separator:abc6822a6792a3d33e8a0c3554868ba84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6cb06674e8ded1f87b55c343f068e15"><td class="memItemLeft" align="right" valign="top">HMENU&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_windows_helpers_8h.html#ae6cb06674e8ded1f87b55c343f068e15">CreateSplineMenu</a> (HMENU)</td></tr>
+<tr class="memdesc:ae6cb06674e8ded1f87b55c343f068e15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <code>Spline</code> menu.  <a href="_windows_helpers_8h.html#ae6cb06674e8ded1f87b55c343f068e15">More...</a><br /></td></tr>
+<tr class="separator:ae6cb06674e8ded1f87b55c343f068e15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b28845fd0bb95b6824d9a066d5a9fde"><td class="memItemLeft" align="right" valign="top">HMENU&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_windows_helpers_8h.html#a7b28845fd0bb95b6824d9a066d5a9fde">CreateSettingsMenu</a> (HMENU)</td></tr>
+<tr class="memdesc:a7b28845fd0bb95b6824d9a066d5a9fde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <code>Settings</code> menu.  <a href="_windows_helpers_8h.html#a7b28845fd0bb95b6824d9a066d5a9fde">More...</a><br /></td></tr>
+<tr class="separator:a7b28845fd0bb95b6824d9a066d5a9fde"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59ed9f7b66c173b8681f38808bdd0677"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_windows_helpers_8h.html#a59ed9f7b66c173b8681f38808bdd0677">UpdateFileMenu</a> (HMENU, <a class="el" href="_defines_8h.html#acf7bf617f80248f793b94ae302c9c662">eNoise</a>)</td></tr>
+<tr class="memdesc:a59ed9f7b66c173b8681f38808bdd0677"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update <code>File</code> menu.  <a href="_windows_helpers_8h.html#a59ed9f7b66c173b8681f38808bdd0677">More...</a><br /></td></tr>
+<tr class="separator:a59ed9f7b66c173b8681f38808bdd0677"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76e91de3600444498100fd84dee78c78"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_windows_helpers_8h.html#a76e91de3600444498100fd84dee78c78">UpdateGenerateMenu</a> (HMENU, <a class="el" href="_defines_8h.html#acf7bf617f80248f793b94ae302c9c662">eNoise</a>)</td></tr>
+<tr class="memdesc:a76e91de3600444498100fd84dee78c78"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update <code>Generate</code> menu.  <a href="_windows_helpers_8h.html#a76e91de3600444498100fd84dee78c78">More...</a><br /></td></tr>
+<tr class="separator:a76e91de3600444498100fd84dee78c78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef145d04cd92780a96e7d93da8db09aa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_windows_helpers_8h.html#aef145d04cd92780a96e7d93da8db09aa">UpdateDistributionMenu</a> (HMENU, <a class="el" href="_defines_8h.html#acf7bf617f80248f793b94ae302c9c662">eNoise</a>, <a class="el" href="_defines_8h.html#a352389712570c16202dd2f89203c916b">eDistribution</a>)</td></tr>
+<tr class="memdesc:aef145d04cd92780a96e7d93da8db09aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update <code>Distribution</code> menu.  <a href="_windows_helpers_8h.html#aef145d04cd92780a96e7d93da8db09aa">More...</a><br /></td></tr>
+<tr class="separator:aef145d04cd92780a96e7d93da8db09aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f2d8ca3723c8fc35837f1f3f0af0974"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_windows_helpers_8h.html#a9f2d8ca3723c8fc35837f1f3f0af0974">UpdateSplineMenu</a> (HMENU, <a class="el" href="_defines_8h.html#acf7bf617f80248f793b94ae302c9c662">eNoise</a>, <a class="el" href="_defines_8h.html#a3affdf47188b2b2c1e80e405b74e3c61">eSpline</a>)</td></tr>
+<tr class="memdesc:a9f2d8ca3723c8fc35837f1f3f0af0974"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update <code>Spline</code> menu.  <a href="_windows_helpers_8h.html#a9f2d8ca3723c8fc35837f1f3f0af0974">More...</a><br /></td></tr>
+<tr class="separator:a9f2d8ca3723c8fc35837f1f3f0af0974"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5670dbfe6d5b2a3cbb0ddb84302c0a70"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_windows_helpers_8h.html#a5670dbfe6d5b2a3cbb0ddb84302c0a70">UpdateSettingsMenu</a> (HMENU, <a class="el" href="_defines_8h.html#acf7bf617f80248f793b94ae302c9c662">eNoise</a>)</td></tr>
+<tr class="memdesc:a5670dbfe6d5b2a3cbb0ddb84302c0a70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update <code>Settings</code> menu.  <a href="_windows_helpers_8h.html#a5670dbfe6d5b2a3cbb0ddb84302c0a70">More...</a><br /></td></tr>
+<tr class="separator:a5670dbfe6d5b2a3cbb0ddb84302c0a70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c6815801b3ffb93b37f9ee89d49fc42"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_windows_helpers_8h.html#a4c6815801b3ffb93b37f9ee89d49fc42">UpdateOctaveSubMenu</a> (HMENU, <a class="el" href="_defines_8h.html#acf7bf617f80248f793b94ae302c9c662">eNoise</a>, size_t, size_t, size_t)</td></tr>
+<tr class="memdesc:a4c6815801b3ffb93b37f9ee89d49fc42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update <code>Octave</code> sub-menu.  <a href="_windows_helpers_8h.html#a4c6815801b3ffb93b37f9ee89d49fc42">More...</a><br /></td></tr>
+<tr class="separator:a4c6815801b3ffb93b37f9ee89d49fc42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5f291a7b128f20d23da085cfad6dc3a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_windows_helpers_8h.html#ad5f291a7b128f20d23da085cfad6dc3a">UpdateScaleSubMenu</a> (HMENU, <a class="el" href="_defines_8h.html#acf7bf617f80248f793b94ae302c9c662">eNoise</a>, float, float, float)</td></tr>
+<tr class="memdesc:ad5f291a7b128f20d23da085cfad6dc3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update <code>Scale</code> sub-menu.  <a href="_windows_helpers_8h.html#ad5f291a7b128f20d23da085cfad6dc3a">More...</a><br /></td></tr>
+<tr class="separator:ad5f291a7b128f20d23da085cfad6dc3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1248ab708f98a695d34ca1846807b676"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_windows_helpers_8h.html#a1248ab708f98a695d34ca1846807b676">UpdateTableSizeSubMenu</a> (HMENU, <a class="el" href="_defines_8h.html#acf7bf617f80248f793b94ae302c9c662">eNoise</a>, size_t, size_t, size_t)</td></tr>
+<tr class="memdesc:a1248ab708f98a695d34ca1846807b676"><td class="mdescLeft">&#160;</td><td class="mdescRight">Update <code>Table size</code> sub-menu.  <a href="_windows_helpers_8h.html#a1248ab708f98a695d34ca1846807b676">More...</a><br /></td></tr>
+<tr class="separator:a1248ab708f98a695d34ca1846807b676"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >These platform-dependent functions are hidden away so that the faint-of-heart don't have to see them if they're offended by them. <br  />
@@ -177,7 +217,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00049">49</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00050">50</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
 
 </div>
 </div>
@@ -193,7 +233,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00051">51</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00052">52</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
 
 </div>
 </div>
@@ -209,7 +249,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00050">50</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00051">51</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
 
 </div>
 </div>
@@ -225,7 +265,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00048">48</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00049">49</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
 
 </div>
 </div>
@@ -241,7 +281,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00040">40</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00041">41</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
 
 </div>
 </div>
@@ -257,7 +297,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00041">41</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00042">42</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
 
 </div>
 </div>
@@ -273,7 +313,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00039">39</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00040">40</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
 
 </div>
 </div>
@@ -289,7 +329,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00044">44</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00045">45</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
 
 </div>
 </div>
@@ -305,7 +345,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00043">43</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00044">44</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
 
 </div>
 </div>
@@ -321,7 +361,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00046">46</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00047">47</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
 
 </div>
 </div>
@@ -337,7 +377,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00045">45</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00046">46</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
 
 </div>
 </div>
@@ -353,7 +393,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00058">58</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00059">59</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
 
 </div>
 </div>
@@ -369,7 +409,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00057">57</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00058">58</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
 
 </div>
 </div>
@@ -385,7 +425,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00060">60</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00061">61</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
 
 </div>
 </div>
@@ -401,7 +441,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00059">59</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00060">60</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
 
 </div>
 </div>
@@ -417,7 +457,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00062">62</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00063">63</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
 
 </div>
 </div>
@@ -433,7 +473,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00061">61</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00062">62</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
 
 </div>
 </div>
@@ -449,7 +489,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00054">54</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00055">55</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
 
 </div>
 </div>
@@ -465,7 +505,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00053">53</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00054">54</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
 
 </div>
 </div>
@@ -481,11 +521,146 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00055">55</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8h_source.html#l00056">56</a> of file <a class="el" href="_windows_helpers_8h_source.html">WindowsHelpers.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="abc6822a6792a3d33e8a0c3554868ba84" name="abc6822a6792a3d33e8a0c3554868ba84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc6822a6792a3d33e8a0c3554868ba84">&#9670;&nbsp;</a></span>CreateDistributionMenu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">HMENU CreateDistributionMenu </td>
+          <td>(</td>
+          <td class="paramtype">HMENU&#160;</td>
+          <td class="paramname"><em>hMenubar</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Create <code>Distribution</code> menu. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hMenubar</td><td>Handle to menu bar. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Handle to <code>Distribution</code> menu. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8cpp_source.html#l00176">176</a> of file <a class="el" href="_windows_helpers_8cpp_source.html">WindowsHelpers.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a05c26fae023153fee11687b4843f6358" name="a05c26fae023153fee11687b4843f6358"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05c26fae023153fee11687b4843f6358">&#9670;&nbsp;</a></span>CreateFileMenu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">HMENU CreateFileMenu </td>
+          <td>(</td>
+          <td class="paramtype">HMENU&#160;</td>
+          <td class="paramname"><em>hMenubar</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Create <code>File</code> menu. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hMenubar</td><td>Handle to menu bar. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Handle to <code>File</code> menu. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8cpp_source.html#l00144">144</a> of file <a class="el" href="_windows_helpers_8cpp_source.html">WindowsHelpers.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a5db1f583f6b19f34002eb2478f2cd07e" name="a5db1f583f6b19f34002eb2478f2cd07e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5db1f583f6b19f34002eb2478f2cd07e">&#9670;&nbsp;</a></span>CreateGenerateMenu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">HMENU CreateGenerateMenu </td>
+          <td>(</td>
+          <td class="paramtype">HMENU&#160;</td>
+          <td class="paramname"><em>hMenubar</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Create <code>Generate</code> menu. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hMenubar</td><td>Handle to menu bar. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Handle to <code>Generate</code> menu. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8cpp_source.html#l00159">159</a> of file <a class="el" href="_windows_helpers_8cpp_source.html">WindowsHelpers.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a7b28845fd0bb95b6824d9a066d5a9fde" name="a7b28845fd0bb95b6824d9a066d5a9fde"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b28845fd0bb95b6824d9a066d5a9fde">&#9670;&nbsp;</a></span>CreateSettingsMenu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">HMENU CreateSettingsMenu </td>
+          <td>(</td>
+          <td class="paramtype">HMENU&#160;</td>
+          <td class="paramname"><em>hMenubar</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Create <code>Settings</code> menu. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hMenubar</td><td>Handle to menu bar. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Handle to <code>Settings</code> menu. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8cpp_source.html#l00207">207</a> of file <a class="el" href="_windows_helpers_8cpp_source.html">WindowsHelpers.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ae6cb06674e8ded1f87b55c343f068e15" name="ae6cb06674e8ded1f87b55c343f068e15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6cb06674e8ded1f87b55c343f068e15">&#9670;&nbsp;</a></span>CreateSplineMenu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">HMENU CreateSplineMenu </td>
+          <td>(</td>
+          <td class="paramtype">HMENU&#160;</td>
+          <td class="paramname"><em>hMenubar</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Create <code>Spline</code> menu. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hMenubar</td><td>Handle to menu bar. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Handle to <code>Spline</code> menu. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8cpp_source.html#l00192">192</a> of file <a class="el" href="_windows_helpers_8cpp_source.html">WindowsHelpers.cpp</a>.</p>
+
+</div>
+</div>
 <a id="ab90ef52869992f4af6696021ce4a1769" name="ab90ef52869992f4af6696021ce4a1769"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab90ef52869992f4af6696021ce4a1769">&#9670;&nbsp;</a></span>InitGDIPlus()</h2>
 
@@ -551,10 +726,383 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="aef145d04cd92780a96e7d93da8db09aa" name="aef145d04cd92780a96e7d93da8db09aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef145d04cd92780a96e7d93da8db09aa">&#9670;&nbsp;</a></span>UpdateDistributionMenu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UpdateDistributionMenu </td>
+          <td>(</td>
+          <td class="paramtype">HMENU&#160;</td>
+          <td class="paramname"><em>hMenu</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_defines_8h.html#acf7bf617f80248f793b94ae302c9c662">eNoise</a>&#160;</td>
+          <td class="paramname"><em>noise</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_defines_8h.html#a352389712570c16202dd2f89203c916b">eDistribution</a>&#160;</td>
+          <td class="paramname"><em>distr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Gray out and set the checkmarks in the <code>Distribution</code> menu according to the current noise and distribution types. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hMenu</td><td>Menu handle. </td></tr>
+    <tr><td class="paramname">noise</td><td>Noise enumerated type. </td></tr>
+    <tr><td class="paramname">distr</td><td>Distribution enumerated type. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8cpp_source.html#l00277">277</a> of file <a class="el" href="_windows_helpers_8cpp_source.html">WindowsHelpers.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a59ed9f7b66c173b8681f38808bdd0677" name="a59ed9f7b66c173b8681f38808bdd0677"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59ed9f7b66c173b8681f38808bdd0677">&#9670;&nbsp;</a></span>UpdateFileMenu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UpdateFileMenu </td>
+          <td>(</td>
+          <td class="paramtype">HMENU&#160;</td>
+          <td class="paramname"><em>hMenu</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_defines_8h.html#acf7bf617f80248f793b94ae302c9c662">eNoise</a>&#160;</td>
+          <td class="paramname"><em>noise</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Gray out the <code>Properties</code> and <code>Save</code> menu entries in the <code>File</code> menu if there is no noise present, and ungray them otherwise. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hMenu</td><td>Menu handle. </td></tr>
+    <tr><td class="paramname">noise</td><td>Noise enumerated type. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8cpp_source.html#l00237">237</a> of file <a class="el" href="_windows_helpers_8cpp_source.html">WindowsHelpers.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a76e91de3600444498100fd84dee78c78" name="a76e91de3600444498100fd84dee78c78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76e91de3600444498100fd84dee78c78">&#9670;&nbsp;</a></span>UpdateGenerateMenu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UpdateGenerateMenu </td>
+          <td>(</td>
+          <td class="paramtype">HMENU&#160;</td>
+          <td class="paramname"><em>hMenu</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_defines_8h.html#acf7bf617f80248f793b94ae302c9c662">eNoise</a>&#160;</td>
+          <td class="paramname"><em>noise</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Gray out and set the checkmarks in the <code>Generate</code> menu according to the current noise properties. Check or uncheck the menu entries for pixel, Perlin, and Value noise depending on the current noise type. Gray out the <code>Randomize</code> menu entry if there is no noise generated, and ungray it otherwise. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hMenu</td><td>Menu handle. </td></tr>
+    <tr><td class="paramname">noise</td><td>Noise enumerated type. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8cpp_source.html#l00257">257</a> of file <a class="el" href="_windows_helpers_8cpp_source.html">WindowsHelpers.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a4c6815801b3ffb93b37f9ee89d49fc42" name="a4c6815801b3ffb93b37f9ee89d49fc42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c6815801b3ffb93b37f9ee89d49fc42">&#9670;&nbsp;</a></span>UpdateOctaveSubMenu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UpdateOctaveSubMenu </td>
+          <td>(</td>
+          <td class="paramtype">HMENU&#160;</td>
+          <td class="paramname"><em>hMenu</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_defines_8h.html#acf7bf617f80248f793b94ae302c9c662">eNoise</a>&#160;</td>
+          <td class="paramname"><em>noise</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>nMin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>nMax</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Update the octave settings in the <code>Settings</code> menu. Gray out <code>Octave up</code> if the number of octaves is greater than the maximum allowed, and gray out <code>Octave down</code> if the number of octaves is less than the minimum allowed. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hMenu</td><td>Menu handle. </td></tr>
+    <tr><td class="paramname">noise</td><td>Noise enumerated type. </td></tr>
+    <tr><td class="paramname">n</td><td>Number of octaves. </td></tr>
+    <tr><td class="paramname">nMin</td><td>Minimum number of octaves. </td></tr>
+    <tr><td class="paramname">nMax</td><td>Maximum number of octaves. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8cpp_source.html#l00358">358</a> of file <a class="el" href="_windows_helpers_8cpp_source.html">WindowsHelpers.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ad5f291a7b128f20d23da085cfad6dc3a" name="ad5f291a7b128f20d23da085cfad6dc3a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5f291a7b128f20d23da085cfad6dc3a">&#9670;&nbsp;</a></span>UpdateScaleSubMenu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UpdateScaleSubMenu </td>
+          <td>(</td>
+          <td class="paramtype">HMENU&#160;</td>
+          <td class="paramname"><em>hMenu</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_defines_8h.html#acf7bf617f80248f793b94ae302c9c662">eNoise</a>&#160;</td>
+          <td class="paramname"><em>noise</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>f</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>fMin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>fMax</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Update the scale settings in the <code>Settings</code> menu. Gray out <code>Scale up</code> if the scale is greater than the maximum allowed, and gray out <code>Scale down</code> if the scale is less than the minimum allowed. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hMenu</td><td>Menu handle. </td></tr>
+    <tr><td class="paramname">noise</td><td>Noise enumerated type. </td></tr>
+    <tr><td class="paramname">f</td><td>Scale. </td></tr>
+    <tr><td class="paramname">fMin</td><td>Minimum scale. </td></tr>
+    <tr><td class="paramname">fMax</td><td>Maximum scale. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8cpp_source.html#l00378">378</a> of file <a class="el" href="_windows_helpers_8cpp_source.html">WindowsHelpers.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a5670dbfe6d5b2a3cbb0ddb84302c0a70" name="a5670dbfe6d5b2a3cbb0ddb84302c0a70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5670dbfe6d5b2a3cbb0ddb84302c0a70">&#9670;&nbsp;</a></span>UpdateSettingsMenu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UpdateSettingsMenu </td>
+          <td>(</td>
+          <td class="paramtype">HMENU&#160;</td>
+          <td class="paramname"><em>hMenu</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_defines_8h.html#acf7bf617f80248f793b94ae302c9c662">eNoise</a>&#160;</td>
+          <td class="paramname"><em>noise</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Gray out entries in the <code>Settings</code> menu if they are not appropriate for the current noise type and parameters, and ungray them if they are. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hMenu</td><td>Menu handle. </td></tr>
+    <tr><td class="paramname">noise</td><td>Noise enumerated type. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8cpp_source.html#l00338">338</a> of file <a class="el" href="_windows_helpers_8cpp_source.html">WindowsHelpers.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a9f2d8ca3723c8fc35837f1f3f0af0974" name="a9f2d8ca3723c8fc35837f1f3f0af0974"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f2d8ca3723c8fc35837f1f3f0af0974">&#9670;&nbsp;</a></span>UpdateSplineMenu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UpdateSplineMenu </td>
+          <td>(</td>
+          <td class="paramtype">HMENU&#160;</td>
+          <td class="paramname"><em>hMenu</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_defines_8h.html#acf7bf617f80248f793b94ae302c9c662">eNoise</a>&#160;</td>
+          <td class="paramname"><em>noise</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_defines_8h.html#a3affdf47188b2b2c1e80e405b74e3c61">eSpline</a>&#160;</td>
+          <td class="paramname"><em>spline</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Gray out and set the checkmarks in the <code>Spline</code> menu according to the current noise and spline types. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hMenu</td><td>Menu handle. </td></tr>
+    <tr><td class="paramname">noise</td><td>Noise enumerated type. </td></tr>
+    <tr><td class="paramname">spline</td><td>Spline enumerated type. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8cpp_source.html#l00308">308</a> of file <a class="el" href="_windows_helpers_8cpp_source.html">WindowsHelpers.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a1248ab708f98a695d34ca1846807b676" name="a1248ab708f98a695d34ca1846807b676"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1248ab708f98a695d34ca1846807b676">&#9670;&nbsp;</a></span>UpdateTableSizeSubMenu()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void UpdateTableSizeSubMenu </td>
+          <td>(</td>
+          <td class="paramtype">HMENU&#160;</td>
+          <td class="paramname"><em>hMenu</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_defines_8h.html#acf7bf617f80248f793b94ae302c9c662">eNoise</a>&#160;</td>
+          <td class="paramname"><em>noise</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>nMin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>nMax</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p >Update the table size settings in the <code>Settings</code> menu. Gray out <code>Table size up</code> if the number of octaves is greater than the maximum allowed, and gray out <code>Table size down</code> if the number of octaves is less than the minimum allowed. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">hMenu</td><td>Menu handle. </td></tr>
+    <tr><td class="paramname">noise</td><td>Noise enumerated type. </td></tr>
+    <tr><td class="paramname">n</td><td>Log base 2 of the table size. </td></tr>
+    <tr><td class="paramname">nMin</td><td>Minimum log base 2 of the table size. </td></tr>
+    <tr><td class="paramname">nMax</td><td>Maximum log base 2 of the table size </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_windows_helpers_8cpp_source.html#l00398">398</a> of file <a class="el" href="_windows_helpers_8cpp_source.html">WindowsHelpers.cpp</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 11 2022 16:47:11 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
+Generated on Tue Feb 15 2022 14:47:16 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
 </small></address>
 </body>
 </html>

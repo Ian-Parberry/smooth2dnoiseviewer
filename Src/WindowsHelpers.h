@@ -30,6 +30,7 @@
 #define __WINDOWSHELPERS_H__
 
 #include "Includes.h"
+#include "Defines.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Menu IDs
@@ -77,5 +78,21 @@ ULONG_PTR InitGDIPlus(); ///< Initialize GDI+.
 HRESULT SaveBitmap(HWND, const std::wstring&, Gdiplus::Bitmap*); ///< Save bitmap to file.
 
 #pragma endregion Helper functions
+
+HMENU CreateFileMenu(HMENU); ///< Create `File` menu.
+HMENU CreateGenerateMenu(HMENU); ///< Create `Generate` menu.
+HMENU CreateDistributionMenu(HMENU); ///< Create `Distribution` menu.
+HMENU CreateSplineMenu(HMENU); ///< Create `Spline` menu.
+HMENU CreateSettingsMenu(HMENU); ///< Create `Settings` menu.
+
+void UpdateFileMenu(HMENU, eNoise); ///< Update `File` menu.
+void UpdateGenerateMenu(HMENU, eNoise); ///< Update `Generate` menu.
+void UpdateDistributionMenu(HMENU, eNoise, eDistribution); ///< Update `Distribution` menu.
+void UpdateSplineMenu(HMENU, eNoise, eSpline); ///< Update `Spline` menu.
+void UpdateSettingsMenu(HMENU, eNoise); ///< Update `Settings` menu.
+
+void UpdateOctaveSubMenu(HMENU, eNoise, size_t, size_t, size_t); ///< Update `Octave` sub-menu.
+void UpdateScaleSubMenu(HMENU, eNoise, float, float, float); ///< Update `Scale` sub-menu.
+void UpdateTableSizeSubMenu(HMENU, eNoise, size_t, size_t, size_t); ///< Update `Table size` sub-menu.
 
 #endif //__WINDOWSHELPERS_H__

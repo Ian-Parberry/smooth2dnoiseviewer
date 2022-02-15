@@ -2,7 +2,7 @@
 /// \brief Code for some helpful Windows-specific functions.
 ///
 /// These platform-dependent functions are hidden away so that the faint-of-heart
-/// don't have to see them if they're offended by them. 
+/// don't have to see them if they can't handle it. 
 
 // MIT License
 //
@@ -52,7 +52,7 @@ ULONG_PTR InitGDIPlus(){
 ///////////////////////////////////////////////////////////////////////////////
 // Save functions
 
-#pragma region Save
+#pragma region Save functions
 
 /// Get an encoder clsid for an image file format.
 /// \param format File format using wide characters.
@@ -130,4 +130,280 @@ HRESULT SaveBitmap(HWND hwnd, const std::wstring& wstrName,
   return S_OK;
 } //SaveBitmap
 
-#pragma endregion Save
+#pragma endregion Save functions
+
+///////////////////////////////////////////////////////////////////////////////
+// Create menu functions
+
+#pragma region Create menu functions
+
+/// Create `File` menu.
+/// \param hMenubar Handle to menu bar.
+/// \return Handle to `File` menu.
+
+HMENU CreateFileMenu(HMENU hMenubar){
+  HMENU hMenu = CreateMenu();
+  
+  AppendMenuW(hMenu, MF_STRING, IDM_FILE_SAVE,  L"Save...");
+  AppendMenuW(hMenu, MF_STRING, IDM_FILE_PROPS, L"Properties...");
+  AppendMenuW(hMenu, MF_STRING, IDM_FILE_QUIT,  L"Quit");
+  
+  AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&File");
+  return hMenu;
+} //CreateFileMenu
+
+/// Create `Generate` menu.
+/// \param hMenubar Handle to menu bar.
+/// \return Handle to `Generate` menu.
+
+HMENU CreateGenerateMenu(HMENU hMenubar){
+  HMENU hMenu = CreateMenu();
+
+  AppendMenuW(hMenu, MF_STRING, IDM_GENERATE_PIXELNOISE,  L"Pixel noise");
+  AppendMenuW(hMenu, MF_STRING, IDM_GENERATE_PERLINNOISE, L"Perlin noise");
+  AppendMenuW(hMenu, MF_STRING, IDM_GENERATE_VALUENOISE,  L"Value noise");
+  AppendMenuW(hMenu, MF_SEPARATOR, 0, nullptr);
+  AppendMenuW(hMenu, MF_STRING, IDM_GENERATE_RANDOMIZE,   L"Randomize");
+
+  AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&Generate");
+  return hMenu;
+} //CreateGenerateMenu
+
+/// Create `Distribution` menu.
+/// \param hMenubar Handle to menu bar.
+/// \return Handle to `Distribution` menu.
+
+HMENU CreateDistributionMenu(HMENU hMenubar){
+  HMENU hMenu = CreateMenu();
+
+  AppendMenuW(hMenu, MF_STRING, IDM_DISTRIBUTION_UNIFORM, L"Uniform");
+  AppendMenuW(hMenu, MF_STRING, IDM_DISTRIBUTION_COSINE,  L"Cosine");
+  AppendMenuW(hMenu, MF_STRING, IDM_DISTRIBUTION_NORMAL,  L"Normal");
+  AppendMenuW(hMenu, MF_STRING, IDM_DISTRIBUTION_EXPONENTIAL, L"Exponential");
+
+  AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&Distribution");
+  return hMenu;
+} //CreateDistributionMenu
+
+/// Create `Spline` menu.
+/// \param hMenubar Handle to menu bar.
+/// \return Handle to `Spline` menu.
+
+HMENU CreateSplineMenu(HMENU hMenubar){
+  HMENU hMenu = CreateMenu();
+
+  AppendMenuW(hMenu, MF_STRING, IDM_SPLINE_NONE,    L"None");
+  AppendMenuW(hMenu, MF_STRING, IDM_SPLINE_CUBIC,   L"Cubic");
+  AppendMenuW(hMenu, MF_STRING, IDM_SPLINE_QUINTIC, L"Quintic");
+
+  AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&Spline");
+  return hMenu;
+} //CreateSplineMenu
+
+/// Create `Settings` menu.
+/// \param hMenubar Handle to menu bar.
+/// \return Handle to `Settings` menu.
+
+HMENU CreateSettingsMenu(HMENU hMenubar){
+  HMENU hMenu = CreateMenu();
+  
+  AppendMenuW(hMenu, MF_STRING, IDM_SETTINGS_OCTAVE_UP, 
+    L"Increase number of octaves");
+  AppendMenuW(hMenu, MF_STRING, IDM_SETTINGS_OCTAVE_DN,
+    L"Decrease number of octaves");
+  AppendMenuW(hMenu, MF_SEPARATOR, 0, nullptr);
+  AppendMenuW(hMenu, MF_STRING, IDM_SETTINGS_SCALE_UP, L"Scale up");
+  AppendMenuW(hMenu, MF_STRING, IDM_SETTINGS_SCALE_DN, L"Scale down");
+  AppendMenuW(hMenu, MF_SEPARATOR, 0, nullptr);
+  AppendMenuW(hMenu, MF_STRING, IDM_SETTINGS_TSIZE_UP,  L"Table size up");
+  AppendMenuW(hMenu, MF_STRING, IDM_SETTINGS_TSIZE_DN, L"Table size down");
+  
+  AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&Settings");
+  return hMenu;
+} //CreateSettingsMenu
+
+#pragma endregion Create menu functions
+
+///////////////////////////////////////////////////////////////////////////////
+// Update menu functions
+
+#pragma region Update menu functions
+
+/// Gray out the `Properties` and `Save` menu entries in the `File` menu if
+/// there is no noise present, and ungray them otherwise.
+/// \param hMenu Menu handle.
+/// \param noise Noise enumerated type.
+
+void UpdateFileMenu(HMENU hMenu, eNoise noise){
+  if(noise == eNoise::None){
+    EnableMenuItem(hMenu, IDM_FILE_SAVE, MF_GRAYED);
+    EnableMenuItem(hMenu, IDM_FILE_PROPS, MF_GRAYED);
+  } //if
+
+  else{
+    EnableMenuItem(hMenu, IDM_FILE_SAVE, MF_ENABLED);
+    EnableMenuItem(hMenu, IDM_FILE_PROPS, MF_ENABLED);
+  } //else
+} //UpdateFileMenu
+
+/// Gray out and set the checkmarks in the `Generate` menu according to the
+/// current noise properties. Check or uncheck the menu entries for pixel,
+/// Perlin, and Value noise depending on the current noise type. Gray out the
+/// `Randomize` menu entry if there is no noise generated, and ungray it
+/// otherwise.
+/// \param hMenu Menu handle.
+/// \param noise Noise enumerated type.
+
+void UpdateGenerateMenu(HMENU hMenu, eNoise noise){
+  if(noise == eNoise::None)
+    EnableMenuItem(hMenu, IDM_GENERATE_RANDOMIZE, MF_GRAYED);
+  else
+    EnableMenuItem(hMenu, IDM_GENERATE_RANDOMIZE, MF_ENABLED);
+
+  CheckMenuItem(hMenu, IDM_GENERATE_PIXELNOISE,
+    (noise == eNoise::Pixel)? MF_CHECKED: MF_UNCHECKED);
+  CheckMenuItem(hMenu, IDM_GENERATE_PERLINNOISE, 
+    (noise == eNoise::Perlin)? MF_CHECKED: MF_UNCHECKED);
+  CheckMenuItem(hMenu, IDM_GENERATE_VALUENOISE,
+    (noise == eNoise::Value)? MF_CHECKED: MF_UNCHECKED);
+} //UpdateGenerateMenu
+  
+/// Gray out and set the checkmarks in the `Distribution` menu according to the
+/// current noise and distribution types.
+/// \param hMenu Menu handle.
+/// \param noise Noise enumerated type.
+/// \param distr Distribution enumerated type.
+
+void UpdateDistributionMenu(HMENU hMenu, eNoise noise, eDistribution distr){
+  if(noise == eNoise::None){
+    EnableMenuItem(hMenu, IDM_DISTRIBUTION_UNIFORM, MF_GRAYED);
+    EnableMenuItem(hMenu, IDM_DISTRIBUTION_COSINE, MF_GRAYED);
+    EnableMenuItem(hMenu, IDM_DISTRIBUTION_NORMAL, MF_GRAYED);
+    EnableMenuItem(hMenu, IDM_DISTRIBUTION_EXPONENTIAL, MF_GRAYED);
+  } //if
+
+  else{
+    EnableMenuItem(hMenu, IDM_DISTRIBUTION_UNIFORM, MF_ENABLED);
+    EnableMenuItem(hMenu, IDM_DISTRIBUTION_COSINE, MF_ENABLED);
+    EnableMenuItem(hMenu, IDM_DISTRIBUTION_NORMAL, MF_ENABLED);
+    EnableMenuItem(hMenu, IDM_DISTRIBUTION_EXPONENTIAL, MF_ENABLED);
+  } //if
+
+  CheckMenuItem(hMenu, IDM_DISTRIBUTION_UNIFORM, 
+    distr == eDistribution::Uniform? MF_CHECKED: MF_UNCHECKED);
+  CheckMenuItem(hMenu, IDM_DISTRIBUTION_COSINE, 
+    distr == eDistribution::Cosine? MF_CHECKED: MF_UNCHECKED);
+  CheckMenuItem(hMenu, IDM_DISTRIBUTION_NORMAL, 
+    distr == eDistribution::Normal? MF_CHECKED: MF_UNCHECKED);
+  CheckMenuItem(hMenu, IDM_DISTRIBUTION_EXPONENTIAL, 
+    distr == eDistribution::Exponential? MF_CHECKED: MF_UNCHECKED);
+} //UpdateDistributionMenu
+
+/// Gray out and set the checkmarks in the `Spline` menu according to the
+/// current noise and spline types.
+/// \param hMenu Menu handle.
+/// \param noise Noise enumerated type.
+/// \param spline Spline enumerated type.
+
+void UpdateSplineMenu(HMENU hMenu, eNoise noise, eSpline spline){
+  switch(noise){
+    case eNoise::Pixel:
+    case eNoise::None: 
+      EnableMenuItem(hMenu, IDM_SPLINE_NONE,     MF_GRAYED);
+      EnableMenuItem(hMenu, IDM_SPLINE_CUBIC,    MF_GRAYED);
+      EnableMenuItem(hMenu, IDM_SPLINE_QUINTIC,  MF_GRAYED);
+    break;
+
+    case eNoise::Perlin:
+    case eNoise::Value:
+      EnableMenuItem(hMenu, IDM_SPLINE_NONE,     MF_ENABLED);
+      EnableMenuItem(hMenu, IDM_SPLINE_CUBIC,    MF_ENABLED);
+      EnableMenuItem(hMenu, IDM_SPLINE_QUINTIC,  MF_ENABLED);
+    break;
+  } //switch
+
+  CheckMenuItem(hMenu, IDM_SPLINE_NONE,
+    (spline == eSpline::None)? MF_CHECKED: MF_UNCHECKED);
+  CheckMenuItem(hMenu, IDM_SPLINE_CUBIC,
+    (spline == eSpline::Cubic)? MF_CHECKED: MF_UNCHECKED);
+  CheckMenuItem(hMenu, IDM_SPLINE_QUINTIC,
+    (spline == eSpline::Quintic)? MF_CHECKED: MF_UNCHECKED);
+} //UpdateSplineMenu
+
+/// Gray out entries in the `Settings` menu if they are not appropriate for the
+/// current noise type and parameters, and ungray them if they are.
+/// \param hMenu Menu handle.
+/// \param noise Noise enumerated type.
+
+void UpdateSettingsMenu(HMENU hMenu, eNoise noise){
+  if(noise == eNoise::Pixel || noise == eNoise::None){
+    EnableMenuItem(hMenu, IDM_SETTINGS_OCTAVE_UP, MF_GRAYED);
+    EnableMenuItem(hMenu, IDM_SETTINGS_OCTAVE_DN, MF_GRAYED);
+    EnableMenuItem(hMenu, IDM_SETTINGS_SCALE_UP,  MF_GRAYED);
+    EnableMenuItem(hMenu, IDM_SETTINGS_SCALE_DN,  MF_GRAYED);
+    EnableMenuItem(hMenu, IDM_SETTINGS_TSIZE_UP,  MF_GRAYED);
+    EnableMenuItem(hMenu, IDM_SETTINGS_TSIZE_DN,  MF_GRAYED);
+  } //if
+} //UpdateSettingsMenu
+
+/// Update the octave settings in the `Settings` menu. Gray out `Octave up`
+/// if the number of octaves is greater than the maximum allowed, and gray out
+/// `Octave down` if the number of octaves is less than the minimum allowed.
+/// \param hMenu Menu handle.
+/// \param noise Noise enumerated type.
+/// \param n Number of octaves.
+/// \param nMin Minimum number of octaves.
+/// \param nMax Maximum number of octaves.
+
+void UpdateOctaveSubMenu(HMENU hMenu, eNoise noise, 
+  size_t n, size_t nMin, size_t nMax)
+{
+  if(noise == eNoise::Perlin || noise == eNoise::Value){
+    EnableMenuItem(hMenu, IDM_SETTINGS_OCTAVE_UP, 
+      (n < nMax)? MF_ENABLED: MF_GRAYED);
+    EnableMenuItem(hMenu, IDM_SETTINGS_OCTAVE_DN,
+      (n > nMin)? MF_ENABLED: MF_GRAYED);
+  } //if
+} //UpdateOctaveSubMenu
+
+/// Update the scale settings in the `Settings` menu. Gray out `Scale up`
+/// if the scale is greater than the maximum allowed, and gray out
+/// `Scale down` if the scale is less than the minimum allowed.
+/// \param hMenu Menu handle.
+/// \param noise Noise enumerated type.
+/// \param f Scale.
+/// \param fMin Minimum scale.
+/// \param fMax Maximum scale.
+
+void UpdateScaleSubMenu(HMENU hMenu, eNoise noise,
+  float f, float fMin, float fMax)
+{
+  if(noise == eNoise::Perlin || noise == eNoise::Value){
+    EnableMenuItem(hMenu, IDM_SETTINGS_SCALE_UP, 
+      (f < fMax)? MF_ENABLED: MF_GRAYED);
+    EnableMenuItem(hMenu, IDM_SETTINGS_SCALE_DN,
+      (f > fMin)? MF_ENABLED: MF_GRAYED);
+  } //if
+} //UpdateScaleSubMenu
+
+/// Update the table size settings in the `Settings` menu. Gray out `Table size up`
+/// if the number of octaves is greater than the maximum allowed, and gray out
+/// `Table size down` if the number of octaves is less than the minimum allowed.
+/// \param hMenu Menu handle.
+/// \param noise Noise enumerated type.
+/// \param n Log base 2 of the table size.
+/// \param nMin Minimum log base 2 of the table size.
+/// \param nMax Maximum log base 2 of the table size
+
+void UpdateTableSizeSubMenu(HMENU hMenu, eNoise noise,
+  size_t n, size_t nMin, size_t nMax)
+{
+  if(noise == eNoise::Perlin || noise == eNoise::Value){
+    EnableMenuItem(hMenu, IDM_SETTINGS_TSIZE_UP, 
+      (n < nMax)? MF_ENABLED: MF_GRAYED);
+    EnableMenuItem(hMenu, IDM_SETTINGS_TSIZE_DN,
+      (n > nMin)? MF_ENABLED: MF_GRAYED);
+  } //if
+} //UpdateTableSizeSubMenu
+
+#pragma endregion Update menu functions

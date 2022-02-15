@@ -33,7 +33,7 @@
 
 class CPerlinNoise2D{
   private:
-    size_t m_nSize = 0; ///< Repeat size, must be a power of 2.
+    size_t m_nSize = 0; ///< Table size, must be a power of 2.
     size_t m_nMask = 0; ///< Mask for values less than `m_nSize`.
 
     size_t* m_nPerm = nullptr; ///< Random permutation, used for hash function.
@@ -56,7 +56,7 @@ class CPerlinNoise2D{
 
     void Randomize(); ///< Randomize permutation.
     
-    const float generate(float, float, eNoise, float, float, size_t) const; ///< Perlin noise.
+    const float generate(float, float, eNoise, size_t, float=0.5f, float=2.0f) const; ///< Perlin noise.
 }; //CPerlinNoise2D
 
 #endif //__PERLIN_H__

@@ -153,7 +153,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
           break;
 
         case IDM_FILE_PROPS: //display noise properties       
-          g_pMain->DisplayProperties();
+          MessageBox(nullptr, g_pMain->GetNoiseDescription().c_str(), 
+            L"Properties", MB_ICONINFORMATION | MB_OK);
           break;
 
         case IDM_FILE_QUIT: //so long, farewell, auf weidersehn, goodbye!

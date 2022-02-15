@@ -47,11 +47,11 @@ class CMain{
     HMENU m_hSetMenu = nullptr; ///< Handle to the `Settings` menu.
     
     eNoise m_eNoise = eNoise::None; ///< Noise type.
-    eDistribution m_eCurDist = eDistribution::Uniform; ///< Current distribution.
-    eSpline m_eCurSpline = eSpline::Cubic; ///< Current spline function.
+    eDistribution m_eDistr = eDistribution::Uniform; ///< Distribution type.
+    eSpline m_eSpline = eSpline::Cubic; ///< Spline function type.
     UINT m_nSeed = 0; ///< Pseudorandom number seed.
 
-    size_t m_nNumOctaves = 4; ///< Number of octaves of noise.
+    size_t m_nOctaves = 4; ///< Number of octaves of noise.
     const size_t m_nMinOctaves = 1; ///< Minimum number of octaves of noise.
     const size_t m_nMaxOctaves = 8; ///< Maximum number of octaves of noise.
 
@@ -60,7 +60,7 @@ class CMain{
     const float m_fMaxScale = 512.0f; ///< Minimum scale.
     
     UINT m_nLog2TableSize = 8; ///< Log base 2 of table size.
-    const UINT m_nMinLog2TableSize = 3; ///< Max log base 2 of table size.
+    const UINT m_nMinLog2TableSize = 3; ///< Min log base 2 of table size.
     const UINT m_nMaxLog2TableSize = 10; ///< Max log base 2 of table size.
 
     ULONG_PTR m_gdiplusToken = 0; ///< GDI+ token.
@@ -69,21 +69,22 @@ class CMain{
     CPerlinNoise2D* m_pPerlin = nullptr; ///< Pointer to Perlin noise generator.
 
     void CreateMenus(); ///< Create menus.
-    void GrayOutSettingsMenu(); ///< Gray out parts of the settings menu.
+    void UpdateMenus(); ///< Update menus.
 
-    void SetPixel(UINT, UINT, float); ///< Set pixel grayscale.
-    void SetPixel(UINT, UINT, BYTE); ///< Set pixel grayscale.
+    void SetPixel(UINT, UINT, float); ///< Set pixel grayscale from float.
+    void SetPixel(UINT, UINT, BYTE); ///< Set pixel grayscale from byte.
 
   public:
     CMain(const HWND hwnd); ///< Constructor.
     ~CMain(); ///< Destructor.
     
     void CreateBitmap(int w, int h); ///< Create bitmap.
+    void Clear(); ///< Clear bitmap to white.
 
-    void GeneratePixelNoise(); ///< Generate pixel noise.
-    void GeneratePerlinNoise(eNoise); ///< Generate noise.
-    void Regenerate(); ///< Generate with saved parameters.
-    void Clear(); ///< Clear noise array.
+    void GeneratePixelNoise(); ///< Generate pixel noise bitmap.
+    void GeneratePerlinNoise(eNoise); ///< Generate Perlin or Value noise bitmap.
+    void Regenerate(); ///< Generate bitmap again with saved parameters.
+
     void Randomize(); ///< Randomize noise.
 
     void Initialize(eDistribution); ///< Set probability distribution.
@@ -96,11 +97,11 @@ class CMain{
     void IncreaseTableSize(); ///< Increase table size.
     void DecreaseTableSize(); ///< Decrease table size.
 
-    void DisplayProperties(); ///< Display noise properties.
-
     void OnPaint(); ///< Paint the client area of the window.
-    Gdiplus::Bitmap* GetBitmap(); ///< Get pointer to bitmap.
-    const std::wstring GetFileName() const; ///< Get save file name.
+
+    Gdiplus::Bitmap* GetBitmap() const; ///< Get pointer to bitmap.
+    const std::wstring GetFileName() const; ///< Get noise file name.
+    const std::wstring GetNoiseDescription() const; ///< Get noise description.
 }; //CMain
 
 #endif //__CMAIN_H__
