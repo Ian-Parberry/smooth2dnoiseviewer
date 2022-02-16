@@ -180,6 +180,7 @@ HMENU CreateDistributionMenu(HMENU hMenubar){
   AppendMenuW(hMenu, MF_STRING, IDM_DISTRIBUTION_COSINE,  L"Cosine");
   AppendMenuW(hMenu, MF_STRING, IDM_DISTRIBUTION_NORMAL,  L"Normal");
   AppendMenuW(hMenu, MF_STRING, IDM_DISTRIBUTION_EXPONENTIAL, L"Exponential");
+  AppendMenuW(hMenu, MF_STRING, IDM_DISTRIBUTION_MIDPOINT, L"Midpoint displacement");
 
   AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&Distribution");
   return hMenu;
@@ -280,6 +281,7 @@ void UpdateDistributionMenu(HMENU hMenu, eNoise noise, eDistribution distr){
     EnableMenuItem(hMenu, IDM_DISTRIBUTION_COSINE, MF_GRAYED);
     EnableMenuItem(hMenu, IDM_DISTRIBUTION_NORMAL, MF_GRAYED);
     EnableMenuItem(hMenu, IDM_DISTRIBUTION_EXPONENTIAL, MF_GRAYED);
+    EnableMenuItem(hMenu, IDM_DISTRIBUTION_MIDPOINT, MF_GRAYED);
   } //if
 
   else{
@@ -287,6 +289,7 @@ void UpdateDistributionMenu(HMENU hMenu, eNoise noise, eDistribution distr){
     EnableMenuItem(hMenu, IDM_DISTRIBUTION_COSINE, MF_ENABLED);
     EnableMenuItem(hMenu, IDM_DISTRIBUTION_NORMAL, MF_ENABLED);
     EnableMenuItem(hMenu, IDM_DISTRIBUTION_EXPONENTIAL, MF_ENABLED);
+    EnableMenuItem(hMenu, IDM_DISTRIBUTION_MIDPOINT, MF_ENABLED);
   } //if
 
   CheckMenuItem(hMenu, IDM_DISTRIBUTION_UNIFORM, 
@@ -297,6 +300,8 @@ void UpdateDistributionMenu(HMENU hMenu, eNoise noise, eDistribution distr){
     distr == eDistribution::Normal? MF_CHECKED: MF_UNCHECKED);
   CheckMenuItem(hMenu, IDM_DISTRIBUTION_EXPONENTIAL, 
     distr == eDistribution::Exponential? MF_CHECKED: MF_UNCHECKED);
+  CheckMenuItem(hMenu, IDM_DISTRIBUTION_MIDPOINT, 
+    distr == eDistribution::MidpointDisplacement? MF_CHECKED: MF_UNCHECKED);
 } //UpdateDistributionMenu
 
 /// Gray out and set the checkmarks in the `Spline` menu according to the

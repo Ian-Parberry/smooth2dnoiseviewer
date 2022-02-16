@@ -133,6 +133,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
           InvalidateRect(hWnd, nullptr, FALSE);
           break;
 
+        case IDM_DISTRIBUTION_MIDPOINT:
+          g_pMain->Initialize(eDistribution::MidpointDisplacement);
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
         case IDM_SPLINE_NONE:
           g_pMain->SetSpline(eSpline::None);
           InvalidateRect(hWnd, nullptr, FALSE);

@@ -246,40 +246,6 @@ void CMain::GeneratePixelNoise(){
   } //switch
 } //GeneratePixelNoise
 
-UINT CMain::GetPixel(UINT i, UINT j){
-  Gdiplus::Color clr;
-  m_pBitmap->GetPixel(i, j, &clr);
-  return clr.GetRed();
-} //GetPixel
-
-void CMain::Smooth(){
-  const int n = m_pBitmap->GetWidth();
-
-  SetPixel(0, 0, BYTE((GetPixel(0, 1) + GetPixel(1, 0))/2));
-
-  for(int j=1; j<n-1; j++)
-    SetPixel(0, j, BYTE((GetPixel(1, j) + GetPixel(0, j-1) + GetPixel(0, j+1))/3));
-
-  SetPixel(0, n-1, BYTE((GetPixel(0, n-2) + GetPixel(1, n-1))/2));
-
-  for(int i=1; i<n-1; i++){
-    SetPixel(i, 0, BYTE((GetPixel(i-1, 0) + GetPixel(i+1, 0) + GetPixel(i, 1))/3));
-
-    for(int j=1; j<n-1; j++)
-      SetPixel(i, j, BYTE((GetPixel(i-1, j) + GetPixel(i+1, j) +
-        GetPixel(i, j-1) + GetPixel(i, j+1))/4));
-
-    SetPixel(i, n-1, BYTE((GetPixel(i-1, n-1) + GetPixel(i+1, n-1) + GetPixel(i, n-2))/3));
-  } //for
-
-  SetPixel(n-1, 0, BYTE((GetPixel(n-1, 1) + GetPixel(n-2, 0))/2));
-
-  for(int j=1; j<n-1; j++)
-    SetPixel(n-1, j, BYTE((GetPixel(n-2, j) + GetPixel(n-1, j-1) + GetPixel(n-1, j+1))/3));
-
-  SetPixel(n-1, n-1, BYTE((GetPixel(n-1, n-2) + GetPixel(n-2, n-1))/2));
-} //Smooth
-
 /// Generate Perlin or Value noise into the bitmap pointed to by `m_pBitmap`.
 /// \param t Type of noise.
 

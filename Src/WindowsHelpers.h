@@ -50,17 +50,18 @@
 #define IDM_DISTRIBUTION_COSINE       9 ///< Menu id for cosine distribution.
 #define IDM_DISTRIBUTION_NORMAL      10 ///< Menu id for normal distribution.
 #define IDM_DISTRIBUTION_EXPONENTIAL 11 ///< Menu id for exponential distribution.
+#define IDM_DISTRIBUTION_MIDPOINT    12 ///< Menu id for midpoint displacement.
 
-#define IDM_SPLINE_NONE    12 ///< Menu id for cubic spline.
-#define IDM_SPLINE_CUBIC   13 ///< Menu id for no spline.
-#define IDM_SPLINE_QUINTIC 14 ///< Menu id for quintic spline.
+#define IDM_SPLINE_NONE    13 ///< Menu id for cubic spline.
+#define IDM_SPLINE_CUBIC   14 ///< Menu id for no spline.
+#define IDM_SPLINE_QUINTIC 15 ///< Menu id for quintic spline.
 
-#define IDM_SETTINGS_OCTAVE_UP 15 ///< Menu id for octave up.
-#define IDM_SETTINGS_OCTAVE_DN 16 ///< Menu id for octave down.
-#define IDM_SETTINGS_SCALE_UP  17 ///< Menu id for scale up.
-#define IDM_SETTINGS_SCALE_DN  18 ///< Menu id for scale down.
-#define IDM_SETTINGS_TSIZE_UP  19 ///< Menu id for table size up.
-#define IDM_SETTINGS_TSIZE_DN  20 ///< Menu id for table size down.
+#define IDM_SETTINGS_OCTAVE_UP 16 ///< Menu id for octave up.
+#define IDM_SETTINGS_OCTAVE_DN 17 ///< Menu id for octave down.
+#define IDM_SETTINGS_SCALE_UP  18 ///< Menu id for scale up.
+#define IDM_SETTINGS_SCALE_DN  19 ///< Menu id for scale down.
+#define IDM_SETTINGS_TSIZE_UP  20 ///< Menu id for table size up.
+#define IDM_SETTINGS_TSIZE_DN  21 ///< Menu id for table size down.
 
 #pragma endregion Menu IDs
 

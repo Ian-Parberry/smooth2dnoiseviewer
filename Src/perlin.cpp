@@ -79,6 +79,34 @@ void CPerlinNoise2D::Randomize(){
     std::swap(m_nPerm[i], m_nPerm[i + rand()%(m_nSize - i)]);
 } //Randomize
 
+/// Initialize part of gradient/height table `m_fTable` using midpoint
+/// displacement. Given \f$\mathsf{i}\f$ and \f$\mathsf{j}\f$ such that
+/// \f$\mathsf{j} > \mathsf{i}+1\f$ and
+/// \f$0 \leq \mathsf{i}, \mathsf{j} \leq\f$ `m_nSize`, where
+/// \f$\mathsf{j} - \mathsf{i}\f$ is a power of 2, this function
+/// assumes that `m_fTable`\f$[\mathsf{i}]\f$ and 
+/// `m_fTable`\f$[\mathsf{j}]\f$ have
+/// been set, and fills in the entries `m_fTable`\f$[\mathsf{i} + 1]\f$
+/// through `m_fTable`\f$[\mathsf{j}-1]\f$ using midpoint displacement. 
+/// \param i Lower index.
+/// \param j Upper index.
+/// \param alpha Lacunarity.
+
+void CPerlinNoise2D::MidpointDisplacement(size_t i, size_t j, float alpha){
+  if(j > i + 1){ //base of recursion is "do nothing"
+    const size_t mid = (i + j)/2; //mid point
+
+    const float fMean = (m_fTable[i] + m_fTable[j - 1])/2.0f; //average of ends
+    const float fRand = (float)rand()/RAND_MAX; //random value in [0, 1]
+    const float fOffset = alpha*(2.0f*fRand - 1.0f); //random offset
+    m_fTable[mid] = clamp(-1.0f, fMean + fOffset, 1.0f); //mid point is average plus offset
+    alpha *= 0.5f; //increase lacunarity
+
+    MidpointDisplacement(i, mid, alpha); //recurse on first half
+    MidpointDisplacement(mid, j, alpha); //recurse on second half
+  } //if
+} //MidpointDisplacement
+
 /// Initialize the table to pseudorandom gradients in \f$[-1, 1]\f$ according 
 /// to some probability distribution. The pseudorandom number generators are
 /// unseeded, which means that the table contents are the same each time this
@@ -118,6 +146,13 @@ void CPerlinNoise2D::Initialize(eDistribution d){
       for(size_t i=half; i<m_nSize; i++) //negative values
         m_fTable[i] = -clamp(0.0f, d(g), 1.0f);
     } //case
+    break;
+
+    case eDistribution::MidpointDisplacement:
+      m_fTable[0] = 1.0f;
+      m_fTable[m_nSize - 1] = -1.0f;
+
+      MidpointDisplacement(0, m_nSize, 0.5f);
     break;
   } //switch
 } //Initialize
@@ -171,7 +206,7 @@ inline const size_t CPerlinNoise2D::hash(size_t x) const{
 
 #pragma region Noise generation functions
 
-/// Compute a single octave of Perlin noise at a 2D point.
+/// Compute a single octave of Perlin or Value noise at a 2D point.
 /// \param x X-coordinate of point.
 /// \param y Y-coordinate of point.
 /// \param t Noise type.
@@ -220,8 +255,8 @@ const float CPerlinNoise2D::noise(float x, float y, eNoise t) const{
   return lerp(v, a, b);
 } //noise
   
-/// Uses multiple octaves of Perlin noise to compute an effect similar to
-/// turbulence at a single point.
+/// Uses multiple octaves of Perlin or Value noise to compute an effect similar
+/// to turbulence at a single point.
 /// \param x X-coordinate of a 2D point.
 /// \param y Y-coordinate of a 2D point.
 /// \param t Noise type.

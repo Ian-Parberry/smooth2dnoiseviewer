@@ -45,7 +45,7 @@ enum class eNoise{
 /// Enumerated type for probability distribution.
 
 enum class eDistribution{
-  Uniform, Cosine, Normal, Exponential
+  Uniform, Cosine, Normal, Exponential, MidpointDisplacement
 }; //eDistribution
 
 /// \brief Spline type.

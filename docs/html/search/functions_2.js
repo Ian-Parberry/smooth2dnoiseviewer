@@ -7,5 +7,6 @@ var searchData=
   ['getencoderclsid_4',['GetEncoderClsid',['../_windows_helpers_8cpp.html#ab446d7eb02f2055da6303a03f9f697ef',1,'WindowsHelpers.cpp']]],
   ['getfilename_5',['GetFileName',['../class_c_main.html#a38ec032adc4aea492deade4baa33c668',1,'CMain']]],
   ['getnoisedescription_6',['GetNoiseDescription',['../class_c_main.html#a17c450718d0b40c52ccef71a3eb17e46',1,'CMain']]],
-  ['grad_7',['grad',['../class_c_perlin_noise2_d.html#a0124bee036fcd1f7367a599e8a82a29f',1,'CPerlinNoise2D']]]
+  ['getpixel_7',['GetPixel',['../class_c_main.html#a83752b67fb1b455ad24002740c67ddb0',1,'CMain']]],
+  ['grad_8',['grad',['../class_c_perlin_noise2_d.html#a0124bee036fcd1f7367a599e8a82a29f',1,'CPerlinNoise2D']]]
 ];

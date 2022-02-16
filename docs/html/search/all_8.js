@@ -26,5 +26,6 @@ var searchData=
   ['m_5fnsize_23',['m_nSize',['../class_c_perlin_noise2_d.html#a5b8bf38d90904ed09aceebe563eeb94a',1,'CPerlinNoise2D']]],
   ['m_5fpbitmap_24',['m_pBitmap',['../class_c_main.html#ae109b88ed782dfbfdc8cd694cf2a766f',1,'CMain']]],
   ['m_5fpperlin_25',['m_pPerlin',['../class_c_main.html#a127d23eed509a42beca13cc8ca35013a',1,'CMain']]],
-  ['main_2ecpp_26',['Main.cpp',['../_main_8cpp.html',1,'']]]
+  ['main_2ecpp_26',['Main.cpp',['../_main_8cpp.html',1,'']]],
+  ['midpointdisplacement_27',['MidpointDisplacement',['../class_c_perlin_noise2_d.html#a98e957c03c4eb2f76c036a9aa336491a',1,'CPerlinNoise2D']]]
 ];

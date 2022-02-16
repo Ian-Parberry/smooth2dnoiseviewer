@@ -43,6 +43,8 @@ class CPerlinNoise2D{
     
     inline const size_t pair(size_t, size_t) const; ///< Perlin pairing function.
     inline const size_t hash(size_t) const; ///< Perlin hash function.
+    
+    void MidpointDisplacement(size_t, size_t, float); ///< Midpoint displacement distribution.
 
     inline const float grad(size_t, float, float) const; ///< Apply gradients.
     const float noise(float, float, eNoise) const; ///< Perlin noise.

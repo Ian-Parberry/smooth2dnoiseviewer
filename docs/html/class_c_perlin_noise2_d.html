@@ -113,6 +113,9 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:ad9328f900323484c58d462a33954209f"><td class="memItemLeft" align="right" valign="top">const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_perlin_noise2_d.html#ad9328f900323484c58d462a33954209f">hash</a> (size_t) const</td></tr>
 <tr class="memdesc:ad9328f900323484c58d462a33954209f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perlin hash function.  <a href="class_c_perlin_noise2_d.html#ad9328f900323484c58d462a33954209f">More...</a><br /></td></tr>
 <tr class="separator:ad9328f900323484c58d462a33954209f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98e957c03c4eb2f76c036a9aa336491a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_perlin_noise2_d.html#a98e957c03c4eb2f76c036a9aa336491a">MidpointDisplacement</a> (size_t, size_t, float)</td></tr>
+<tr class="memdesc:a98e957c03c4eb2f76c036a9aa336491a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Midpoint displacement distribution.  <a href="class_c_perlin_noise2_d.html#a98e957c03c4eb2f76c036a9aa336491a">More...</a><br /></td></tr>
+<tr class="separator:a98e957c03c4eb2f76c036a9aa336491a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0124bee036fcd1f7367a599e8a82a29f"><td class="memItemLeft" align="right" valign="top">const float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_perlin_noise2_d.html#a0124bee036fcd1f7367a599e8a82a29f">grad</a> (size_t, float, float) const</td></tr>
 <tr class="memdesc:a0124bee036fcd1f7367a599e8a82a29f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply gradients.  <a href="class_c_perlin_noise2_d.html#a0124bee036fcd1f7367a599e8a82a29f">More...</a><br /></td></tr>
 <tr class="separator:a0124bee036fcd1f7367a599e8a82a29f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -238,7 +241,7 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Uses multiple octaves of Perlin noise to compute an effect similar to turbulence at a single point. </p><dl class="params"><dt>Parameters</dt><dd>
+<p >Uses multiple octaves of Perlin or Value noise to compute an effect similar to turbulence at a single point. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>X-coordinate of a 2D point. </td></tr>
     <tr><td class="paramname">y</td><td>Y-coordinate of a 2D point. </td></tr>
@@ -251,7 +254,7 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Turbulence value in [-1, 1] at point (x, y). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00233">233</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00268">268</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -304,7 +307,7 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The X and Y gradients times the point. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00145">145</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00180">180</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -339,7 +342,7 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A hashed value of x in the range [0, m_nSize - 1]. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00163">163</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00198">198</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -365,7 +368,59 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00088">88</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00116">116</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a98e957c03c4eb2f76c036a9aa336491a" name="a98e957c03c4eb2f76c036a9aa336491a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98e957c03c4eb2f76c036a9aa336491a">&#9670;&nbsp;</a></span>MidpointDisplacement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CPerlinNoise2D::MidpointDisplacement </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>j</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>alpha</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >Initialize part of gradient/height table <code>m_fTable</code> using midpoint displacement. Given \(\mathsf{i}\) and \(\mathsf{j}\) such that \(\mathsf{j} &gt; \mathsf{i}+1\) and \(0 \leq \mathsf{i}, \mathsf{j} \leq\) <code>m_nSize</code>, where \(\mathsf{j} - \mathsf{i}\) is a power of 2, this function assumes that <code>m_fTable</code> \([\mathsf{i}]\) and <code>m_fTable</code> \([\mathsf{j}]\) have been set, and fills in the entries <code>m_fTable</code> \([\mathsf{i} + 1]\) through <code>m_fTable</code> \([\mathsf{j}-1]\) using midpoint displacement. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>Lower index. </td></tr>
+    <tr><td class="paramname">j</td><td>Upper index. </td></tr>
+    <tr><td class="paramname">alpha</td><td>Lacunarity. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00095">95</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -408,7 +463,7 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p >Compute a single octave of Perlin noise at a 2D point. </p><dl class="params"><dt>Parameters</dt><dd>
+<p >Compute a single octave of Perlin or Value noise at a 2D point. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>X-coordinate of point. </td></tr>
     <tr><td class="paramname">y</td><td>Y-coordinate of point. </td></tr>
@@ -418,7 +473,7 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Perlin noise value in [-1, 1] at the given point. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00180">180</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00215">215</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -464,7 +519,7 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>An unsigned integer that depends upon x and y. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00154">154</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00189">189</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -510,7 +565,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00128">128</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="perlin_8cpp_source.html#l00163">163</a> of file <a class="el" href="perlin_8cpp_source.html">perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -638,7 +693,7 @@ Private Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 15 2022 14:47:16 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
+Generated on Tue Feb 15 2022 18:21:58 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
 </small></address>
 </body>
 </html>
