@@ -26,6 +26,7 @@
 
 #include <stdlib.h>
 #include <algorithm>
+#include <functional>
 
 #include "perlin.h"
 #include "Helpers.h"
@@ -234,15 +235,14 @@ inline const size_t CPerlinNoise2D::pair(size_t x, size_t y) const{
   return hash(x) + y;
 } //pair
 
-/// Alternate version of Perlin's pairing function using `hash2()` instead
-/// of `hash1()`.
+/// Alternate version of Perlin's pairing function.
 /// \param x First unsigned integer.
 /// \param y Second unsigned integer.
 /// \return An unsigned integer that depends upon x and y.
 
-inline const size_t CPerlinNoise2D::pair2(size_t x, size_t y) const{
-  return hash2(x) ^ y;
-} //pair2
+inline const size_t CPerlinNoise2D::pairstd(size_t x, size_t y) const{
+  return (std::hash<size_t>{}(x) << 1) ^ std::hash<size_t>{}(y);
+} //pairstd
 
 /// Perlin's hash function, which uses a random permutation. Note that this
 /// means that it repeats with a period of `m_nSize`.
@@ -253,18 +253,13 @@ inline const size_t CPerlinNoise2D::hash(size_t x) const{
   return m_nPerm[x & m_nMask];
 } //hash
 
-/// A hash function using modular arithmetic and exclusive-or.
+/// A hash function using `std::hash`.
 /// \param x An unsigned integer.
 /// \return A hash value in the range [0, `m_nSize` - 1].
 
-inline const size_t CPerlinNoise2D::hash2(size_t x) const{
-  const size_t p0 = 2147483647; //a prime number
-  const size_t p1 = 9973; //another prime number
-  const size_t p2 = 0x1FFFFFFF; //another prime number
-
-  x = (p0*x + p1) & p2; //modular arithmetic using the word-size as modulus
-  return (x ^ (x*x)) & m_nMask; //exclusive-or and mask result
-} //hash2
+inline const size_t CPerlinNoise2D::hashstd(size_t x) const{
+  return std::hash<size_t>{}(x) & m_nMask;
+} //hashstd
 
 /// Get hash values at grid corners (at whole number coordinates).
 /// \param x X-coordinate.
@@ -274,17 +269,13 @@ inline const size_t CPerlinNoise2D::hash2(size_t x) const{
 void CPerlinNoise2D::HashCorners(size_t x, size_t y, size_t c[4]) const{
   switch(m_eHash){
     case eHash::Permutation:
-      c[0] = hash(pair(x,     y)); 
-      c[1] = hash(pair(x + 1, y));
-      c[2] = hash(pair(x,     y + 1)); 
-      c[3] = hash(pair(x + 1, y + 1));
+      c[0] = hash(pair(x, y));     c[1] = hash(pair(x + 1, y));
+      c[2] = hash(pair(x, y + 1)); c[3] = hash(pair(x + 1, y + 1));
     break;
 
-    case eHash::Arithmetic:
-      c[0] = hash2(pair2(x,     y)); 
-      c[1] = hash2(pair2(x + 1, y));
-      c[2] = hash2(pair2(x,     y + 1)); 
-      c[3] = hash2(pair2(x + 1, y + 1));
+    case eHash::Std:
+      c[0] = hashstd(pairstd(x, y));     c[1] = hashstd(pairstd(x + 1, y));
+      c[2] = hashstd(pairstd(x, y + 1)); c[3] = hashstd(pairstd(x + 1, y + 1));
     break;
   } //switch
 } //HashCorners

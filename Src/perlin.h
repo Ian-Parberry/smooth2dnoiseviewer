@@ -49,10 +49,10 @@ class CPerlinNoise2D{
     std::default_random_engine* m_pRandom = nullptr; ///< PRNG.
     
     inline const size_t pair(size_t, size_t) const; ///< Perlin pairing function.
-    inline const size_t pair2(size_t, size_t) const; ///< Another Perlin pairing function.
+    inline const size_t pairstd(size_t, size_t) const; ///< Std pairing function.
     
     inline const size_t hash(size_t) const; ///< Perlin hash function.
-    inline const size_t hash2(size_t) const; ///< Another Perlin hash function.
+    inline const size_t hashstd(size_t) const; ///< std::hash function.
 
     void HashCorners(size_t, size_t, size_t[4]) const; ///< Hash grid corners.
     

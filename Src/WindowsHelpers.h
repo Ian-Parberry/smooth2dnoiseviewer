@@ -44,26 +44,27 @@
 #define IDM_GENERATE_PERLINNOISE 4 ///< Menu id for Perlin Noise.
 #define IDM_GENERATE_VALUENOISE  5 ///< Menu id for Value Noise.
 #define IDM_GENERATE_RANDOMIZE  6 ///< Menu id for regenerate Noise.
+#define IDM_GENERATE_JUMP      7 ///< Menu id for jump origin.
 
-#define IDM_DISTRIBUTION_UNIFORM      7 ///< Menu id for uniform distribution.
-#define IDM_DISTRIBUTION_COSINE       8 ///< Menu id for cosine distribution.
-#define IDM_DISTRIBUTION_NORMAL       9 ///< Menu id for normal distribution.
-#define IDM_DISTRIBUTION_EXPONENTIAL 10 ///< Menu id for exponential distribution.
-#define IDM_DISTRIBUTION_MIDPOINT    11 ///< Menu id for midpoint displacement.
+#define IDM_DISTRIBUTION_UNIFORM      8 ///< Menu id for uniform distribution.
+#define IDM_DISTRIBUTION_COSINE       9 ///< Menu id for cosine distribution.
+#define IDM_DISTRIBUTION_NORMAL      10 ///< Menu id for normal distribution.
+#define IDM_DISTRIBUTION_EXPONENTIAL 11 ///< Menu id for exponential distribution.
+#define IDM_DISTRIBUTION_MIDPOINT    12 ///< Menu id for midpoint displacement.
 
-#define IDM_HASH_PERM  12 ///< Menu id for permutation hash.
-#define IDM_HASH_ARITH 13 ///< Menu id for arithmetic hash.
+#define IDM_HASH_PERM  13 ///< Menu id for permutation hash.
+#define IDM_HASH_STD   14 ///< Menu id for std::hash.
 
-#define IDM_SPLINE_NONE    14 ///< Menu id for cubic spline.
-#define IDM_SPLINE_CUBIC   15 ///< Menu id for no spline.
-#define IDM_SPLINE_QUINTIC 16 ///< Menu id for quintic spline.
+#define IDM_SPLINE_NONE    15 ///< Menu id for cubic spline.
+#define IDM_SPLINE_CUBIC   16 ///< Menu id for no spline.
+#define IDM_SPLINE_QUINTIC 17 ///< Menu id for quintic spline.
 
-#define IDM_SETTINGS_OCTAVE_UP 17 ///< Menu id for octave up.
-#define IDM_SETTINGS_OCTAVE_DN 18 ///< Menu id for octave down.
-#define IDM_SETTINGS_SCALE_UP  19 ///< Menu id for scale up.
-#define IDM_SETTINGS_SCALE_DN  20 ///< Menu id for scale down.
-#define IDM_SETTINGS_TSIZE_UP  21 ///< Menu id for table size up.
-#define IDM_SETTINGS_TSIZE_DN  22 ///< Menu id for table size down.
+#define IDM_SETTINGS_OCTAVE_UP 18 ///< Menu id for octave up.
+#define IDM_SETTINGS_OCTAVE_DN 19 ///< Menu id for octave down.
+#define IDM_SETTINGS_SCALE_UP  20 ///< Menu id for scale up.
+#define IDM_SETTINGS_SCALE_DN  21 ///< Menu id for scale down.
+#define IDM_SETTINGS_TSIZE_UP  22 ///< Menu id for table size up.
+#define IDM_SETTINGS_TSIZE_DN  23 ///< Menu id for table size down.
 
 #pragma endregion Menu IDs
 

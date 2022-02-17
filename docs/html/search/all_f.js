@@ -1,7 +1,4 @@
 var searchData=
 [
-  ['windowshelpers_2ecpp_127',['WindowsHelpers.cpp',['../_windows_helpers_8cpp.html',1,'']]],
-  ['windowshelpers_2eh_128',['WindowsHelpers.h',['../_windows_helpers_8h.html',1,'']]],
-  ['wndproc_129',['WndProc',['../_main_8cpp.html#a30a1e3b0304f1b083637664cbda94e72',1,'Main.cpp']]],
-  ['wwinmain_130',['wWinMain',['../_main_8cpp.html#ad7483c50ba0ceb8cee64426d4e7e9bb3',1,'Main.cpp']]]
+  ['to_5fwstring_5ff_0',['to_wstring_f',['../_helpers_8cpp.html#ab6dd8508acd3367cd867496e822beee1',1,'to_wstring_f(float x, size_t n):&#160;Helpers.cpp'],['../_helpers_8h.html#ab6dd8508acd3367cd867496e822beee1',1,'to_wstring_f(float x, size_t n):&#160;Helpers.cpp']]]
 ];

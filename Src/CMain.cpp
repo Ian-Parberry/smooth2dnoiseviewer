@@ -205,15 +205,23 @@ void CMain::SetPixel(UINT i, UINT j, Gdiplus::Color clr){
 #pragma region Noise generation functions
 
 /// Generate Perlin or Value noise into the bitmap pointed to by `m_pBitmap`.
+/// Pixel coordinates (which are whole numbers) are offset by `m_fOriginX`
+/// and `m_fOriginY` and scaled by `m_fScale` to get noise coordinates (which
+/// are floating point numbers).
 /// \param t Type of noise.
 
 void CMain::GenerateNoiseBitmap(eNoise t){ 
   m_eNoise = t; //remember the noise type
   UpdateMenus(); //changing noise type may change the menu status
 
-  for(UINT i=0; i<m_pBitmap->GetWidth(); i++)
-    for(UINT j=0; j<m_pBitmap->GetHeight(); j++)
-      SetPixel(i, j, m_pPerlin->generate(i/m_fScale, j/m_fScale, t, m_nOctaves));
+  for(UINT i=0; i<m_pBitmap->GetWidth(); i++){
+    const float x = m_fOriginX + i/m_fScale;
+
+    for(UINT j=0; j<m_pBitmap->GetHeight(); j++){
+      const float y = m_fOriginY + j/m_fScale;
+      SetPixel(i, j, m_pPerlin->generate(x, y, t, m_nOctaves));
+    } //for
+  } //for
 } //GenerateNoiseBitmap
 
 /// Generate last type of noise.
@@ -259,6 +267,18 @@ void CMain::SetHash(eHash d){
   UpdateHashMenu(m_hHashMenu, m_eNoise, d);
   GenerateNoiseBitmap();
 } //SetHash
+
+/// Increment both coordinates of the origin by the table size and regenerate
+/// noise.
+/// \param x X-coordinate of origin.
+/// \param y Y-coordinate of origin.
+
+void CMain::Jump(){
+  const float offset = round(pow(2.0f, (float)m_nLog2TableSize));
+  m_fOriginX += offset;
+  m_fOriginY += offset;
+  GenerateNoiseBitmap();
+} //Jump
 
 /// Increase the number of octaves in `m_nOctaves` by one up to a maximum
 /// of `m_nMaxOctaves`.
@@ -330,6 +350,11 @@ const std::wstring CMain::GetFileName() const{
     case eNoise::Value:  wstr = L"Value";  break;
   } //switch
 
+  switch(m_eHash){
+    case eHash::Permutation: wstr += L"-Perm"; break;
+    case eHash::Std:  wstr += L"-Std";  break;
+  } //switch
+
   switch(m_eDistr){
     case eDistribution::Uniform: break; //nothing, which is the default  
     case eDistribution::Cosine:  wstr += L"-Cos"; break;   
@@ -338,9 +363,9 @@ const std::wstring CMain::GetFileName() const{
   } //switch
 
   switch(m_eSpline){
-    case eSpline::None: L"-NoSpline"; break; 
+    case eSpline::None: wstr += L"-NoSpline"; break; 
     case eSpline::Cubic: break; //nothing, which is the default
-    case eSpline::Quintic:wstr += L"-Quintic"; break;
+    case eSpline::Quintic: wstr += L"-Quintic"; break;
   } //switch
 
   wstr += L"-" + std::to_wstring(m_nOctaves);
@@ -367,14 +392,16 @@ const std::wstring CMain::GetNoiseDescription() const{
     case eNoise::Value:  wstr += L"Value";  break;
   } //switch
   
-  wstr += L" Noise with ";
+  wstr += L" Noise with origin (";
+  wstr += to_wstring_f(m_fOriginX, 2) + L", ";
+  wstr += to_wstring_f(m_fOriginY, 2) + L"), ";
 
   switch(m_eHash){
     case eHash::Permutation: wstr += L"a permutation"; break;
-    case eHash::Arithmetic:  wstr += L"an arithmetic";  break;
+    case eHash::Std:  wstr += L"std";  break;
   } //switch
 
-  wstr += L" hash function, a ";
+  wstr += L" hash function, ";
 
   switch(m_eDistr){
     case eDistribution::Uniform: wstr += L"uniform"; break;    

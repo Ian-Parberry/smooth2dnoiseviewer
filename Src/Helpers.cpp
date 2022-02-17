@@ -25,6 +25,9 @@
 // IN THE SOFTWARE.
 
 #include <algorithm>
+#include <sstream>
+
+#include "Helpers.h"
 
 /// Compute the cubic spline of a parameter \f$t\f$, that is, \f$3t^2 - 2t^3\f$.
 /// \param t Parameter.
@@ -55,16 +58,24 @@ float lerp(float t, float a, float b){
 } //lerp
 
 /// Clamp between two bounds.
-/// \tparam t Number type.
 /// \param a Lower bound, assumed to be less than \f$\mathsf{b}\f$.
 /// \param x Value to be clamped.
 /// \param b Upper bound, assumed to be greater than \f$\mathsf{a}\f$.
 /// \return Closest value to \f$\mathsf{x}\f$ between the lower and upper,
 /// bounds (inclusive), that is, \f$\mathsf{\max(a, \min(x, b))}\f$.
 
-template <typename t> t clamp(t a, t x, t b){
+float clamp(float a, float x, float b){
   return std::max(a, std::min(x, b));
 } //clamp
 
-template float clamp<float>(float, float, float);
-template size_t clamp<size_t>(size_t, size_t, size_t);
+/// Convert a floating point number into a fixed precision wide string.
+/// \param x A floating point number.
+/// \param n Number of digits after the decimal point.
+/// \return Fixed precision string.
+
+std::wstring to_wstring_f(float x, size_t n){
+  std::wstringstream s; //convertor
+  s.precision(n); //set precision
+  s << std::fixed << x; //convert x
+  return s.str(); //return wstring
+} //to_wstring_f

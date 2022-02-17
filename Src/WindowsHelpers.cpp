@@ -163,6 +163,7 @@ HMENU CreateGenerateMenu(HMENU hMenubar){
   AppendMenuW(hMenu, MF_STRING, IDM_GENERATE_VALUENOISE,  L"Value noise");
   AppendMenuW(hMenu, MF_SEPARATOR, 0, nullptr);
   AppendMenuW(hMenu, MF_STRING, IDM_GENERATE_RANDOMIZE,  L"Randomize");
+  AppendMenuW(hMenu, MF_STRING, IDM_GENERATE_JUMP, L"Jump");
 
   AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&Generate");
   return hMenu;
@@ -192,8 +193,8 @@ HMENU CreateDistributionMenu(HMENU hMenubar){
 HMENU CreateHashMenu(HMENU hMenubar){
   HMENU hMenu = CreateMenu();
 
-  AppendMenuW(hMenu, MF_STRING, IDM_HASH_PERM,    L"Permutation");
-  AppendMenuW(hMenu, MF_STRING, IDM_HASH_ARITH,   L"Arithmetic");
+  AppendMenuW(hMenu, MF_STRING, IDM_HASH_PERM,  L"Permutation");
+  AppendMenuW(hMenu, MF_STRING, IDM_HASH_STD,   L"Std::hash");
 
   AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&Hash");
   return hMenu;
@@ -276,6 +277,8 @@ void UpdateGenerateMenu(HMENU hMenu, eNoise noise){
   
   EnableMenuItem(hMenu, IDM_GENERATE_RANDOMIZE, 
     (noise == eNoise::None)? MF_GRAYED: MF_ENABLED);
+  EnableMenuItem(hMenu, IDM_GENERATE_JUMP, 
+    (noise == eNoise::None)? MF_GRAYED: MF_ENABLED);
 } //UpdateGenerateMenu
   
 /// Gray out and set the checkmarks in the `Distribution` menu according to the
@@ -323,20 +326,20 @@ void UpdateHashMenu(HMENU hMenu, eNoise noise, eHash h){
   switch(noise){
     case eNoise::None: 
       EnableMenuItem(hMenu, IDM_HASH_PERM,  MF_GRAYED);
-      EnableMenuItem(hMenu, IDM_HASH_ARITH, MF_GRAYED);
+      EnableMenuItem(hMenu, IDM_HASH_STD,   MF_GRAYED);
     break;
 
     case eNoise::Perlin:
     case eNoise::Value:
       EnableMenuItem(hMenu, IDM_HASH_PERM,  MF_ENABLED);
-      EnableMenuItem(hMenu, IDM_HASH_ARITH, MF_ENABLED);
+      EnableMenuItem(hMenu, IDM_HASH_STD,   MF_ENABLED);
     break;
   } //switch
 
   CheckMenuItem(hMenu, IDM_HASH_PERM,
     (h == eHash::Permutation)? MF_CHECKED: MF_UNCHECKED);
-  CheckMenuItem(hMenu, IDM_HASH_ARITH,
-    (h == eHash::Arithmetic)? MF_CHECKED: MF_UNCHECKED);
+  CheckMenuItem(hMenu, IDM_HASH_STD,
+    (h == eHash::Std)? MF_CHECKED: MF_UNCHECKED);
 } //UpdateHashMenu
 
 /// Gray out and set the checkmarks in the `Spline` menu according to the

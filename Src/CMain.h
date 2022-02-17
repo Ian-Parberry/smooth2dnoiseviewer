@@ -52,6 +52,9 @@ class CMain{
     eSpline m_eSpline = eSpline::Cubic; ///< Spline function type.
     eHash m_eHash = eHash::Permutation; ///< Hash function type.
 
+    float m_fOriginX = 0.0f; ///< X-coordinate of top.
+    float m_fOriginY = 0.0f; ///< Y-coordinate of left.
+
     size_t m_nOctaves = 4; ///< Number of octaves of noise.
     const size_t m_nMinOctaves = 1; ///< Minimum number of octaves of noise.
     const size_t m_nMaxOctaves = 8; ///< Maximum number of octaves of noise.
@@ -61,7 +64,7 @@ class CMain{
     const float m_fMaxScale = 512.0f; ///< Minimum scale.
     
     UINT m_nLog2TableSize = 8; ///< Log base 2 of table size.
-    const UINT m_nMinLog2TableSize = 3; ///< Min log base 2 of table size.
+    const UINT m_nMinLog2TableSize = 4; ///< Min log base 2 of table size.
     const UINT m_nMaxLog2TableSize = 10; ///< Max log base 2 of table size.
 
     ULONG_PTR m_gdiplusToken = 0; ///< GDI+ token.
@@ -89,6 +92,8 @@ class CMain{
     void SetDistribution(eDistribution); ///< Set probability distribution.
     void SetSpline(eSpline); ///< Set spline function.
     void SetHash(eHash); ///< Set hash function.
+
+    void Jump(); ///< Change coordinates of origin.
 
     void IncreaseOctaves(); ///< Increase number of octaves.
     void DecreaseOctaves(); ///< Decrease number of octaves.

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['pair_181',['pair',['../class_c_perlin_noise2_d.html#a1e8bb89018dce154e3e9fa8ed54f64ba',1,'CPerlinNoise2D']]],
-  ['pair2_182',['pair2',['../class_c_perlin_noise2_d.html#a7c415b22c7a095d293277959e79fc294',1,'CPerlinNoise2D']]]
+  ['onpaint_0',['OnPaint',['../class_c_main.html#ae49d2d96b54cef7272d64b77171cffad',1,'CMain']]]
 ];

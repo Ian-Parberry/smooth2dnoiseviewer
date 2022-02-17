@@ -27,10 +27,14 @@
 #ifndef __HELPERS_H__
 #define __HELPERS_H__
 
-inline float spline3(float); ///< Cubic spline.
-inline float spline5(float); ///< Quintic spline.
+#include <string>
 
-inline float lerp(float, float, float); ///< Linear interpolation.
-template <typename t> inline t clamp(t, t, t); ///< Clamp between two values.
+float spline3(float); ///< Cubic spline.
+float spline5(float); ///< Quintic spline.
+
+float lerp(float, float, float); ///< Linear interpolation.
+float clamp(float, float, float); ///< Clamp between two values.
+
+std::wstring to_wstring_f(float x, size_t n); ///< Float to fixed precision wstring.
 
 #endif //__HELPERS_H__

@@ -107,6 +107,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
           g_pMain->SetDistribution(g_pMain->GetDistribution());
           InvalidateRect(hWnd, nullptr, FALSE);
           break;
+
+        case IDM_GENERATE_JUMP:
+          g_pMain->Jump();
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
             
         case IDM_DISTRIBUTION_UNIFORM:
             if(g_pMain->GetDistribution() != eDistribution::Uniform){
@@ -148,8 +153,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
           InvalidateRect(hWnd, nullptr, FALSE);
           break;
 
-        case IDM_HASH_ARITH:
-          g_pMain->SetHash(eHash::Arithmetic);
+        case IDM_HASH_STD:
+          g_pMain->SetHash(eHash::Std);
           InvalidateRect(hWnd, nullptr, FALSE);
           break;
 
