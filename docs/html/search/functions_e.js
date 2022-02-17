@@ -1,12 +1,5 @@
 var searchData=
 [
-  ['updatedistributionmenu_0',['UpdateDistributionMenu',['../_windows_helpers_8cpp.html#ad5b06c1c96bf794672000dfb3c1024e0',1,'UpdateDistributionMenu(HMENU hMenu, eNoise noise, eDistribution distr):&#160;WindowsHelpers.cpp'],['../_windows_helpers_8h.html#aef145d04cd92780a96e7d93da8db09aa',1,'UpdateDistributionMenu(HMENU, eNoise, eDistribution):&#160;WindowsHelpers.cpp']]],
-  ['updatefilemenu_1',['UpdateFileMenu',['../_windows_helpers_8cpp.html#acb1562df58994e7f5a7f7251f2fb1fcc',1,'UpdateFileMenu(HMENU hMenu, eNoise noise):&#160;WindowsHelpers.cpp'],['../_windows_helpers_8h.html#a59ed9f7b66c173b8681f38808bdd0677',1,'UpdateFileMenu(HMENU, eNoise):&#160;WindowsHelpers.cpp']]],
-  ['updategeneratemenu_2',['UpdateGenerateMenu',['../_windows_helpers_8cpp.html#a0545a66a2ec6a80d6ea08f38d70456cf',1,'UpdateGenerateMenu(HMENU hMenu, eNoise noise):&#160;WindowsHelpers.cpp'],['../_windows_helpers_8h.html#a76e91de3600444498100fd84dee78c78',1,'UpdateGenerateMenu(HMENU, eNoise):&#160;WindowsHelpers.cpp']]],
-  ['updatehashmenu_3',['UpdateHashMenu',['../_windows_helpers_8cpp.html#a4d206cae0bd6c89df362a18472d96856',1,'UpdateHashMenu(HMENU hMenu, eNoise noise, eHash h):&#160;WindowsHelpers.cpp'],['../_windows_helpers_8h.html#aa6730b9caafb7ea8b379b14b6aff42d5',1,'UpdateHashMenu(HMENU, eNoise, eHash):&#160;WindowsHelpers.cpp']]],
-  ['updatemenuitem_4',['UpdateMenuItem',['../_windows_helpers_8h.html#abbb1adde0b6e8e5c36ffbffff0b18d25',1,'WindowsHelpers.h']]],
-  ['updatemenuitembool_5',['UpdateMenuItemBool',['../_windows_helpers_8cpp.html#ad7ea9ab823ae54fc6a38e4b78cd7b0dc',1,'UpdateMenuItemBool(HMENU hMenu, UINT item, eNoise noise, bool bGray):&#160;WindowsHelpers.cpp'],['../_windows_helpers_8h.html#aa9607c9a9209331283d5a84c939f84e9',1,'UpdateMenuItemBool(HMENU, UINT, eNoise, bool):&#160;WindowsHelpers.cpp']]],
-  ['updatemenus_6',['UpdateMenus',['../class_c_main.html#a4eadad2f919bdc7fa264217697cec463',1,'CMain']]],
-  ['updatesettingsmenu_7',['UpdateSettingsMenu',['../_windows_helpers_8cpp.html#a66c801227a0bd8b547a0e123bbb26621',1,'UpdateSettingsMenu(HMENU hMenu, eNoise noise):&#160;WindowsHelpers.cpp'],['../_windows_helpers_8h.html#a5670dbfe6d5b2a3cbb0ddb84302c0a70',1,'UpdateSettingsMenu(HMENU, eNoise):&#160;WindowsHelpers.cpp']]],
-  ['updatesplinemenu_8',['UpdateSplineMenu',['../_windows_helpers_8cpp.html#a9a866cd4aa9c9c2f1bc89b23041337c4',1,'UpdateSplineMenu(HMENU hMenu, eNoise noise, eSpline spline):&#160;WindowsHelpers.cpp'],['../_windows_helpers_8h.html#a9f2d8ca3723c8fc35837f1f3f0af0974',1,'UpdateSplineMenu(HMENU, eNoise, eSpline):&#160;WindowsHelpers.cpp']]]
+  ['wndproc_0',['WndProc',['../_main_8cpp.html#a30a1e3b0304f1b083637664cbda94e72',1,'Main.cpp']]],
+  ['wwinmain_1',['wWinMain',['../_main_8cpp.html#ad7483c50ba0ceb8cee64426d4e7e9bb3',1,'Main.cpp']]]
 ];

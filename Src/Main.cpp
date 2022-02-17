@@ -152,8 +152,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
           break;
 
         case IDM_DISTRIBUTION_MIDPOINT:
-          if(g_pMain->GetDistribution() != eDistribution::MidpointDisplacement){
-            g_pMain->SetDistribution(eDistribution::MidpointDisplacement);
+          if(g_pMain->GetDistribution() != eDistribution::Midpoint){
+            g_pMain->SetDistribution(eDistribution::Midpoint);
             InvalidateRect(hWnd, nullptr, FALSE);
           } //if
           break;

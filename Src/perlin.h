@@ -46,7 +46,7 @@ class CPerlinNoise2D{
     
     eSpline m_eSpline = eSpline::Cubic; ///< Spline function type.
     unsigned m_nSeed = 0; ///< Pseudorandom number seed.
-    std::default_random_engine* m_pRandom = nullptr; ///< PRNG.
+    std::default_random_engine m_stdRandom; ///< PRNG.
     
     inline const size_t pair(size_t, size_t) const; ///< Perlin pairing function.
     inline const size_t pairstd(size_t, size_t) const; ///< Std pairing function.
@@ -56,10 +56,16 @@ class CPerlinNoise2D{
 
     void HashCorners(size_t, size_t, size_t[4]) const; ///< Hash grid corners.
     
-    void MidpointDisplacement(size_t, size_t, float); ///< Midpoint displacement distribution.
-    
+    void RandomizeTableMidpoint(size_t, size_t, float); ///< Midpoint displacement distribution.
+    void RandomizeTableMidpoint(); ///< Randomize table using midpoint displacement distribution.
+    void RandomizeTableUniform(); ///< Randomize table using uniform distribution.
+    void RandomizeTableCos(); ///< Randomize table using cosine distribution.
+    void RandomizeTableNormal(); ///< Randomize table using normal distribution.
+    void RandomizeTableExp(); ///< Randomize table using exponential distribution.
+
     inline const float spline(float) const; ///< Spline curve.
-    inline const float grad(size_t, float, float) const; ///< Apply gradients.
+    inline const float z(size_t, float, float, eNoise) const; ///< Apply gradients.
+    const float Lerp(float, float, float, size_t*, eNoise) const; ///< Linear interpolation.
     const float noise(float, float, eNoise) const; ///< Perlin noise.
 
     void RandomizePermutation(); ///< Randomize permutation.

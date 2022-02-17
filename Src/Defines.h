@@ -53,7 +53,7 @@ enum class eHash{
 /// Enumerated type for probability distribution.
 
 enum class eDistribution{
-  Uniform, Cosine, Normal, Exponential, MidpointDisplacement
+  Uniform, Cosine, Normal, Exponential, Midpoint
 }; //eDistribution
 
 /// \brief Spline type.

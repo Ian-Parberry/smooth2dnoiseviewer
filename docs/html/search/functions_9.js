@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['onpaint_0',['OnPaint',['../class_c_main.html#ae49d2d96b54cef7272d64b77171cffad',1,'CMain']]],
-  ['origin_1',['Origin',['../class_c_main.html#ad388b9a7260d80343f6cdc8cbc797e60',1,'CMain']]]
+  ['pair_0',['pair',['../class_c_perlin_noise2_d.html#a1e8bb89018dce154e3e9fa8ed54f64ba',1,'CPerlinNoise2D']]],
+  ['pairstd_1',['pairstd',['../class_c_perlin_noise2_d.html#a6ee9633ce7193b9952bdeb0ed7ba892b',1,'CPerlinNoise2D']]]
 ];

@@ -33,5 +33,5 @@ var searchData=
   ['m_5fnsize_30',['m_nSize',['../class_c_perlin_noise2_d.html#a5b8bf38d90904ed09aceebe563eeb94a',1,'CPerlinNoise2D']]],
   ['m_5fpbitmap_31',['m_pBitmap',['../class_c_main.html#ae109b88ed782dfbfdc8cd694cf2a766f',1,'CMain']]],
   ['m_5fpperlin_32',['m_pPerlin',['../class_c_main.html#a127d23eed509a42beca13cc8ca35013a',1,'CMain']]],
-  ['m_5fprandom_33',['m_pRandom',['../class_c_perlin_noise2_d.html#a34821916efbbf98829236a005c16fe59',1,'CPerlinNoise2D']]]
+  ['m_5fstdrandom_33',['m_stdRandom',['../class_c_perlin_noise2_d.html#ab0fa8e2a1c318ccd981f1117bfb061c9',1,'CPerlinNoise2D']]]
 ];

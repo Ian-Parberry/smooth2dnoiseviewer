@@ -331,7 +331,7 @@ void UpdateDistributionMenu(HMENU hMenu, eNoise noise, eDistribution distr){
   CheckMenuItem(hMenu, IDM_DISTRIBUTION_EXPONENTIAL, 
     distr == eDistribution::Exponential? MF_CHECKED: MF_UNCHECKED);
   CheckMenuItem(hMenu, IDM_DISTRIBUTION_MIDPOINT, 
-    distr == eDistribution::MidpointDisplacement? MF_CHECKED: MF_UNCHECKED);
+    distr == eDistribution::Midpoint? MF_CHECKED: MF_UNCHECKED);
 } //UpdateDistributionMenu
   
 /// Gray out and set the checkmarks in the `Hash` menu according to the

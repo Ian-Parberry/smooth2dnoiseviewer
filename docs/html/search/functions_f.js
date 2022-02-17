@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['wndproc_0',['WndProc',['../_main_8cpp.html#a30a1e3b0304f1b083637664cbda94e72',1,'Main.cpp']]],
-  ['wwinmain_1',['wWinMain',['../_main_8cpp.html#ad7483c50ba0ceb8cee64426d4e7e9bb3',1,'Main.cpp']]]
+  ['z_0',['z',['../class_c_perlin_noise2_d.html#a1e87c1f9258a9da686879225be8b85ce',1,'CPerlinNoise2D']]]
 ];
