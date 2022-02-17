@@ -41,16 +41,17 @@
 #define IDM_FILE_PROPS 2 ///< Menu id for Properties.
 #define IDM_FILE_QUIT  3 ///< Menu id for Quit.
 
-#define IDM_GENERATE_PIXELNOISE  4 ///< Menu id for Pixel Noise.
-#define IDM_GENERATE_PERLINNOISE 5 ///< Menu id for Perlin Noise.
-#define IDM_GENERATE_VALUENOISE  6 ///< Menu id for Value Noise.
-#define IDM_GENERATE_RANDOMIZE   7 ///< Menu id for randomize.
+#define IDM_GENERATE_PERLINNOISE 4 ///< Menu id for Perlin Noise.
+#define IDM_GENERATE_VALUENOISE  5 ///< Menu id for Value Noise.
 
-#define IDM_DISTRIBUTION_UNIFORM      8 ///< Menu id for uniform distribution.
-#define IDM_DISTRIBUTION_COSINE       9 ///< Menu id for cosine distribution.
-#define IDM_DISTRIBUTION_NORMAL      10 ///< Menu id for normal distribution.
-#define IDM_DISTRIBUTION_EXPONENTIAL 11 ///< Menu id for exponential distribution.
-#define IDM_DISTRIBUTION_MIDPOINT    12 ///< Menu id for midpoint displacement.
+#define IDM_DISTRIBUTION_UNIFORM      6 ///< Menu id for uniform distribution.
+#define IDM_DISTRIBUTION_COSINE       7 ///< Menu id for cosine distribution.
+#define IDM_DISTRIBUTION_NORMAL       8 ///< Menu id for normal distribution.
+#define IDM_DISTRIBUTION_EXPONENTIAL  9 ///< Menu id for exponential distribution.
+#define IDM_DISTRIBUTION_MIDPOINT    10 ///< Menu id for midpoint displacement.
+
+#define IDM_HASH_PERM  11 ///< Menu id for permutation hash.
+#define IDM_HASH_ARITH 12 ///< Menu id for arithmetic hash.
 
 #define IDM_SPLINE_NONE    13 ///< Menu id for cubic spline.
 #define IDM_SPLINE_CUBIC   14 ///< Menu id for no spline.
@@ -80,20 +81,29 @@ HRESULT SaveBitmap(HWND, const std::wstring&, Gdiplus::Bitmap*); ///< Save bitma
 
 #pragma endregion Helper functions
 
+///////////////////////////////////////////////////////////////////////////////
+// Menu functions
+
+#pragma region Menu functions
+
 HMENU CreateFileMenu(HMENU); ///< Create `File` menu.
 HMENU CreateGenerateMenu(HMENU); ///< Create `Generate` menu.
 HMENU CreateDistributionMenu(HMENU); ///< Create `Distribution` menu.
+HMENU CreateHashMenu(HMENU); ///< Create `Hash` menu.
 HMENU CreateSplineMenu(HMENU); ///< Create `Spline` menu.
 HMENU CreateSettingsMenu(HMENU); ///< Create `Settings` menu.
 
 void UpdateFileMenu(HMENU, eNoise); ///< Update `File` menu.
 void UpdateGenerateMenu(HMENU, eNoise); ///< Update `Generate` menu.
 void UpdateDistributionMenu(HMENU, eNoise, eDistribution); ///< Update `Distribution` menu.
+void UpdateHashMenu(HMENU, eNoise, eHash); ///< Update `Hash` menu.
 void UpdateSplineMenu(HMENU, eNoise, eSpline); ///< Update `Spline` menu.
 void UpdateSettingsMenu(HMENU, eNoise); ///< Update `Settings` menu.
 
 void UpdateOctaveSubMenu(HMENU, eNoise, size_t, size_t, size_t); ///< Update `Octave` sub-menu.
 void UpdateScaleSubMenu(HMENU, eNoise, float, float, float); ///< Update `Scale` sub-menu.
 void UpdateTableSizeSubMenu(HMENU, eNoise, size_t, size_t, size_t); ///< Update `Table size` sub-menu.
+
+#pragma endregion Menu functions
 
 #endif //__WINDOWSHELPERS_H__

@@ -27,6 +27,9 @@
 #ifndef __PERLIN_H__
 #define __PERLIN_H__
 
+#include <cinttypes>
+#include <random>
+
 #include "Defines.h"
 
 /// \brief 2D Perlin and Value noise generator.
@@ -36,27 +39,39 @@ class CPerlinNoise2D{
     size_t m_nSize = 0; ///< Table size, must be a power of 2.
     size_t m_nMask = 0; ///< Mask for values less than `m_nSize`.
 
+    eHash m_eHash = eHash::Permutation; ///< Hash function type.
+
     size_t* m_nPerm = nullptr; ///< Random permutation, used for hash function.
     float* m_fTable = nullptr; ///< Table of gradients or values.
     
     eSpline m_eSpline = eSpline::Cubic; ///< Spline function type.
+    unsigned m_nSeed = 0; ///< Pseudorandom number seed.
+    std::default_random_engine* m_pRandom = nullptr; ///< PRNG.
     
     inline const size_t pair(size_t, size_t) const; ///< Perlin pairing function.
+    inline const size_t pair2(size_t, size_t) const; ///< Another Perlin pairing function.
+    
     inline const size_t hash(size_t) const; ///< Perlin hash function.
+    inline const size_t hash2(size_t) const; ///< Another Perlin hash function.
+
+    void HashCorners(size_t, size_t, size_t[4]) const; ///< Hash grid corners.
     
     void MidpointDisplacement(size_t, size_t, float); ///< Midpoint displacement distribution.
-
+    
+    inline const float spline(float) const; ///< Spline curve.
     inline const float grad(size_t, float, float) const; ///< Apply gradients.
     const float noise(float, float, eNoise) const; ///< Perlin noise.
+
+    void Randomize(); ///< Randomize permutation.
 
   public:
     CPerlinNoise2D(size_t); ///< Constructor.
     ~CPerlinNoise2D(); ///<Destructor.
     
     void Initialize(eDistribution); ///< Initialize table from distribution.
+    
     void SetSpline(eSpline); ///< Set spline function.
-
-    void Randomize(); ///< Randomize permutation.
+    void SetHash(eHash); ///< Set hash function.
     
     const float generate(float, float, eNoise, size_t, float=0.5f, float=2.0f) const; ///< Perlin noise.
 }; //CPerlinNoise2D

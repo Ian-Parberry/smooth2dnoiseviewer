@@ -37,8 +37,7 @@
 
 #pragma region Constructors and destructors
 
-/// Initialize GDI+, create the menus, seed the pseudorandom number generator
-/// from `timeGetTime()`, and create the Perlin noise generator.
+/// Initialize GDI+, create the menus, and create the Perlin noise generator.
 /// \param hwnd Window handle.
 
 CMain::CMain(const HWND hwnd): m_hWnd(hwnd){
@@ -47,8 +46,7 @@ CMain::CMain(const HWND hwnd): m_hWnd(hwnd){
   m_pPerlin = new CPerlinNoise2D(m_nLog2TableSize); //Perlin noise generator
 } //constructor
 
-/// Delete the Perlin noise generator, delete the GDI+ objects, then shut
-/// down GDI+.
+/// Delete the Perlin noise generator, delete the GDI+ objects, shut down GDI+.
 
 CMain::~CMain(){
   delete m_pPerlin; //delete the Perlin noise generator
@@ -63,16 +61,16 @@ CMain::~CMain(){
 
 #pragma region Drawing functions
 
-/// Draw the bitmap `m_pBitmap` to the window client area, scaled down if
-/// necessary. This function should only be called in response to a WM_PAINT
-/// message.
+/// Draw the bitmap pointed to by `m_pBitmap` to the window client area,
+/// scaled down if necessary. This function should only be called in response
+/// to a `WM_PAINT` message.
 
 void CMain::OnPaint(){  
   PAINTSTRUCT ps; //paint structure
   HDC hdc = BeginPaint(m_hWnd, &ps); //device context
   Gdiplus::Graphics graphics(hdc); //GDI+ graphics object
 
-  //bitmap width and height
+  //get bitmap width and height
   
   const int nBitmapWidth = m_pBitmap->GetWidth(); 
   const int nBitmapHeight = m_pBitmap->GetHeight(); 
@@ -114,23 +112,26 @@ void CMain::OnPaint(){
 
 void CMain::CreateMenus(){
   HMENU hMenubar = CreateMenu();
+
   m_hFileMenu = CreateFileMenu(hMenubar);
   m_hGenMenu = CreateGenerateMenu(hMenubar);
   m_hDistMenu = CreateDistributionMenu(hMenubar);
+  m_hHashMenu = CreateHashMenu(hMenubar);
   m_hSplineMenu = CreateSplineMenu(hMenubar);
-  m_hSetMenu = CreateSettingsMenu(hMenubar);;
+  m_hSetMenu = CreateSettingsMenu(hMenubar);
 
   SetMenu(m_hWnd, hMenubar);
   UpdateMenus();
 } //CreateMenus
 
-/// Update all menus by graying out inactive menu items and placing a checkmark
-/// next to chosen entries.
+/// Update all menus, that is, gray out inactive menu items and place a 
+/// checkmark next to chosen menu items.
 
 void CMain::UpdateMenus(){
   UpdateFileMenu(m_hFileMenu, m_eNoise); 
   UpdateGenerateMenu(m_hGenMenu, m_eNoise); 
   UpdateDistributionMenu(m_hDistMenu, m_eNoise, m_eDistr); 
+  UpdateHashMenu(m_hHashMenu, m_eNoise, m_eHash); 
   UpdateSplineMenu(m_hSplineMenu, m_eNoise, m_eSpline); 
 
   UpdateSettingsMenu(m_hSetMenu, m_eNoise); 
@@ -154,24 +155,22 @@ void CMain::UpdateMenus(){
 /// \param h Bitmap height in pixels.
 
 void CMain::CreateBitmap(int w, int h){
-  delete m_pBitmap;
-  m_pBitmap = new Gdiplus::Bitmap(w, h);
-
-  Gdiplus::Graphics graphics(m_pBitmap);
-  graphics.Clear(Gdiplus::Color::White);
+  delete m_pBitmap; //safety
+  m_pBitmap = new Gdiplus::Bitmap(w, h); //create bitmap
+  ClearBitmap(Gdiplus::Color::White); //clear bitmap to white
 } //CreateBitmap
 
-/// Clear the bitmap pointed to by `m_pBitmap` to white.
+/// Clear the bitmap pointed to by `m_pBitmap`.
+/// \param clr Color to set the pixels of `m_pBitmap` to.
 
-void CMain::Clear(){ 
-  for(UINT i=0; i<m_pBitmap->GetWidth(); i++)
-    for(UINT j=0; j<m_pBitmap->GetHeight(); j++)
-      SetPixel(i, j, 0.0f);
+void CMain::ClearBitmap(Gdiplus::Color clr){ 
+  Gdiplus::Graphics graphics(m_pBitmap); //for editing
+  graphics.Clear(clr); //clear to white
 } //Clear
 
 /// Set a grayscale pixel in the bitmap pointed to by `m_pBitmap` from a
 /// floating point value in \f$[-1, 1]\f$, where \f$-1\f$ is black and \f$+1\f$
-/// is white.
+/// is white. The indices of the pixel are assumed to be in range.
 /// \param i Row number.
 /// \param j Column number.
 /// \param g Grayscale value in the range \f$[-1, 1]\f$.
@@ -181,14 +180,21 @@ void CMain::SetPixel(UINT i, UINT j, float g){
 } //SetPixel
 
 /// Set a grayscale pixel in the bitmap pointed to by `m_pBitmap` from a byte
-/// value in the range \f$[0, 255]\f$, where \f$0\f$ is black and \f$1\f$ is
-/// white.
+/// value in the range \f$[0, 255]\f$, where \f$0\f$ is black and \f$255\f$ is
+/// white. The indices of the pixel are assumed to be in range.
 /// \param i Row number.
 /// \param j Column number.
 /// \param b Grayscale value in the range \f$[0, 255]\f$.
 
 void CMain::SetPixel(UINT i, UINT j, BYTE b){
-  m_pBitmap->SetPixel(i, j, Gdiplus::Color(255, b, b, b));
+  SetPixel(i, j, Gdiplus::Color(255, b, b, b));
+} //SetPixel
+
+/// Set a pixel in the bitmap pointed to by `m_pBitmap` to a GDI+ color. The
+/// indices of the pixel are assumed to be in range.
+
+void CMain::SetPixel(UINT i, UINT j, Gdiplus::Color clr){
+  m_pBitmap->SetPixel(i, j, clr);
 } //SetPixel
 
 #pragma endregion Bitmap functions
@@ -198,86 +204,23 @@ void CMain::SetPixel(UINT i, UINT j, BYTE b){
 
 #pragma region Noise generation functions
 
-/// Generate pixel noise into the bitmap pointed to by `m_pBitmap`.
-
-void CMain::GeneratePixelNoise(){ 
-  m_eNoise = eNoise::Pixel;
-  UpdateMenus();
-
-  std::default_random_engine g;
-  g.seed(m_nSeed);
-
-  switch(m_eDistr){
-    case eDistribution::Uniform: {
-      std::uniform_real_distribution<float> d(-1.0f, 1.0f);
-
-      for(UINT i=0; i<m_pBitmap->GetWidth(); i++)
-        for(UINT j=0; j<m_pBitmap->GetHeight(); j++)
-          SetPixel(i, j, d(g));
-    } //case
-    break;
-      
-    case eDistribution::Cosine: {
-      std::uniform_real_distribution<float> d(0.0f, PI);
-
-      for(UINT i=0; i<m_pBitmap->GetWidth(); i++)
-        for(UINT j=0; j<m_pBitmap->GetHeight(); j++)
-          SetPixel(i, j, cosf(d(g)));
-    } //case
-    break;
-      
-    case eDistribution::Normal:{   
-      std::normal_distribution<float> d(500.0f, 200.0f);
-
-      for(UINT i=0; i<m_pBitmap->GetWidth(); i++)
-        for(UINT j=0; j<m_pBitmap->GetHeight(); j++)
-          SetPixel(i, j, 2.0f*clamp(0.0f, d(g)/1000.0f, 1.0f) - 1.0f);
-    } //case
-    break;
-      
-    case eDistribution::Exponential: {
-      std::exponential_distribution<float> d(3.5f);
-
-      for(UINT i=0; i<m_pBitmap->GetWidth(); i++)
-        for(UINT j=0; j<m_pBitmap->GetHeight(); j++)
-          SetPixel(i, j, ((rand() & 1)? -1.0f: 1.0f)*clamp(0.0f, d(g), 1.0f));
-    } //case
-    break;
-  } //switch
-} //GeneratePixelNoise
-
 /// Generate Perlin or Value noise into the bitmap pointed to by `m_pBitmap`.
 /// \param t Type of noise.
 
-void CMain::GeneratePerlinNoise(eNoise t){ 
-  m_eNoise = t;
-  UpdateMenus();
+void CMain::GenerateNoiseBitmap(eNoise t){ 
+  m_eNoise = t; //remember the noise type
+  UpdateMenus(); //changing noise type may change the menu status
 
   for(UINT i=0; i<m_pBitmap->GetWidth(); i++)
     for(UINT j=0; j<m_pBitmap->GetHeight(); j++)
       SetPixel(i, j, m_pPerlin->generate(i/m_fScale, j/m_fScale, t, m_nOctaves));
-} //GeneratePerlinNoise
+} //GenerateNoiseBitmap
 
 /// Generate last type of noise again.
 
-void CMain::Regenerate(){
- switch(m_eNoise){
-   case eNoise::Pixel: GeneratePixelNoise(); break;
-   case eNoise::Perlin:
-   case eNoise::Value: GeneratePerlinNoise(m_eNoise); break;
-   default: Clear(); break;
- } //switch
-} //Regenerate
-
-/// Randomize the noise generator and regenerate noise. This will randomize the
-/// permutation table in the Perlin noise generator and reseed the PRNG used
-/// by the pixel noise generator.
-
-void CMain::Randomize(){
-  m_nSeed = timeGetTime(); //for pixel noise
-  m_pPerlin->Randomize(); //for Perlin and Value noise
-  Regenerate();
-} //Randomize
+void CMain::GenerateNoiseBitmap(){
+  GenerateNoiseBitmap(m_eNoise);
+} //GenerateNoiseBitmap
 
 #pragma endregion Noise generation functions
 
@@ -294,7 +237,7 @@ void CMain::Initialize(eDistribution d){
   m_eDistr = d;
   m_pPerlin->Initialize(d);
   UpdateDistributionMenu(m_hDistMenu, m_eNoise, m_eDistr);
-  Regenerate();
+  GenerateNoiseBitmap();
 } //Initialize
 
 /// Set Perlin noise spline function and regenerate noise.
@@ -303,16 +246,26 @@ void CMain::Initialize(eDistribution d){
 void CMain::SetSpline(eSpline d){
   m_eSpline = d;
   m_pPerlin->SetSpline(d);
-  UpdateSplineMenu(m_hSplineMenu, m_eNoise, m_eSpline);
-  Regenerate();
+  UpdateSplineMenu(m_hSplineMenu, m_eNoise, d);
+  GenerateNoiseBitmap();
 } //SetSpline
+
+/// Set Perlin noise hash function and regenerate noise.
+/// \param d Hash function enumerated type.
+
+void CMain::SetHash(eHash d){
+  m_eHash = d;
+  m_pPerlin->SetHash(d);
+  UpdateHashMenu(m_hHashMenu, m_eNoise, d);
+  GenerateNoiseBitmap();
+} //SetHash
 
 /// Increase the number of octaves in `m_nOctaves` by one up to a maximum
 /// of `m_nMaxOctaves`.
 
 void CMain::IncreaseOctaves(){
   m_nOctaves = std::min<size_t>(m_nOctaves + 1, m_nMaxOctaves);
-  Regenerate();
+  GenerateNoiseBitmap();
 } //IncreaseOctaves
 
 /// Decrease the number of octaves in `m_nOctaves` by one down to a minimum
@@ -320,7 +273,7 @@ void CMain::IncreaseOctaves(){
 
 void CMain::DecreaseOctaves(){
   m_nOctaves = std::max<size_t>(m_nMinOctaves, m_nOctaves - 1);
-  Regenerate();
+  GenerateNoiseBitmap();
 } //DecreaseOctaves
 
 /// Increase the scale in `m_fScale` by a factor of 2 up to a maximum
@@ -328,7 +281,7 @@ void CMain::DecreaseOctaves(){
 
 void CMain::IncreaseScale(){
   m_fScale = std::min<float>(2.0f*m_fScale, m_fMaxScale);
-  Regenerate();
+  GenerateNoiseBitmap();
 } //IncreaseScale
 
 /// Decrease the scale in `m_fScale` by a factor of 2 down to a minimum
@@ -336,7 +289,7 @@ void CMain::IncreaseScale(){
 
 void CMain::DecreaseScale(){
   m_fScale = std::max<float>(m_fMinScale, m_fScale/2.0f);
-  Regenerate();
+  GenerateNoiseBitmap();
 } //DecreaseScale
 
 /// Increase the table size by a factor of 2 by adding one to `m_nLog2TableSize`
@@ -346,7 +299,7 @@ void CMain::IncreaseTableSize(){
   m_nLog2TableSize = std::min<UINT>(m_nLog2TableSize + 1, m_nMaxLog2TableSize);
   delete m_pPerlin;
   m_pPerlin = new CPerlinNoise2D(m_nLog2TableSize);
-  Regenerate();
+  GenerateNoiseBitmap();
 } //IncreaseTableSize
 
 /// Decrease the table size by a factor of 2 by subtracting one from
@@ -356,7 +309,7 @@ void CMain::DecreaseTableSize(){
   m_nLog2TableSize = std::max<UINT>(m_nMinLog2TableSize, m_nLog2TableSize - 1);
   delete m_pPerlin;
   m_pPerlin = new CPerlinNoise2D(m_nLog2TableSize);
-  Regenerate();
+  GenerateNoiseBitmap();
 } //DecreaseTableSize
 
 #pragma endregion Menu response functions
@@ -373,7 +326,6 @@ const std::wstring CMain::GetFileName() const{
   std::wstring wstr;
 
   switch(m_eNoise){
-    case eNoise::Pixel:  wstr = L"Pixel";  break;
     case eNoise::Perlin: wstr = L"Perlin"; break;
     case eNoise::Value:  wstr = L"Value";  break;
   } //switch
@@ -385,17 +337,15 @@ const std::wstring CMain::GetFileName() const{
     case eDistribution::Exponential: wstr += L"-Exp"; break;
   } //switch
 
-  if(m_eNoise != eNoise::Pixel){
-    switch(m_eSpline){
-      case eSpline::None: L"-NoSpline"; break; 
-      case eSpline::Cubic: break; //nothing, which is the default
-      case eSpline::Quintic:wstr += L"-Quintic"; break;
-    } //switch
+  switch(m_eSpline){
+    case eSpline::None: L"-NoSpline"; break; 
+    case eSpline::Cubic: break; //nothing, which is the default
+    case eSpline::Quintic:wstr += L"-Quintic"; break;
+  } //switch
 
-    wstr += L"-" + std::to_wstring(m_nOctaves);
-    wstr += L"-" + std::to_wstring(1 << m_nLog2TableSize);
-    wstr += L"-" + std::to_wstring((size_t)round(m_fScale));
-  } //if
+  wstr += L"-" + std::to_wstring(m_nOctaves);
+  wstr += L"-" + std::to_wstring(1 << m_nLog2TableSize);
+  wstr += L"-" + std::to_wstring((size_t)round(m_fScale));
 
   return wstr;
 } //GetFileName
@@ -413,12 +363,18 @@ const std::wstring CMain::GetNoiseDescription() const{
   } //if
 
   switch(m_eNoise){
-    case eNoise::Pixel:  wstr += L"Pixel";  break;
     case eNoise::Perlin: wstr += L"Perlin"; break;
     case eNoise::Value:  wstr += L"Value";  break;
   } //switch
   
-  wstr += L" Noise with a ";
+  wstr += L" Noise with ";
+
+  switch(m_eHash){
+    case eHash::Permutation: wstr += L"a permutation"; break;
+    case eHash::Arithmetic:  wstr += L"an arithmetic";  break;
+  } //switch
+
+  wstr += L" hash function, a ";
 
   switch(m_eDistr){
     case eDistribution::Uniform: wstr += L"uniform"; break;    
@@ -432,33 +388,29 @@ const std::wstring CMain::GetNoiseDescription() const{
     case eNoise::Value:  wstr += L" height";  break;
   } //switch
 
-  wstr += L" distribution";
+  wstr += L" distribution, ";
 
-  if(m_eNoise != eNoise::Pixel){
-    wstr += L", ";
+  switch(m_eSpline){
+    case eSpline::None:    wstr += L"no"; break; 
+    case eSpline::Cubic:   wstr += L"cubic"; break; //nothing
+    case eSpline::Quintic: wstr += L"quintic"; break;
+  } //switch
 
-    switch(m_eSpline){
-      case eSpline::None: wstr += L"no"; break; 
-      case eSpline::Cubic: wstr += L"cubic"; break; //nothing
-      case eSpline::Quintic: wstr += L"quintic"; break;
-    } //switch
+  wstr += L" spline function, scale ";
+  wstr += std::to_wstring((size_t)round(m_fScale));
+  wstr += L", and ";
+  
+  if(m_eHash == eHash::Permutation)
+    wstr += L"permutation and ";
 
-    wstr += L" spline function, scale ";
-    wstr += std::to_wstring((size_t)round(m_fScale));
-
-    wstr += L", and permutation and "; 
-
-    switch(m_eNoise){
-      case eNoise::Perlin: wstr += L"gradient "; break;
-      case eNoise::Value:  wstr += L"height ";  break;
-    } //switch
+  switch(m_eNoise){
+    case eNoise::Perlin: wstr += L"gradient "; break;
+    case eNoise::Value:  wstr += L"height ";  break;
+  } //switch
       
-    wstr += L"table size ";
-    wstr += std::to_wstring(1 << m_nLog2TableSize);
+  wstr += L"table size ";
+  wstr += std::to_wstring(1 << m_nLog2TableSize);
   wstr += L". Lacunarity and persistence are fixed at 0.5 and 2.0, respectively.";
-  } //if
-
-  else wstr += L".";
 
   return wstr;
 } //GetNoiseDescription

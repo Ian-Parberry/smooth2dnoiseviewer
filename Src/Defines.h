@@ -37,8 +37,16 @@ const float PI = (float)M_PI; ///< Pi.
 /// Enumerated type for Perlin noise.
 
 enum class eNoise{
-  None, Pixel, Perlin, Value
+  None, Perlin, Value
 }; //eNoise
+
+/// \brief Hash function type.
+///
+/// Enumerated type for hash function.
+
+enum class eHash{
+  Permutation, Arithmetic
+}; //eHash
 
 /// \brief Distribution.
 ///

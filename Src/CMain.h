@@ -43,13 +43,14 @@ class CMain{
     HMENU m_hFileMenu = nullptr; ///< Handle to the `File` menu.
     HMENU m_hGenMenu = nullptr; ///< Handle to the `Generate` menu.
     HMENU m_hDistMenu = nullptr; ///< Handle to the `Distribution` menu.
+    HMENU m_hHashMenu = nullptr; ///< Handle to the `Hash` menu.
     HMENU m_hSplineMenu = nullptr; ///< Handle to the `Spline` menu.
     HMENU m_hSetMenu = nullptr; ///< Handle to the `Settings` menu.
     
     eNoise m_eNoise = eNoise::None; ///< Noise type.
     eDistribution m_eDistr = eDistribution::Uniform; ///< Distribution type.
     eSpline m_eSpline = eSpline::Cubic; ///< Spline function type.
-    UINT m_nSeed = 0; ///< Pseudorandom number seed.
+    eHash m_eHash = eHash::Permutation; ///< Hash function type.
 
     size_t m_nOctaves = 4; ///< Number of octaves of noise.
     const size_t m_nMinOctaves = 1; ///< Minimum number of octaves of noise.
@@ -73,25 +74,21 @@ class CMain{
 
     void SetPixel(UINT, UINT, float); ///< Set pixel grayscale from float.
     void SetPixel(UINT, UINT, BYTE); ///< Set pixel grayscale from byte.
-
-    void Smooth(); ///< Smooth bitmap.
-    UINT GetPixel(UINT, UINT); ///< Get pixel from bitmap.
+    void SetPixel(UINT, UINT, Gdiplus::Color); ///< Set pixel from GDI+ color.
 
   public:
     CMain(const HWND hwnd); ///< Constructor.
     ~CMain(); ///< Destructor.
     
     void CreateBitmap(int w, int h); ///< Create bitmap.
-    void Clear(); ///< Clear bitmap to white.
+    void ClearBitmap(Gdiplus::Color); ///< Clear bitmap to color.
 
-    void GeneratePixelNoise(); ///< Generate pixel noise bitmap.
-    void GeneratePerlinNoise(eNoise); ///< Generate Perlin or Value noise bitmap.
-    void Regenerate(); ///< Generate bitmap again with saved parameters.
-
-    void Randomize(); ///< Randomize noise.
+    void GenerateNoiseBitmap(eNoise); ///< Generate Perlin or Value noise bitmap.
+    void GenerateNoiseBitmap(); ///< Generate bitmap again with saved parameters.
 
     void Initialize(eDistribution); ///< Set probability distribution.
     void SetSpline(eSpline); ///< Set spline function.
+    void SetHash(eHash); ///< Set hash function.
 
     void IncreaseOctaves(); ///< Increase number of octaves.
     void DecreaseOctaves(); ///< Decrease number of octaves.

@@ -94,22 +94,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
           break;
 
         case IDM_GENERATE_PERLINNOISE:
-          g_pMain->GeneratePerlinNoise(eNoise::Perlin);
-          InvalidateRect(hWnd, nullptr, FALSE);
-          break;
-
-        case IDM_GENERATE_PIXELNOISE:
-          g_pMain->GeneratePixelNoise();
+          g_pMain->GenerateNoiseBitmap(eNoise::Perlin);
           InvalidateRect(hWnd, nullptr, FALSE);
           break;
 
         case IDM_GENERATE_VALUENOISE:
-          g_pMain->GeneratePerlinNoise(eNoise::Value);
-          InvalidateRect(hWnd, nullptr, FALSE);
-          break;
-
-        case IDM_GENERATE_RANDOMIZE:
-          g_pMain->Randomize();
+          g_pMain->GenerateNoiseBitmap(eNoise::Value);
           InvalidateRect(hWnd, nullptr, FALSE);
           break;
             
@@ -135,6 +125,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
 
         case IDM_DISTRIBUTION_MIDPOINT:
           g_pMain->Initialize(eDistribution::MidpointDisplacement);
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        case IDM_HASH_PERM:
+          g_pMain->SetHash(eHash::Permutation);
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        case IDM_HASH_ARITH:
+          g_pMain->SetHash(eHash::Arithmetic);
           InvalidateRect(hWnd, nullptr, FALSE);
           break;
 

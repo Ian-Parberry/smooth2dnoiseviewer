@@ -26,39 +26,45 @@
 
 #include <stdlib.h>
 #include <algorithm>
-#include <random>
 
 #include "perlin.h"
 #include "Helpers.h"
+#include "Includes.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Constructor and destructor.
 
 #pragma region Constructor and destructor
 
-/// The constructor initializes the size, which must be a power of 2, and the 
-/// mask, which must be a consecutive sequence of 1 bits that is one less than
-/// the size. It also creates space for the permutation and initializes it to
-/// a pseudorandom permutation and creates space for the gradient/height array
-/// and fills it with pseudorandom values from a uniform dietribution.
-/// \param n Number of consecutive 1 bits in the mask.
+/// The constructor initializes the size of the permutation and the table, 
+/// which must be a power of 2, and  the mask, which must be a consecutive
+/// sequence of 1 bits that is one less than the size. The mask will be used to
+/// ensure that all indices into the permutation and the table are in range,
+/// Space is created for the permutation, and for the table, which will be used
+/// for a gradient table in Perlin noise and a height table in Value noise.
+/// The permutation is initialized to a pseudo-random permutation from a
+/// uniform distribution, The table is filled with pseudo-random values chosen
+/// uniformly from \f$[-1,1]\f$.
+/// \param n Number of consecutive 1 bits in the mask, log base 2 of the size.
 
 CPerlinNoise2D::CPerlinNoise2D(size_t n):
-  m_nSize((size_t)round(pow(2.0f, (float)n))), //a power of 2
-  m_nMask(m_nSize - 1), //mask of consecutive 1s
+  m_nSize((size_t)round(pow(2.0f, (float)n))), //size must be a power of 2
+  m_nMask(m_nSize - 1), //mask of n consecutive 1s
   m_nPerm(new size_t[m_nSize]), //permutation
   m_fTable(new float[m_nSize]) //gradients or heights
 { 
+  m_pRandom = new std::default_random_engine; 
   Initialize(eDistribution::Uniform);
   Randomize();
 } //constructor
 
-/// The destructor deletes the permutation and gradient/height array created in
+/// The destructor deletes the permutation and table created in
 /// the constructor.
 
 CPerlinNoise2D::~CPerlinNoise2D(){
   delete [] m_fTable;
   delete [] m_nPerm;
+  delete m_pRandom;
 } //destructor
 
 #pragma endregion Constructor and destructor
@@ -68,10 +74,13 @@ CPerlinNoise2D::~CPerlinNoise2D(){
 
 #pragma region Functions that change noise settings
 
-/// Set the permutation in `m_nPerm` using the standard random
-/// permutation algorithm so that each permutation is equally likely.
+/// Set the permutation in `m_nPerm` to a pseudo-random permutation with
+/// each permutation equally likely. The standard algorithm is used, with the
+/// C standard library function `rand()` used as a source of randomness.
 
 void CPerlinNoise2D::Randomize(){
+  m_nSeed = timeGetTime(); ///< Pseudorandom number seed.
+
   for(size_t i=0; i<m_nSize; i++) //identity permutation
     m_nPerm[i] = i; 
 
@@ -79,27 +88,33 @@ void CPerlinNoise2D::Randomize(){
     std::swap(m_nPerm[i], m_nPerm[i + rand()%(m_nSize - i)]);
 } //Randomize
 
-/// Initialize part of gradient/height table `m_fTable` using midpoint
+/// Initialize a chunk of the gradient/height table `m_fTable` using midpoint
 /// displacement. Given \f$\mathsf{i}\f$ and \f$\mathsf{j}\f$ such that
 /// \f$\mathsf{j} > \mathsf{i}+1\f$ and
 /// \f$0 \leq \mathsf{i}, \mathsf{j} \leq\f$ `m_nSize`, where
-/// \f$\mathsf{j} - \mathsf{i}\f$ is a power of 2, this function
-/// assumes that `m_fTable`\f$[\mathsf{i}]\f$ and 
-/// `m_fTable`\f$[\mathsf{j}]\f$ have
+/// \f$\mathsf{j} - \mathsf{i}\f$ is a power of 2, this function assumes that
+/// `m_fTable`\f$[\mathsf{i}]\f$ and  `m_fTable`\f$[\mathsf{j}]\f$ have
 /// been set, and fills in the entries `m_fTable`\f$[\mathsf{i} + 1]\f$
-/// through `m_fTable`\f$[\mathsf{j}-1]\f$ using midpoint displacement. 
+/// through `m_fTable`\f$[\mathsf{j}-1]\f$ recursively using  midpoint
+/// displacement. That is, it sets the middle entry to the average of the
+/// first and last entry offset by a pseudo-random value in \f$[-1,1]\f$
+/// times a value called the _lacunarity_. The function then halves the
+/// lacunarity and calls itself recursively on the top and bottom halves of
+/// the table chunk.
 /// \param i Lower index.
 /// \param j Upper index.
 /// \param alpha Lacunarity.
 
 void CPerlinNoise2D::MidpointDisplacement(size_t i, size_t j, float alpha){
+  std::uniform_real_distribution<float> d(-1.0f, 1.0f);
+
   if(j > i + 1){ //base of recursion is "do nothing"
     const size_t mid = (i + j)/2; //mid point
 
     const float fMean = (m_fTable[i] + m_fTable[j - 1])/2.0f; //average of ends
-    const float fRand = (float)rand()/RAND_MAX; //random value in [0, 1]
-    const float fOffset = alpha*(2.0f*fRand - 1.0f); //random offset
-    m_fTable[mid] = clamp(-1.0f, fMean + fOffset, 1.0f); //mid point is average plus offset
+    const float fRand = d(*m_pRandom); //(float)rand()/RAND_MAX; //random value in [0, 1]
+    //const float fOffset = alpha*(2.0f*fRand - 1.0f); //random offset
+    m_fTable[mid] = clamp(-1.0f, fMean + fRand, 1.0f); //mid point is average plus offset
     alpha *= 0.5f; //increase lacunarity
 
     MidpointDisplacement(i, mid, alpha); //recurse on first half
@@ -107,44 +122,49 @@ void CPerlinNoise2D::MidpointDisplacement(size_t i, size_t j, float alpha){
   } //if
 } //MidpointDisplacement
 
-/// Initialize the table to pseudorandom gradients in \f$[-1, 1]\f$ according 
-/// to some probability distribution. The pseudorandom number generators are
-/// unseeded, which means that the table contents are the same each time this
-/// function is called with the same parameter.
+/// Initialize `m_fTable` to pseudo-random values in \f$[-1, 1]\f$ according 
+/// to some probability distribution. The pseudo-random number generators are
+/// seeded from `m_nSeed`, which means that the table contents are the same each
+/// time this function is called with the same parameter, up until `Randomize()`
+/// is called.
 /// \param d Probability distribution enumerated type.
 
 void CPerlinNoise2D::Initialize(eDistribution d){
   switch(d){
-    case eDistribution::Uniform:
+    case eDistribution::Uniform: {   
+      std::uniform_real_distribution<float> d(-1.0f, 1.0f);
+
       for(size_t i=0; i<m_nSize; i++)
-        m_fTable[i] = (2.0f*i)/m_nSize - 1.0f;
+        m_fTable[i] = d(*m_pRandom);
+    } //case
     break;
 
-    case eDistribution::Cosine: 
+    case eDistribution::Cosine: {
+      std::uniform_real_distribution<float> d(0.0f, 1.0f);
+
       for(size_t i=0; i<m_nSize; i++)
-        m_fTable[i] = cosf(((PI*i)/m_nSize));
+        m_fTable[i] = cosf(PI*d(*m_pRandom));
+    } //case
     break;
     
-    case eDistribution::Normal: {   
-      std::default_random_engine g;
+    case eDistribution::Normal: {  
       std::normal_distribution<float> d(500.0f, 200.0f);
 
       for(size_t i=0; i<m_nSize; i++)
-        m_fTable[i] = 2.0f*clamp(0.0f, d(g)/1000.0f, 1.0f) - 1.0f;
-      } //case
+        m_fTable[i] = 2.0f*clamp(0.0f, d(*m_pRandom)/1000.0f, 1.0f) - 1.0f;
+    } //case
     break;
 
     case eDistribution::Exponential: {
-      std::default_random_engine g;
       std::exponential_distribution<float> d(8.0f);
 
       const size_t half = m_nSize/2;
 
       for(size_t i=0; i<half; i++) //positive values
-        m_fTable[i] = clamp(0.0f, d(g), 1.0f);
+        m_fTable[i] = clamp(0.0f, d(*m_pRandom), 1.0f);
 
       for(size_t i=half; i<m_nSize; i++) //negative values
-        m_fTable[i] = -clamp(0.0f, d(g), 1.0f);
+        m_fTable[i] = -clamp(0.0f, d(*m_pRandom), 1.0f);
     } //case
     break;
 
@@ -164,6 +184,13 @@ void CPerlinNoise2D::SetSpline(eSpline d){
   m_eSpline = d;
 } //SetSpline
 
+/// Set the hash function type.
+/// \param d Hash function enumerated type.
+
+void CPerlinNoise2D::SetHash(eHash d){
+  m_eHash = d;
+} //SetHash
+
 #pragma endregion Functions that change noise settings
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -171,14 +198,32 @@ void CPerlinNoise2D::SetSpline(eSpline d){
 
 #pragma region Helper functions
 
-/// Apply gradient to a point.
+/// Compute a spline function. Depending on the value of `m_eSpline` this
+/// will be either identity function, a cubic spline, or a quintic spline.
+/// \param x A float in the range \f$[-1, 1]\f$.
+/// \return The spline of \f$\mathsf{x}\f$ in the range \f$[-1, 1]\f$.
+
+inline const float CPerlinNoise2D::spline(float x) const{
+  float fResult = 0.0f;
+
+  switch(m_eSpline){
+    case eSpline::None:    fResult = x;          break;
+    case eSpline::Cubic:   fResult = spline3(x); break;
+    case eSpline::Quintic: fResult = spline5(x); break;
+  } //switch
+
+  return fResult;
+} //spline
+
+/// Apply hashed gradient from `m_fTable` to a point.
 /// \param h Hash value for X and Y gradient.
-/// \param x X-coordinate of point.
-/// \param y Y-coordinate of point.
-/// \return The X and Y gradients times the point.
+/// \param x X-coordinate of point in the range \f$[0, 1]\f$.
+/// \param y Y-coordinate of point in the range \f$[0, 1]\f$.
+/// \return The X and Y gradients times the point in the range \f$[-1, 1]\f$.
 
 inline const float CPerlinNoise2D::grad(size_t h, float x, float y) const{
-  return x*m_fTable[h] + y*m_fTable[m_nPerm[h]];
+  h = h & m_nMask; //safety
+  return clamp(-1.0f, x*m_fTable[h] + y*m_fTable[hash(h)], 1.0f);
 } //grad
 
 /// Perlin's pairing function, which combines two unsigned integers into one.
@@ -190,14 +235,59 @@ inline const size_t CPerlinNoise2D::pair(size_t x, size_t y) const{
   return hash(x) + y;
 } //pair
 
+/// Alternate version of Perlin's pairing function using `hash2()` instead
+/// of `hash1()`.
+/// \param x First unsigned integer.
+/// \param y Second unsigned integer.
+/// \return An unsigned integer that depends upon x and y.
+
+inline const size_t CPerlinNoise2D::pair2(size_t x, size_t y) const{
+  return hash2(x) + y;
+} //pair
+
 /// Perlin's hash function, which uses a random permutation. Note that this
-/// means that it repeats with a period of m_nSize.
+/// means that it repeats with a period of `m_nSize`.
 /// \param x An unsigned integer.
-/// \return A hashed value of x in the range [0, m_nSize - 1].
+/// \return A hash value in the range [0, `m_nSize` - 1].
 
 inline const size_t CPerlinNoise2D::hash(size_t x) const{
   return m_nPerm[x & m_nMask];
 } //hash
+
+/// A hash function using modular arithmetic and exclusive-or.
+/// \param x An unsigned integer.
+/// \return A hash value in the range [0, `m_nSize` - 1].
+
+inline const size_t CPerlinNoise2D::hash2(size_t x) const{
+  const size_t p0 = 9973; //a prime number
+  const size_t p1 = 2147483647; //another prime number
+
+  x = p0*x + p1; //modular arithmetic using the word-size as modulus
+  return (x ^ (x*x)) & m_nMask; //exclusive-or and mask result
+} //hash
+
+/// Get hash values at grid corners (at whole number coordinates).
+/// \param x X-coordinate.
+/// \param y Y-coordinate.
+/// \param c [OUT] Array of four hash values for corners in row-major order.
+
+void CPerlinNoise2D::HashCorners(size_t x, size_t y, size_t c[4]) const{
+  switch(m_eHash){
+    case eHash::Permutation:
+      c[0] = hash(pair(x,     y)); 
+      c[1] = hash(pair(x + 1, y));
+      c[2] = hash(pair(x,     y + 1)); 
+      c[3] = hash(pair(x + 1, y + 1));
+    break;
+
+    case eHash::Arithmetic:
+      c[0] = hash2(pair2(x,     y)); 
+      c[1] = hash2(pair2(x + 1, y));
+      c[2] = hash2(pair2(x,     y + 1)); 
+      c[3] = hash2(pair2(x + 1, y + 1));
+    break;
+  } //switch
+} //HashCorners
 
 #pragma endregion Helper functions
 
@@ -210,7 +300,7 @@ inline const size_t CPerlinNoise2D::hash(size_t x) const{
 /// \param x X-coordinate of point.
 /// \param y Y-coordinate of point.
 /// \param t Noise type.
-/// \return Perlin noise value in [-1, 1] at the given point.
+/// \return A smoothed noise value in [-1, 1] at the given point.
 
 const float CPerlinNoise2D::noise(float x, float y, eNoise t) const{
   const size_t nX = (size_t)floorf(x); //integer part of x
@@ -218,68 +308,65 @@ const float CPerlinNoise2D::noise(float x, float y, eNoise t) const{
 
   const float fX = x - floorf(x); //fractional part of x
   const float fY = y - floorf(y); //fractional part of y
+
+  //smooth fractional parts of x and y using spline curves
  
-  float u, v; //for spline function along x-axis
-
-  switch(m_eSpline){
-    case eSpline::None:    u = fX;          v = fY; break;
-    case eSpline::Cubic:   u = spline3(fX); v = spline3(fY); break;
-    case eSpline::Quintic: u = spline5(fX); v = spline5(fY);break;
-  } //switch
+  const float sX = spline(fX); //apply spline curve to fractional part of x
+  const float sY = spline(fY); //apply spline curve to fractional part of y
   
-  //hash value at corners of surrounding square with integer coordinates
+  //hash value at corners of enclosing grid square with integer coordinates
 
-  const size_t AA = hash(pair(nX,     nY)); 
-  const size_t BA = hash(pair(nX + 1, nY));
-  const size_t AB = hash(pair(nX,     nY + 1)); 
-  const size_t BB = hash(pair(nX + 1, nY + 1));
+  size_t c[4] = {0}; //for hashed values at corners
+  HashCorners(nX, nY, c); //get hashed values at corners
 
-  //now lerp along the top and bottom in the x direction
+  //lerp along the top and bottom in the x direction
 
   float a=0, b=0; //for lerped values
 
   switch(t){ //depending on whether Perlin noise or Value noise
-    case eNoise::Perlin:
-      a = lerp(u, grad(AA, fX, fY),     grad(BA, fX - 1, fY));
-      b = lerp(u, grad(AB, fX, fY - 1), grad(BB, fX - 1, fY - 1));
-     break;
+    case eNoise::Perlin: //lerp gradients
+      a = lerp(sX, grad(c[0], fX, fY),     grad(c[1], fX - 1, fY));
+      b = lerp(sX, grad(c[2], fX, fY - 1), grad(c[3], fX - 1, fY - 1));
+    break;
       
-    case eNoise::Value:
-      a = lerp(u, m_fTable[AA], m_fTable[BA]);
-      b = lerp(u, m_fTable[AB], m_fTable[BB]);
+    case eNoise::Value: //lerp heights
+      a = lerp(sX, m_fTable[c[0]], m_fTable[c[1]]);
+      b = lerp(sX, m_fTable[c[2]], m_fTable[c[3]]);
     break;
   } //switch
 
   //now lerp in the other direction
 
-  return lerp(v, a, b);
+  return lerp(sY, a, b);
 } //noise
   
-/// Uses multiple octaves of Perlin or Value noise to compute an effect similar
-/// to turbulence at a single point.
+/// Add multiple octaves of Perlin or Value noise to compute an effect similar
+/// to turbulence at a single point. Each successive octave has its amplitude
+/// multiplied by a value called the _lacunarity_ and its frequency multiplied
+/// by a value called the _persistence_. These are usually set to 0.5 and 2.0,
+/// respectively.
 /// \param x X-coordinate of a 2D point.
 /// \param y Y-coordinate of a 2D point.
 /// \param t Noise type.
 /// \param n Number of octaves.
 /// \param alpha Lacunarity. Defaults to 0.5f.
 /// \param beta Persistence. Defaults to 2.0f.
-/// \return Turbulence value in [-1, 1] at point (x, y).
+/// \return Turbulence value in \f$[-1, 1]\f$ at point \f$(\mathsf{x}, \mathsf{y})\f$.
 
-const float CPerlinNoise2D::generate(float x, float y, eNoise t, size_t n, float alpha, 
-  float beta) const
+const float CPerlinNoise2D::generate(float x, float y, eNoise t, size_t n, 
+  float alpha, float beta) const
 {
-  float sum = 0.0f; //for sum of octaves
-  float scale = 1.0f; //for octave scale
+  float sum = 0.0f; //for result
+  float amplitude = 1.0f;
 
   for(size_t i=0; i<n; i++){ //for each octave
-    sum += scale*noise(x, y, t); //scale noise by octave scale
-    scale *= alpha; //reduce octave scale by lacunarity
-    x *= beta; //increase X-coordinate by persistence
-    y *= beta; //increase Y-coordinate by persistence
+    sum += amplitude*noise(x, y, t); //scale noise by amplitude
+    amplitude *= alpha; //reduce amplitude by lacunarity  
+    x *= beta; y *= beta; //multiply frequency by persistence
   } //for
 
   //scale result by sum of geometric progression
-  const float result = (1 - alpha)*sum/(1 - scale); 
+  const float result = (1 - alpha)*sum/(1 - amplitude); 
 
   //scale up for Perlin noise
   return (t == eNoise::Perlin)? SQRT2*result: result;

@@ -159,11 +159,8 @@ HMENU CreateFileMenu(HMENU hMenubar){
 HMENU CreateGenerateMenu(HMENU hMenubar){
   HMENU hMenu = CreateMenu();
 
-  AppendMenuW(hMenu, MF_STRING, IDM_GENERATE_PIXELNOISE,  L"Pixel noise");
   AppendMenuW(hMenu, MF_STRING, IDM_GENERATE_PERLINNOISE, L"Perlin noise");
   AppendMenuW(hMenu, MF_STRING, IDM_GENERATE_VALUENOISE,  L"Value noise");
-  AppendMenuW(hMenu, MF_SEPARATOR, 0, nullptr);
-  AppendMenuW(hMenu, MF_STRING, IDM_GENERATE_RANDOMIZE,   L"Randomize");
 
   AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&Generate");
   return hMenu;
@@ -185,6 +182,20 @@ HMENU CreateDistributionMenu(HMENU hMenubar){
   AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&Distribution");
   return hMenu;
 } //CreateDistributionMenu
+
+/// Create `Hash` menu.
+/// \param hMenubar Handle to menu bar.
+/// \return Handle to `Hash` menu.
+
+HMENU CreateHashMenu(HMENU hMenubar){
+  HMENU hMenu = CreateMenu();
+
+  AppendMenuW(hMenu, MF_STRING, IDM_HASH_PERM,    L"Permutation");
+  AppendMenuW(hMenu, MF_STRING, IDM_HASH_ARITH,   L"Arithmetic");
+
+  AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&Hash");
+  return hMenu;
+} //CreateHashMenu
 
 /// Create `Spline` menu.
 /// \param hMenubar Handle to menu bar.
@@ -256,13 +267,6 @@ void UpdateFileMenu(HMENU hMenu, eNoise noise){
 /// \param noise Noise enumerated type.
 
 void UpdateGenerateMenu(HMENU hMenu, eNoise noise){
-  if(noise == eNoise::None)
-    EnableMenuItem(hMenu, IDM_GENERATE_RANDOMIZE, MF_GRAYED);
-  else
-    EnableMenuItem(hMenu, IDM_GENERATE_RANDOMIZE, MF_ENABLED);
-
-  CheckMenuItem(hMenu, IDM_GENERATE_PIXELNOISE,
-    (noise == eNoise::Pixel)? MF_CHECKED: MF_UNCHECKED);
   CheckMenuItem(hMenu, IDM_GENERATE_PERLINNOISE, 
     (noise == eNoise::Perlin)? MF_CHECKED: MF_UNCHECKED);
   CheckMenuItem(hMenu, IDM_GENERATE_VALUENOISE,
@@ -303,6 +307,32 @@ void UpdateDistributionMenu(HMENU hMenu, eNoise noise, eDistribution distr){
   CheckMenuItem(hMenu, IDM_DISTRIBUTION_MIDPOINT, 
     distr == eDistribution::MidpointDisplacement? MF_CHECKED: MF_UNCHECKED);
 } //UpdateDistributionMenu
+  
+/// Gray out and set the checkmarks in the `Hash` menu according to the
+/// current noise and hash function types.
+/// \param hMenu Menu handle.
+/// \param noise Noise enumerated type.
+/// \param h Hash function enumerated type.
+
+void UpdateHashMenu(HMENU hMenu, eNoise noise, eHash h){
+  switch(noise){
+    case eNoise::None: 
+      EnableMenuItem(hMenu, IDM_HASH_PERM,  MF_GRAYED);
+      EnableMenuItem(hMenu, IDM_HASH_ARITH, MF_GRAYED);
+    break;
+
+    case eNoise::Perlin:
+    case eNoise::Value:
+      EnableMenuItem(hMenu, IDM_HASH_PERM,  MF_ENABLED);
+      EnableMenuItem(hMenu, IDM_HASH_ARITH, MF_ENABLED);
+    break;
+  } //switch
+
+  CheckMenuItem(hMenu, IDM_HASH_PERM,
+    (h == eHash::Permutation)? MF_CHECKED: MF_UNCHECKED);
+  CheckMenuItem(hMenu, IDM_HASH_ARITH,
+    (h == eHash::Arithmetic)? MF_CHECKED: MF_UNCHECKED);
+} //UpdateHashMenu
 
 /// Gray out and set the checkmarks in the `Spline` menu according to the
 /// current noise and spline types.
@@ -312,7 +342,6 @@ void UpdateDistributionMenu(HMENU hMenu, eNoise noise, eDistribution distr){
 
 void UpdateSplineMenu(HMENU hMenu, eNoise noise, eSpline spline){
   switch(noise){
-    case eNoise::Pixel:
     case eNoise::None: 
       EnableMenuItem(hMenu, IDM_SPLINE_NONE,     MF_GRAYED);
       EnableMenuItem(hMenu, IDM_SPLINE_CUBIC,    MF_GRAYED);
@@ -336,12 +365,13 @@ void UpdateSplineMenu(HMENU hMenu, eNoise noise, eSpline spline){
 } //UpdateSplineMenu
 
 /// Gray out entries in the `Settings` menu if they are not appropriate for the
-/// current noise type and parameters, and ungray them if they are.
+/// current noise type and parameters. These will be ungrayed by calls to
+/// `UpdateOctaveSubMenu`.
 /// \param hMenu Menu handle.
 /// \param noise Noise enumerated type.
 
 void UpdateSettingsMenu(HMENU hMenu, eNoise noise){
-  if(noise == eNoise::Pixel || noise == eNoise::None){
+  if(noise == eNoise::None){
     EnableMenuItem(hMenu, IDM_SETTINGS_OCTAVE_UP, MF_GRAYED);
     EnableMenuItem(hMenu, IDM_SETTINGS_OCTAVE_DN, MF_GRAYED);
     EnableMenuItem(hMenu, IDM_SETTINGS_SCALE_UP,  MF_GRAYED);
