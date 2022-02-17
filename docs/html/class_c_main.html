@@ -104,9 +104,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2e0fc8d7f2582ce75a23b795674d90a7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_main.html#a2e0fc8d7f2582ce75a23b795674d90a7">GenerateNoiseBitmap</a> ()</td></tr>
 <tr class="memdesc:a2e0fc8d7f2582ce75a23b795674d90a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate bitmap again with saved parameters.  <a href="class_c_main.html#a2e0fc8d7f2582ce75a23b795674d90a7">More...</a><br /></td></tr>
 <tr class="separator:a2e0fc8d7f2582ce75a23b795674d90a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae800a5e3a42a21cab894fa400d3d93ea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_main.html#ae800a5e3a42a21cab894fa400d3d93ea">Initialize</a> (<a class="el" href="_defines_8h.html#a352389712570c16202dd2f89203c916b">eDistribution</a>)</td></tr>
-<tr class="memdesc:ae800a5e3a42a21cab894fa400d3d93ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set probability distribution.  <a href="class_c_main.html#ae800a5e3a42a21cab894fa400d3d93ea">More...</a><br /></td></tr>
-<tr class="separator:ae800a5e3a42a21cab894fa400d3d93ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a5b960f39f025f5dba93cfbe9ebcac5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_main.html#a1a5b960f39f025f5dba93cfbe9ebcac5">SetDistribution</a> (<a class="el" href="_defines_8h.html#a352389712570c16202dd2f89203c916b">eDistribution</a>)</td></tr>
+<tr class="memdesc:a1a5b960f39f025f5dba93cfbe9ebcac5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set probability distribution.  <a href="class_c_main.html#a1a5b960f39f025f5dba93cfbe9ebcac5">More...</a><br /></td></tr>
+<tr class="separator:a1a5b960f39f025f5dba93cfbe9ebcac5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad19ca39b065772a5d90debb823c606d2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_main.html#ad19ca39b065772a5d90debb823c606d2">SetSpline</a> (<a class="el" href="_defines_8h.html#a3affdf47188b2b2c1e80e405b74e3c61">eSpline</a>)</td></tr>
 <tr class="memdesc:ad19ca39b065772a5d90debb823c606d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set spline function.  <a href="class_c_main.html#ad19ca39b065772a5d90debb823c606d2">More...</a><br /></td></tr>
 <tr class="separator:ad19ca39b065772a5d90debb823c606d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,6 +143,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a17c450718d0b40c52ccef71a3eb17e46"><td class="memItemLeft" align="right" valign="top">const std::wstring&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_main.html#a17c450718d0b40c52ccef71a3eb17e46">GetNoiseDescription</a> () const</td></tr>
 <tr class="memdesc:a17c450718d0b40c52ccef71a3eb17e46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get noise description.  <a href="class_c_main.html#a17c450718d0b40c52ccef71a3eb17e46">More...</a><br /></td></tr>
 <tr class="separator:a17c450718d0b40c52ccef71a3eb17e46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9946ee8079acd0c7d5df3b6e15c40408"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="_defines_8h.html#a352389712570c16202dd2f89203c916b">eDistribution</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_main.html#a9946ee8079acd0c7d5df3b6e15c40408">GetDistribution</a> () const</td></tr>
+<tr class="memdesc:a9946ee8079acd0c7d5df3b6e15c40408"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get distribution type.  <a href="class_c_main.html#a9946ee8079acd0c7d5df3b6e15c40408">More...</a><br /></td></tr>
+<tr class="separator:a9946ee8079acd0c7d5df3b6e15c40408"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -474,7 +477,7 @@ Gdiplus::Bitmap *&#160;</td><td class="memItemRight" valign="bottom"><a class="e
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Generate last type of noise again. </p>
+<p>Generate last type of noise. </p>
 
 <p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00221">221</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
 
@@ -523,6 +526,26 @@ Gdiplus::Bitmap *&#160;</td><td class="memItemRight" valign="bottom"><a class="e
 <p>Reader function for the bitmap pointer <code>m_pBitmap</code>. </p><dl class="section return"><dt>Returns</dt><dd>The bitmap pointer <code>m_pBitmap</code>. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00421">421</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a9946ee8079acd0c7d5df3b6e15c40408"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9946ee8079acd0c7d5df3b6e15c40408">&#9670;&nbsp;</a></span>GetDistribution()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="_defines_8h.html#a352389712570c16202dd2f89203c916b">eDistribution</a> CMain::GetDistribution </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Reader function for the distribution type <code>m_eDistr</code>. </p><dl class="section return"><dt>Returns</dt><dd>The distribution type <code>m_eDistr</code>. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00428">428</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
 
 </div>
 </div>
@@ -631,32 +654,6 @@ Gdiplus::Bitmap *&#160;</td><td class="memItemRight" valign="bottom"><a class="e
 
 </div>
 </div>
-<a id="ae800a5e3a42a21cab894fa400d3d93ea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae800a5e3a42a21cab894fa400d3d93ea">&#9670;&nbsp;</a></span>Initialize()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void CMain::Initialize </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="_defines_8h.html#a352389712570c16202dd2f89203c916b">eDistribution</a>&#160;</td>
-          <td class="paramname"><em>d</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Set Perlin noise probability distribution and regenerate noise. This will change the contents of the Perlin noise gradient/height table. </p><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">d</td><td>Probability distribution enumerated type. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00236">236</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
-
-</div>
-</div>
 <a id="ae49d2d96b54cef7272d64b77171cffad"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae49d2d96b54cef7272d64b77171cffad">&#9670;&nbsp;</a></span>OnPaint()</h2>
 
@@ -674,6 +671,32 @@ Gdiplus::Bitmap *&#160;</td><td class="memItemRight" valign="bottom"><a class="e
 <p>Draw the bitmap pointed to by <code>m_pBitmap</code> to the window client area, scaled down if necessary. This function should only be called in response to a <code>WM_PAINT</code> message. </p>
 
 <p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00068">68</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a1a5b960f39f025f5dba93cfbe9ebcac5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a5b960f39f025f5dba93cfbe9ebcac5">&#9670;&nbsp;</a></span>SetDistribution()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CMain::SetDistribution </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="_defines_8h.html#a352389712570c16202dd2f89203c916b">eDistribution</a>&#160;</td>
+          <td class="paramname"><em>d</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Set Perlin noise probability distribution and regenerate noise. This will change the contents of the Perlin noise gradient/height table. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">d</td><td>Probability distribution enumerated type. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00236">236</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
 
 </div>
 </div>
@@ -909,7 +932,7 @@ Gdiplus::Bitmap *&#160;</td><td class="memItemRight" valign="bottom"><a class="e
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Feb 16 2022 19:54:13 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Wed Feb 16 2022 21:38:26 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>

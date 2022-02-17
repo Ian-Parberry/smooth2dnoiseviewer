@@ -62,13 +62,13 @@ class CPerlinNoise2D{
     inline const float grad(size_t, float, float) const; ///< Apply gradients.
     const float noise(float, float, eNoise) const; ///< Perlin noise.
 
-    void Randomize(); ///< Randomize permutation.
+    void RandomizePermutation(); ///< Randomize permutation.
 
   public:
     CPerlinNoise2D(size_t); ///< Constructor.
     ~CPerlinNoise2D(); ///<Destructor.
     
-    void Initialize(eDistribution); ///< Initialize table from distribution.
+    void RandomizeTable(eDistribution); ///< Randomize table from distribution.
     
     void SetSpline(eSpline); ///< Set spline function.
     void SetHash(eHash); ///< Set hash function.

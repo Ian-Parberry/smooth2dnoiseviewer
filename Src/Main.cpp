@@ -102,30 +102,45 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
           g_pMain->GenerateNoiseBitmap(eNoise::Value);
           InvalidateRect(hWnd, nullptr, FALSE);
           break;
+
+        case IDM_GENERATE_RANDOMIZE:
+          g_pMain->SetDistribution(g_pMain->GetDistribution());
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
             
         case IDM_DISTRIBUTION_UNIFORM:
-          g_pMain->Initialize(eDistribution::Uniform);
-          InvalidateRect(hWnd, nullptr, FALSE);
+            if(g_pMain->GetDistribution() != eDistribution::Uniform){
+            g_pMain->SetDistribution(eDistribution::Uniform);
+            InvalidateRect(hWnd, nullptr, FALSE);
+          } //if
           break;
 
         case IDM_DISTRIBUTION_COSINE:
-          g_pMain->Initialize(eDistribution::Cosine);
-          InvalidateRect(hWnd, nullptr, FALSE);
+          if(g_pMain->GetDistribution() != eDistribution::Cosine){
+            g_pMain->SetDistribution(eDistribution::Cosine);
+            InvalidateRect(hWnd, nullptr, FALSE);
+          } //if
           break; 
 
         case IDM_DISTRIBUTION_NORMAL:
-          g_pMain->Initialize(eDistribution::Normal);
-          InvalidateRect(hWnd, nullptr, FALSE);
+          if(g_pMain->GetDistribution() != eDistribution::Normal){
+            g_pMain->SetDistribution(eDistribution::Normal);
+            InvalidateRect(hWnd, nullptr, FALSE);
+          } //if
           break;
 
         case IDM_DISTRIBUTION_EXPONENTIAL:
-          g_pMain->Initialize(eDistribution::Exponential);
-          InvalidateRect(hWnd, nullptr, FALSE);
+          if(g_pMain->GetDistribution() != eDistribution::Exponential){
+            g_pMain->SetDistribution(eDistribution::Exponential);
+            InvalidateRect(hWnd, nullptr, FALSE);
+          } //if
           break;
 
         case IDM_DISTRIBUTION_MIDPOINT:
-          g_pMain->Initialize(eDistribution::MidpointDisplacement);
-          InvalidateRect(hWnd, nullptr, FALSE);
+          if(g_pMain->GetDistribution() != eDistribution::MidpointDisplacement){
+            g_pMain->SetDistribution(eDistribution::MidpointDisplacement);
+            InvalidateRect(hWnd, nullptr, FALSE);
+          } //if
           break;
 
         case IDM_HASH_PERM:

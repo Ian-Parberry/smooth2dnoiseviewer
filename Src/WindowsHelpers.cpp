@@ -161,6 +161,8 @@ HMENU CreateGenerateMenu(HMENU hMenubar){
 
   AppendMenuW(hMenu, MF_STRING, IDM_GENERATE_PERLINNOISE, L"Perlin noise");
   AppendMenuW(hMenu, MF_STRING, IDM_GENERATE_VALUENOISE,  L"Value noise");
+  AppendMenuW(hMenu, MF_SEPARATOR, 0, nullptr);
+  AppendMenuW(hMenu, MF_STRING, IDM_GENERATE_RANDOMIZE,  L"Randomize");
 
   AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&Generate");
   return hMenu;
@@ -248,12 +250,12 @@ HMENU CreateSettingsMenu(HMENU hMenubar){
 
 void UpdateFileMenu(HMENU hMenu, eNoise noise){
   if(noise == eNoise::None){
-    EnableMenuItem(hMenu, IDM_FILE_SAVE, MF_GRAYED);
+    EnableMenuItem(hMenu, IDM_FILE_SAVE,  MF_GRAYED);
     EnableMenuItem(hMenu, IDM_FILE_PROPS, MF_GRAYED);
   } //if
 
   else{
-    EnableMenuItem(hMenu, IDM_FILE_SAVE, MF_ENABLED);
+    EnableMenuItem(hMenu, IDM_FILE_SAVE,  MF_ENABLED);
     EnableMenuItem(hMenu, IDM_FILE_PROPS, MF_ENABLED);
   } //else
 } //UpdateFileMenu
@@ -271,6 +273,9 @@ void UpdateGenerateMenu(HMENU hMenu, eNoise noise){
     (noise == eNoise::Perlin)? MF_CHECKED: MF_UNCHECKED);
   CheckMenuItem(hMenu, IDM_GENERATE_VALUENOISE,
     (noise == eNoise::Value)? MF_CHECKED: MF_UNCHECKED);
+  
+  EnableMenuItem(hMenu, IDM_GENERATE_RANDOMIZE, 
+    (noise == eNoise::None)? MF_GRAYED: MF_ENABLED);
 } //UpdateGenerateMenu
   
 /// Gray out and set the checkmarks in the `Distribution` menu according to the

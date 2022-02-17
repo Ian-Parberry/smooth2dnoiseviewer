@@ -54,8 +54,8 @@ CPerlinNoise2D::CPerlinNoise2D(size_t n):
   m_fTable(new float[m_nSize]) //gradients or heights
 { 
   m_pRandom = new std::default_random_engine; 
-  Initialize(eDistribution::Uniform);
-  Randomize();
+  RandomizeTable(eDistribution::Uniform); //randomize gradient/height table
+  RandomizePermutation(); //randomize permutation
 } //constructor
 
 /// The destructor deletes the permutation and table created in
@@ -78,7 +78,7 @@ CPerlinNoise2D::~CPerlinNoise2D(){
 /// each permutation equally likely. The standard algorithm is used, with the
 /// C standard library function `rand()` used as a source of randomness.
 
-void CPerlinNoise2D::Randomize(){
+void CPerlinNoise2D::RandomizePermutation(){
   m_nSeed = timeGetTime(); ///< Pseudorandom number seed.
 
   for(size_t i=0; i<m_nSize; i++) //identity permutation
@@ -86,7 +86,7 @@ void CPerlinNoise2D::Randomize(){
 
   for(size_t i=0; i<m_nSize; i++) //randomize
     std::swap(m_nPerm[i], m_nPerm[i + rand()%(m_nSize - i)]);
-} //Randomize
+} //RandomizePermutation
 
 /// Initialize a chunk of the gradient/height table `m_fTable` using midpoint
 /// displacement. Given \f$\mathsf{i}\f$ and \f$\mathsf{j}\f$ such that
@@ -112,8 +112,7 @@ void CPerlinNoise2D::MidpointDisplacement(size_t i, size_t j, float alpha){
     const size_t mid = (i + j)/2; //mid point
 
     const float fMean = (m_fTable[i] + m_fTable[j - 1])/2.0f; //average of ends
-    const float fRand = d(*m_pRandom); //(float)rand()/RAND_MAX; //random value in [0, 1]
-    //const float fOffset = alpha*(2.0f*fRand - 1.0f); //random offset
+    const float fRand = d(*m_pRandom); //random value in [-1, 1]
     m_fTable[mid] = clamp(-1.0f, fMean + fRand, 1.0f); //mid point is average plus offset
     alpha *= 0.5f; //increase lacunarity
 
@@ -122,14 +121,14 @@ void CPerlinNoise2D::MidpointDisplacement(size_t i, size_t j, float alpha){
   } //if
 } //MidpointDisplacement
 
-/// Initialize `m_fTable` to pseudo-random values in \f$[-1, 1]\f$ according 
+/// Set `m_fTable` to pseudo-random values in \f$[-1, 1]\f$ according 
 /// to some probability distribution. The pseudo-random number generators are
 /// seeded from `m_nSeed`, which means that the table contents are the same each
 /// time this function is called with the same parameter, up until `Randomize()`
 /// is called.
 /// \param d Probability distribution enumerated type.
 
-void CPerlinNoise2D::Initialize(eDistribution d){
+void CPerlinNoise2D::RandomizeTable(eDistribution d){
   switch(d){
     case eDistribution::Uniform: {   
       std::uniform_real_distribution<float> d(-1.0f, 1.0f);
@@ -175,7 +174,7 @@ void CPerlinNoise2D::Initialize(eDistribution d){
       MidpointDisplacement(0, m_nSize, 0.5f);
     break;
   } //switch
-} //Initialize
+} //RandomizeTable
 
 /// Set the spline function type.
 /// \param d Spline function enumerated type.
@@ -242,8 +241,8 @@ inline const size_t CPerlinNoise2D::pair(size_t x, size_t y) const{
 /// \return An unsigned integer that depends upon x and y.
 
 inline const size_t CPerlinNoise2D::pair2(size_t x, size_t y) const{
-  return hash2(x) + y;
-} //pair
+  return hash2(x) ^ y;
+} //pair2
 
 /// Perlin's hash function, which uses a random permutation. Note that this
 /// means that it repeats with a period of `m_nSize`.
@@ -259,12 +258,13 @@ inline const size_t CPerlinNoise2D::hash(size_t x) const{
 /// \return A hash value in the range [0, `m_nSize` - 1].
 
 inline const size_t CPerlinNoise2D::hash2(size_t x) const{
-  const size_t p0 = 9973; //a prime number
-  const size_t p1 = 2147483647; //another prime number
+  const size_t p0 = 2147483647; //a prime number
+  const size_t p1 = 9973; //another prime number
+  const size_t p2 = 0x1FFFFFFF; //another prime number
 
-  x = p0*x + p1; //modular arithmetic using the word-size as modulus
+  x = (p0*x + p1) & p2; //modular arithmetic using the word-size as modulus
   return (x ^ (x*x)) & m_nMask; //exclusive-or and mask result
-} //hash
+} //hash2
 
 /// Get hash values at grid corners (at whole number coordinates).
 /// \param x X-coordinate.

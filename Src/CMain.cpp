@@ -216,7 +216,7 @@ void CMain::GenerateNoiseBitmap(eNoise t){
       SetPixel(i, j, m_pPerlin->generate(i/m_fScale, j/m_fScale, t, m_nOctaves));
 } //GenerateNoiseBitmap
 
-/// Generate last type of noise again.
+/// Generate last type of noise.
 
 void CMain::GenerateNoiseBitmap(){
   GenerateNoiseBitmap(m_eNoise);
@@ -233,12 +233,12 @@ void CMain::GenerateNoiseBitmap(){
 /// change the contents of the Perlin noise gradient/height table.
 /// \param d Probability distribution enumerated type.
 
-void CMain::Initialize(eDistribution d){
+void CMain::SetDistribution(eDistribution d){
   m_eDistr = d;
-  m_pPerlin->Initialize(d);
+  m_pPerlin->RandomizeTable(d);
   UpdateDistributionMenu(m_hDistMenu, m_eNoise, m_eDistr);
   GenerateNoiseBitmap();
-} //Initialize
+} //SetDistribution
 
 /// Set Perlin noise spline function and regenerate noise.
 /// \param d Spline function enumerated type.
@@ -421,5 +421,12 @@ const std::wstring CMain::GetNoiseDescription() const{
 Gdiplus::Bitmap* CMain::GetBitmap() const{
   return m_pBitmap;
 } //GetBitmap
+
+/// Reader function for the distribution type `m_eDistr`.
+/// \return The distribution type `m_eDistr`.
+
+const eDistribution CMain::GetDistribution() const{
+  return m_eDistr;
+} //GetDistribution
 
 #pragma endregion Reader functions

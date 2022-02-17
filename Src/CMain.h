@@ -86,7 +86,7 @@ class CMain{
     void GenerateNoiseBitmap(eNoise); ///< Generate Perlin or Value noise bitmap.
     void GenerateNoiseBitmap(); ///< Generate bitmap again with saved parameters.
 
-    void Initialize(eDistribution); ///< Set probability distribution.
+    void SetDistribution(eDistribution); ///< Set probability distribution.
     void SetSpline(eSpline); ///< Set spline function.
     void SetHash(eHash); ///< Set hash function.
 
@@ -102,6 +102,7 @@ class CMain{
     Gdiplus::Bitmap* GetBitmap() const; ///< Get pointer to bitmap.
     const std::wstring GetFileName() const; ///< Get noise file name.
     const std::wstring GetNoiseDescription() const; ///< Get noise description.
+    const eDistribution GetDistribution() const; ///< Get distribution type.
 }; //CMain
 
 #endif //__CMAIN_H__
