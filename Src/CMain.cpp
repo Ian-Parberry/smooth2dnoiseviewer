@@ -129,18 +129,32 @@ void CMain::CreateMenus(){
 
 void CMain::UpdateMenus(){
   UpdateFileMenu(m_hFileMenu, m_eNoise); 
-  UpdateGenerateMenu(m_hGenMenu, m_eNoise); 
+
+  UpdateGenerateMenu(m_hGenMenu, m_eNoise);
+  UpdateMenuItemBool(m_hGenMenu, IDM_GENERATE_RESETORIGIN, m_eNoise,
+    m_fOriginX == 0.0f && m_fOriginY == 0.0f);
+
   UpdateDistributionMenu(m_hDistMenu, m_eNoise, m_eDistr); 
   UpdateHashMenu(m_hHashMenu, m_eNoise, m_eHash); 
   UpdateSplineMenu(m_hSplineMenu, m_eNoise, m_eSpline); 
 
   UpdateSettingsMenu(m_hSetMenu, m_eNoise); 
-  UpdateOctaveSubMenu(m_hSetMenu, m_eNoise, 
+
+  UpdateMenuItem(m_hSetMenu, 
+    IDM_SETTINGS_OCTAVE_UP, IDM_SETTINGS_OCTAVE_DN, m_eNoise, 
     m_nOctaves, m_nMinOctaves, m_nMaxOctaves);
-  UpdateScaleSubMenu(m_hSetMenu, m_eNoise, 
-    m_fScale, m_fMinScale, m_fMaxScale);
-  UpdateTableSizeSubMenu(m_hSetMenu, m_eNoise, 
-    m_nLog2TableSize, m_nMinLog2TableSize, m_nMaxLog2TableSize);
+  UpdateMenuItem(m_hSetMenu,
+     IDM_SETTINGS_OCTAVE_UP, IDM_SETTINGS_OCTAVE_DN, m_eNoise, 
+    m_nOctaves, m_nMinOctaves, m_nMaxOctaves);  
+  UpdateMenuItem(m_hSetMenu, 
+    IDM_SETTINGS_SCALE_UP, IDM_SETTINGS_SCALE_DN, m_eNoise, 
+    m_fScale, m_fMinScale, m_fMaxScale);  
+  UpdateMenuItem(m_hSetMenu, 
+    IDM_SETTINGS_TSIZE_UP, IDM_SETTINGS_TSIZE_DN, m_eNoise, 
+    m_nLog2TableSize, m_nMinLog2TableSize, m_nMaxLog2TableSize); 
+  UpdateMenuItemBool(m_hSetMenu, IDM_SETTINGS_RESET, m_eNoise,
+    m_nOctaves == m_nDefOctaves && m_fScale == m_fDefScale
+    && m_nLog2TableSize == m_nDefLog2TableSize); 
 } //UpdateMenus
 
 #pragma endregion Menu functions
@@ -270,8 +284,6 @@ void CMain::SetHash(eHash d){
 
 /// Increment both coordinates of the origin by the table size and regenerate
 /// noise.
-/// \param x X-coordinate of origin.
-/// \param y Y-coordinate of origin.
 
 void CMain::Jump(){
   const float offset = round(pow(2.0f, (float)m_nLog2TableSize));
@@ -279,6 +291,25 @@ void CMain::Jump(){
   m_fOriginY += offset;
   GenerateNoiseBitmap();
 } //Jump
+
+/// Set coordinates of the origin.
+/// \param x New X-coordinate of origin.
+/// \param y New Y-coordinate of origin.
+
+void CMain::Jump(float x, float y){
+  m_fOriginX = x;
+  m_fOriginY = y;
+  GenerateNoiseBitmap();
+} //Jump
+
+/// Check origin coordinates.
+/// \param x Desired X-coordinate of origin.
+/// \param y Desired Y-coordinate of origin.
+/// \return true if the origin coordinates are the desired coordinates.
+
+const bool CMain::Origin(float x, float y) const{
+  return m_fOriginX == x && m_fOriginY == y;
+} //Origin
 
 /// Increase the number of octaves in `m_nOctaves` by one up to a maximum
 /// of `m_nMaxOctaves`.
@@ -331,6 +362,15 @@ void CMain::DecreaseTableSize(){
   m_pPerlin = new CPerlinNoise2D(m_nLog2TableSize);
   GenerateNoiseBitmap();
 } //DecreaseTableSize
+
+/// Reset number of octaves, scale, and table size to defaults.
+
+void CMain::Reset(){
+  m_nOctaves = m_nDefOctaves;
+  m_fScale = m_fDefScale;
+  m_nLog2TableSize = m_nDefLog2TableSize;
+  GenerateNoiseBitmap();
+} //Reset
 
 #pragma endregion Menu response functions
 

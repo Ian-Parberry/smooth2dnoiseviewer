@@ -162,8 +162,10 @@ HMENU CreateGenerateMenu(HMENU hMenubar){
   AppendMenuW(hMenu, MF_STRING, IDM_GENERATE_PERLINNOISE, L"Perlin noise");
   AppendMenuW(hMenu, MF_STRING, IDM_GENERATE_VALUENOISE,  L"Value noise");
   AppendMenuW(hMenu, MF_SEPARATOR, 0, nullptr);
-  AppendMenuW(hMenu, MF_STRING, IDM_GENERATE_RANDOMIZE,  L"Randomize");
   AppendMenuW(hMenu, MF_STRING, IDM_GENERATE_JUMP, L"Jump");
+  AppendMenuW(hMenu, MF_STRING, IDM_GENERATE_RESETORIGIN, L"Reset origin");
+  AppendMenuW(hMenu, MF_SEPARATOR, 0, nullptr);
+  AppendMenuW(hMenu, MF_STRING, IDM_GENERATE_RANDOMIZE,  L"Randomize");
 
   AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&Generate");
   return hMenu;
@@ -232,6 +234,8 @@ HMENU CreateSettingsMenu(HMENU hMenubar){
   AppendMenuW(hMenu, MF_SEPARATOR, 0, nullptr);
   AppendMenuW(hMenu, MF_STRING, IDM_SETTINGS_TSIZE_UP,  L"Table size up");
   AppendMenuW(hMenu, MF_STRING, IDM_SETTINGS_TSIZE_DN, L"Table size down");
+  AppendMenuW(hMenu, MF_SEPARATOR, 0, nullptr);
+  AppendMenuW(hMenu, MF_STRING, IDM_SETTINGS_RESET, L"Reset to defaults");
   
   AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&Settings");
   return hMenu;
@@ -279,7 +283,21 @@ void UpdateGenerateMenu(HMENU hMenu, eNoise noise){
     (noise == eNoise::None)? MF_GRAYED: MF_ENABLED);
   EnableMenuItem(hMenu, IDM_GENERATE_JUMP, 
     (noise == eNoise::None)? MF_GRAYED: MF_ENABLED);
+
+  EnableMenuItem(hMenu, IDM_GENERATE_RESETORIGIN, 
+    (noise == eNoise::None)? MF_GRAYED: MF_ENABLED);
 } //UpdateGenerateMenu
+
+/// Gray or ungray a menu item depending on noise type and a boolean value.
+/// \param hMenu Menu handle.
+/// \param item Menu item id.
+/// \param noise Noise enumerated type.
+/// \param bGray True if entry is to be grayed out.
+
+void UpdateMenuItemBool(HMENU hMenu, UINT item, eNoise noise, bool bGray){
+  EnableMenuItem(hMenu, item, 
+    (noise == eNoise::None || bGray)? MF_GRAYED: MF_ENABLED);
+} //UpdateMenuItemBool
   
 /// Gray out and set the checkmarks in the `Distribution` menu according to the
 /// current noise and distribution types.
@@ -373,8 +391,7 @@ void UpdateSplineMenu(HMENU hMenu, eNoise noise, eSpline spline){
 } //UpdateSplineMenu
 
 /// Gray out entries in the `Settings` menu if they are not appropriate for the
-/// current noise type and parameters. These will be ungrayed by calls to
-/// `UpdateOctaveSubMenu`.
+/// current noise type and parameters.
 /// \param hMenu Menu handle.
 /// \param noise Noise enumerated type.
 
@@ -388,65 +405,3 @@ void UpdateSettingsMenu(HMENU hMenu, eNoise noise){
     EnableMenuItem(hMenu, IDM_SETTINGS_TSIZE_DN,  MF_GRAYED);
   } //if
 } //UpdateSettingsMenu
-
-/// Update the octave settings in the `Settings` menu. Gray out `Octave up`
-/// if the number of octaves is greater than the maximum allowed, and gray out
-/// `Octave down` if the number of octaves is less than the minimum allowed.
-/// \param hMenu Menu handle.
-/// \param noise Noise enumerated type.
-/// \param n Number of octaves.
-/// \param nMin Minimum number of octaves.
-/// \param nMax Maximum number of octaves.
-
-void UpdateOctaveSubMenu(HMENU hMenu, eNoise noise, 
-  size_t n, size_t nMin, size_t nMax)
-{
-  if(noise == eNoise::Perlin || noise == eNoise::Value){
-    EnableMenuItem(hMenu, IDM_SETTINGS_OCTAVE_UP, 
-      (n < nMax)? MF_ENABLED: MF_GRAYED);
-    EnableMenuItem(hMenu, IDM_SETTINGS_OCTAVE_DN,
-      (n > nMin)? MF_ENABLED: MF_GRAYED);
-  } //if
-} //UpdateOctaveSubMenu
-
-/// Update the scale settings in the `Settings` menu. Gray out `Scale up`
-/// if the scale is greater than the maximum allowed, and gray out
-/// `Scale down` if the scale is less than the minimum allowed.
-/// \param hMenu Menu handle.
-/// \param noise Noise enumerated type.
-/// \param f Scale.
-/// \param fMin Minimum scale.
-/// \param fMax Maximum scale.
-
-void UpdateScaleSubMenu(HMENU hMenu, eNoise noise,
-  float f, float fMin, float fMax)
-{
-  if(noise == eNoise::Perlin || noise == eNoise::Value){
-    EnableMenuItem(hMenu, IDM_SETTINGS_SCALE_UP, 
-      (f < fMax)? MF_ENABLED: MF_GRAYED);
-    EnableMenuItem(hMenu, IDM_SETTINGS_SCALE_DN,
-      (f > fMin)? MF_ENABLED: MF_GRAYED);
-  } //if
-} //UpdateScaleSubMenu
-
-/// Update the table size settings in the `Settings` menu. Gray out `Table size up`
-/// if the number of octaves is greater than the maximum allowed, and gray out
-/// `Table size down` if the number of octaves is less than the minimum allowed.
-/// \param hMenu Menu handle.
-/// \param noise Noise enumerated type.
-/// \param n Log base 2 of the table size.
-/// \param nMin Minimum log base 2 of the table size.
-/// \param nMax Maximum log base 2 of the table size
-
-void UpdateTableSizeSubMenu(HMENU hMenu, eNoise noise,
-  size_t n, size_t nMin, size_t nMax)
-{
-  if(noise == eNoise::Perlin || noise == eNoise::Value){
-    EnableMenuItem(hMenu, IDM_SETTINGS_TSIZE_UP, 
-      (n < nMax)? MF_ENABLED: MF_GRAYED);
-    EnableMenuItem(hMenu, IDM_SETTINGS_TSIZE_DN,
-      (n > nMin)? MF_ENABLED: MF_GRAYED);
-  } //if
-} //UpdateTableSizeSubMenu
-
-#pragma endregion Update menu functions

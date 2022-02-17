@@ -43,28 +43,30 @@
 
 #define IDM_GENERATE_PERLINNOISE 4 ///< Menu id for Perlin Noise.
 #define IDM_GENERATE_VALUENOISE  5 ///< Menu id for Value Noise.
-#define IDM_GENERATE_RANDOMIZE  6 ///< Menu id for regenerate Noise.
-#define IDM_GENERATE_JUMP      7 ///< Menu id for jump origin.
+#define IDM_GENERATE_RANDOMIZE   6 ///< Menu id for regenerate Noise.
+#define IDM_GENERATE_JUMP        7 ///< Menu id for jump.
+#define IDM_GENERATE_RESETORIGIN 8 ///< Menu id for reset origin.
 
-#define IDM_DISTRIBUTION_UNIFORM      8 ///< Menu id for uniform distribution.
-#define IDM_DISTRIBUTION_COSINE       9 ///< Menu id for cosine distribution.
-#define IDM_DISTRIBUTION_NORMAL      10 ///< Menu id for normal distribution.
-#define IDM_DISTRIBUTION_EXPONENTIAL 11 ///< Menu id for exponential distribution.
-#define IDM_DISTRIBUTION_MIDPOINT    12 ///< Menu id for midpoint displacement.
+#define IDM_DISTRIBUTION_UNIFORM      9 ///< Menu id for uniform distribution.
+#define IDM_DISTRIBUTION_COSINE      10 ///< Menu id for cosine distribution.
+#define IDM_DISTRIBUTION_NORMAL      11 ///< Menu id for normal distribution.
+#define IDM_DISTRIBUTION_EXPONENTIAL 12 ///< Menu id for exponential distribution.
+#define IDM_DISTRIBUTION_MIDPOINT    13 ///< Menu id for midpoint displacement.
 
-#define IDM_HASH_PERM  13 ///< Menu id for permutation hash.
-#define IDM_HASH_STD   14 ///< Menu id for std::hash.
+#define IDM_HASH_PERM  14 ///< Menu id for permutation hash.
+#define IDM_HASH_STD   15 ///< Menu id for std::hash.
 
-#define IDM_SPLINE_NONE    15 ///< Menu id for cubic spline.
-#define IDM_SPLINE_CUBIC   16 ///< Menu id for no spline.
-#define IDM_SPLINE_QUINTIC 17 ///< Menu id for quintic spline.
+#define IDM_SPLINE_NONE    16 ///< Menu id for cubic spline.
+#define IDM_SPLINE_CUBIC   17 ///< Menu id for no spline.
+#define IDM_SPLINE_QUINTIC 18 ///< Menu id for quintic spline.
 
-#define IDM_SETTINGS_OCTAVE_UP 18 ///< Menu id for octave up.
-#define IDM_SETTINGS_OCTAVE_DN 19 ///< Menu id for octave down.
-#define IDM_SETTINGS_SCALE_UP  20 ///< Menu id for scale up.
-#define IDM_SETTINGS_SCALE_DN  21 ///< Menu id for scale down.
-#define IDM_SETTINGS_TSIZE_UP  22 ///< Menu id for table size up.
-#define IDM_SETTINGS_TSIZE_DN  23 ///< Menu id for table size down.
+#define IDM_SETTINGS_OCTAVE_UP 19 ///< Menu id for octave up.
+#define IDM_SETTINGS_OCTAVE_DN 20 ///< Menu id for octave down.
+#define IDM_SETTINGS_SCALE_UP  21 ///< Menu id for scale up.
+#define IDM_SETTINGS_SCALE_DN  22 ///< Menu id for scale down.
+#define IDM_SETTINGS_TSIZE_UP  23 ///< Menu id for table size up.
+#define IDM_SETTINGS_TSIZE_DN  24 ///< Menu id for table size down.
+#define IDM_SETTINGS_RESET     25 ///< Menu id for reset settings.
 
 #pragma endregion Menu IDs
 
@@ -95,16 +97,44 @@ HMENU CreateHashMenu(HMENU); ///< Create `Hash` menu.
 HMENU CreateSplineMenu(HMENU); ///< Create `Spline` menu.
 HMENU CreateSettingsMenu(HMENU); ///< Create `Settings` menu.
 
+void UpdateMenuItemBool(HMENU, UINT, eNoise, bool); ///< Update menu item bool.
+
 void UpdateFileMenu(HMENU, eNoise); ///< Update `File` menu.
 void UpdateGenerateMenu(HMENU, eNoise); ///< Update `Generate` menu.
+
 void UpdateDistributionMenu(HMENU, eNoise, eDistribution); ///< Update `Distribution` menu.
 void UpdateHashMenu(HMENU, eNoise, eHash); ///< Update `Hash` menu.
 void UpdateSplineMenu(HMENU, eNoise, eSpline); ///< Update `Spline` menu.
 void UpdateSettingsMenu(HMENU, eNoise); ///< Update `Settings` menu.
 
-void UpdateOctaveSubMenu(HMENU, eNoise, size_t, size_t, size_t); ///< Update `Octave` sub-menu.
-void UpdateScaleSubMenu(HMENU, eNoise, float, float, float); ///< Update `Scale` sub-menu.
-void UpdateTableSizeSubMenu(HMENU, eNoise, size_t, size_t, size_t); ///< Update `Table size` sub-menu.
+/// \brief Update a numeric menu item.
+///
+/// Update a menu item that has an up and a down, with maximum and minimum
+/// values. Gray out the up item if the number is greater than the maximum
+/// allowed, and gray out the down item if the number is less than the minimum
+/// allowed. Gray out both if the noise type is `eNoise::None`.
+/// \param hMenu Menu handle.
+/// \param up Up menu item id.
+/// \param dn Down menu item id.
+/// \param noise Noise enumerated type.
+/// \param n A number.
+/// \param nMin Minimum value.
+/// \param nMax Maximum value.
+
+template<typename t> 
+void UpdateMenuItem(HMENU hMenu, UINT up, UINT dn, eNoise noise, 
+  t n, t nMin, t nMax)
+{
+  if(noise == eNoise::None){ //all gray
+    EnableMenuItem(hMenu, up, MF_GRAYED);
+    EnableMenuItem(hMenu, dn, MF_GRAYED);
+  } //if
+
+  else{ //grayed if out of range
+    EnableMenuItem(hMenu, up, (n < nMax)? MF_ENABLED: MF_GRAYED);
+    EnableMenuItem(hMenu, dn, (n > nMin)? MF_ENABLED: MF_GRAYED);
+  } //else
+} //UpdateMenuItem
 
 #pragma endregion Menu functions
 

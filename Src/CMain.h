@@ -54,16 +54,19 @@ class CMain{
 
     float m_fOriginX = 0.0f; ///< X-coordinate of top.
     float m_fOriginY = 0.0f; ///< Y-coordinate of left.
-
-    size_t m_nOctaves = 4; ///< Number of octaves of noise.
+    
+    const size_t m_nDefOctaves = 4; ///< Default number of octaves of noise.
+    size_t m_nOctaves = m_nDefOctaves; ///< Number of octaves of noise.
     const size_t m_nMinOctaves = 1; ///< Minimum number of octaves of noise.
     const size_t m_nMaxOctaves = 8; ///< Maximum number of octaves of noise.
-
-    float m_fScale = 64.0f; ///< Scale.
+    
+    const float m_fDefScale = 64.0f; ///< Default scale.
+    float m_fScale = m_fDefScale; ///< Scale.
     const float m_fMinScale = 8.0f; ///< Minimum scale.
     const float m_fMaxScale = 512.0f; ///< Minimum scale.
     
-    UINT m_nLog2TableSize = 8; ///< Log base 2 of table size.
+    const UINT m_nDefLog2TableSize = 8; ///< Log base 2 of table size.
+    UINT m_nLog2TableSize = m_nDefLog2TableSize; ///< Log base 2 of table size.
     const UINT m_nMinLog2TableSize = 4; ///< Min log base 2 of table size.
     const UINT m_nMaxLog2TableSize = 10; ///< Max log base 2 of table size.
 
@@ -93,7 +96,9 @@ class CMain{
     void SetSpline(eSpline); ///< Set spline function.
     void SetHash(eHash); ///< Set hash function.
 
-    void Jump(); ///< Change coordinates of origin.
+    void Jump(); ///< Change origin coordinates.
+    void Jump(float x, float y); ///< Change origin coordinates.
+    const bool Origin(float x, float y) const; ///< Check origin coordinates.
 
     void IncreaseOctaves(); ///< Increase number of octaves.
     void DecreaseOctaves(); ///< Decrease number of octaves.
@@ -101,6 +106,7 @@ class CMain{
     void DecreaseScale(); ///< Decrease scale.
     void IncreaseTableSize(); ///< Increase table size.
     void DecreaseTableSize(); ///< Decrease table size.
+    void Reset(); ///< Reset number of octaves, scale, table size.
 
     void OnPaint(); ///< Paint the client area of the window.
 

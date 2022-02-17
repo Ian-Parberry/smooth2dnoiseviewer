@@ -93,6 +93,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
           InvalidateRect(hWnd, nullptr, FALSE);
           break;
 
+        case IDM_SETTINGS_RESET:
+          g_pMain->Reset();
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
         case IDM_GENERATE_PERLINNOISE:
           g_pMain->GenerateNoiseBitmap(eNoise::Perlin);
           InvalidateRect(hWnd, nullptr, FALSE);
@@ -110,6 +115,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
 
         case IDM_GENERATE_JUMP:
           g_pMain->Jump();
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        case IDM_GENERATE_RESETORIGIN:
+          g_pMain->Jump(0.0f, 0.0f);
           InvalidateRect(hWnd, nullptr, FALSE);
           break;
             
