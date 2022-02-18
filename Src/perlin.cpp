@@ -392,11 +392,7 @@ const float CPerlinNoise2D::generate(float x, float y, eNoise t, size_t n,
     x *= beta; y *= beta; //multiply frequency by persistence
   } //for
 
-  //scale result by sum of geometric progression
-  const float result = (1 - alpha)*sum/(1 - amplitude); 
-
-  //scale up for Perlin noise
-  return (t == eNoise::Perlin)? SQRT2*result: result;
+  return (1 - alpha)*sum/(1 - amplitude); //scale by sum of geometric progression
 } //generate
 
 #pragma endregion Noise generation functions

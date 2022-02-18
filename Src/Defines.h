@@ -26,10 +26,9 @@
 #ifndef __DEFINES_H__
 #define __DEFINES_H__
 
-#define _USE_MATH_DEFINES ///< Enable use of constant M_SQRT2 in math.h
+#define _USE_MATH_DEFINES ///< Enable use of constant M_PI in math.h
 #include <math.h>
 
-const float SQRT2 = (float)M_SQRT2; ///< Square root of 2.
 const float PI = (float)M_PI; ///< Pi.
 
 /// \brief Perlin noise type.
