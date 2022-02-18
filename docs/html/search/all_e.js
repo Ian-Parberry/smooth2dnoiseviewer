@@ -8,6 +8,5 @@ var searchData=
   ['smooth_202d_20noise_20viewer_5',['Smooth 2D Noise Viewer',['../index.html',1,'']]],
   ['spline_6',['spline',['../class_c_perlin_noise2_d.html#af2ac743120389914e2b273622bd84798',1,'CPerlinNoise2D']]],
   ['spline3_7',['spline3',['../_helpers_8cpp.html#acc5a7c420f318cb0978cc8bd0e32e9bc',1,'spline3(float t):&#160;Helpers.cpp'],['../_helpers_8h.html#ac1a2dddbe40335500d730ed1e844dd5f',1,'spline3(float):&#160;Helpers.cpp']]],
-  ['spline5_8',['spline5',['../_helpers_8cpp.html#a27072f52b19d33db76ae3f73ef035bcd',1,'spline5(float t):&#160;Helpers.cpp'],['../_helpers_8h.html#a6494989f0656cd78cb6783e737339bf1',1,'spline5(float):&#160;Helpers.cpp']]],
-  ['sqrt2_9',['SQRT2',['../_defines_8h.html#a939872c7d19add0e4b330e7d8e1552c0',1,'Defines.h']]]
+  ['spline5_8',['spline5',['../_helpers_8cpp.html#a27072f52b19d33db76ae3f73ef035bcd',1,'spline5(float t):&#160;Helpers.cpp'],['../_helpers_8h.html#a6494989f0656cd78cb6783e737339bf1',1,'spline5(float):&#160;Helpers.cpp']]]
 ];

@@ -28,19 +28,8 @@
 ///
 /// UNDER CONSTRUCTION
 ///
-/// \image html splinecurve.png "Spline curves." width=500
+/// \image html splinecurve.png "Spline curves (left), their derivatives (center) and second derivatives (right)." width=800
 ///
-/// UNDER CONSTRUCTION
-///
-/// \image html splinedx.png "Spline curve derivatives." width=500
-///
-/// UNDER CONSTRUCTION
-///
-/// \image html splinedx2.png "Spline curve second derivatives." width=500
-///
-/// UNDER CONSTRUCTION
-///
-/// \image html sqrt2.png "The maximum value of one octave of Perlin noise is 1/√2." width=520
 ///
 /// UNDER CONSTRUCTION
 ///
