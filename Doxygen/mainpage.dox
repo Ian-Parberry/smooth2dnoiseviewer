@@ -14,6 +14,49 @@
 ///
 /// UNDER CONSTRUCTION
 ///
+/// > Ken Perlin,“An image synthesizer”, Proceedings of the 12th Annual Conference on
+/// > Computer Graphics and Interactive Techniques (SIGGRAPH 85), pp. 287–296, 1985.
+///
+/// > Ken Perlin, “Improving noise”, Proceedings of the 29th Annual Conference on
+/// > Computer Graphics and Interactive Techniques (SIGGRAPH 02), pp. 681–682, 2002.
+///
+/// \image html noise.png "Perlin noise (left) and Value noise (right)." width=400
+///
+/// UNDER CONSTRUCTION
+///
+/// \image html surfaces.png "Surfaces from Perlin noise (left) and Value noise (right)." width=500
+///
+/// UNDER CONSTRUCTION
+///
+/// \image html splinecurve.png "Spline curves." width=500
+///
+/// UNDER CONSTRUCTION
+///
+/// \image html splinedx.png "Spline curve derivatives." width=500
+///
+/// UNDER CONSTRUCTION
+///
+/// \image html splinedx2.png "Spline curve second derivatives." width=500
+///
+/// UNDER CONSTRUCTION
+///
+/// \image html sqrt2.png "The maximum value of one octave of Perlin noise is 1/√2." width=520
+///
+/// UNDER CONSTRUCTION
+///
+/// \image html terrainperlin.png "Terrain generated from Perlin noise." width=400
+///
+/// UNDER CONSTRUCTION
+///
+/// > Ian Parberry, “Designer Worlds: Procedural Generation of Infinite Terrain from Real-World
+/// > Elevation Data”, Journal of Computer Graphics Techniques, Vol. 3, No. 1, pp. 74-85, 2014.
+///
+/// > Ian Parberry, “Amortized Noise”, Journal of Computer Graphics Techniques,
+/// > Vol. 3, No. 2, pp. 31-47, 2014.
+///
+/// > Ian Parberry, “Modeling Real-World Terrain with Exponentially Distributed Noise”,
+/// > Journal of Computer Graphics Techniques, Vol. 4, No. 2, pp. 1-9, 2015.
+///
 /// How to Use It
 /// -------------
 ///
