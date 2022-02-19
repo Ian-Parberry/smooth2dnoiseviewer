@@ -7,12 +7,35 @@
 /// written and maintained by
 /// [Ian Parberry](http://ianparberry.com), is intended to be used by students to
 /// extend and modify while they are learning about Perlin noise. It can
-/// generate and save images from 2D Perlin and Value noise. 
+/// generate and save images from 2D Perlin and Value noise (see Figure 1 below for examples). 
+///
+/// \image html noise.png "Fig. 1: Examples of Perlin noise (left) and Value noise (right)." width=400
+///
+/// Code Overview
+/// -------------
+///
+/// It is assumed that the reader is familiar with the basics
+/// of Windows programming such as `WinMain`, the Window procedure, message
+/// passing, and drop-down menus.
+/// Main.cpp contains the mandatory Windows functions `wWinMain()`
+/// and a Window procedure `WndProc()`, which share a single global variable
+/// `static CMain* g_pMain`. Most of the other gnarly Windows-specific
+/// code is hidden away in `WindowsHelpers.cpp`.
+///
+/// The two main classes are `CMain`, which encapsulates the main body of the
+/// code in the approved object-oriented
+/// fashion, and `CPerlinNoise2D`, which generates Perlin or Value noise.
+/// `CMain` draws the noise to a `Gdiplus::Bitmap`, which
+/// is drawn to the application window's
+/// client area only on receipt of a `WM_PAINT` message.
 ///
 /// About Perlin Noise
 /// ------------------
 ///
-/// UNDER CONSTRUCTION
+/// This code is a combination of Ken Perlin's original code (see the references below)
+/// and various implementations to be found on the internet. One important variation is
+/// Value noise, which was apparently invented by an unknown programmer who mistakenly
+/// used Perlin's gradient table as a value table instead. More about this later.
 ///
 /// > Ken Perlin,“An image synthesizer”, Proceedings of the 12th Annual Conference on
 /// > Computer Graphics and Interactive Techniques (SIGGRAPH 85), pp. 287–296, 1985.
@@ -20,20 +43,55 @@
 /// > Ken Perlin, “Improving noise”, Proceedings of the 29th Annual Conference on
 /// > Computer Graphics and Interactive Techniques (SIGGRAPH 02), pp. 681–682, 2002.
 ///
-/// \image html noise.png "Perlin noise (left) and Value noise (right)." width=400
+/// ### The Main Idea
 ///
 /// UNDER CONSTRUCTION
 ///
-/// \image html surfaces.png "Surfaces from Perlin noise (left) and Value noise (right)." width=500
+/// `CPerlinNoise2D::noise()`
+///
+/// \image html surfaces.png "Fig. 2: Interpolated surfaces from Perlin noise (left) and Value noise (right)." width=500
+///
+/// ### Spline Curves
+///
+/// Suppose \f$x \in [0,1]\f$.
+/// The _cubic spline_ of \f$x\f$ is defined to be \f$3x^2 - 2x^3\f$
+/// , and
+/// the _quintic spline_ of \f$x\f$ is defined to be \f$10x^3 - 15x^4 + 6x^5\f$.
+/// These are implemented in `CPerlinNoise2D::spline3()` and `CPerlinNoise2D::spline5`, respectively.
 ///
 /// UNDER CONSTRUCTION
 ///
-/// \image html splinecurve.png "Spline curves (left), their derivatives (center) and second derivatives (right)." width=800
+/// \image html splinecurve.png "Fig. 3: Spline curves (left), their derivatives (center) and second derivatives (right)." width=800
+/// 
+/// ### The Gradient/Value Table
 ///
+/// `CPerlinNoise2D::m_fTable` 
 ///
 /// UNDER CONSTRUCTION
 ///
-/// \image html terrainperlin.png "Terrain generated from Perlin noise." width=400
+/// ### The Hash Function
+///
+/// `CPerlinNoise2D::m_nPerm`, `CPerlinNoise2D::hash()`, `CPerlinNoise2D::hashstd()`
+///
+/// UNDER CONSTRUCTION
+///
+/// ### The Pairing Function
+///
+/// UNDER CONSTRUCTION
+///
+/// `CPerlinNoise2D::pair()`, `CPerlinNoise2D::pairstd()`
+///
+/// ### Turbulence
+///
+/// UNDER CONSTRUCTION
+///
+/// `CPerlinNoise2D::generate()`
+///
+/// ### Building a Bitmap Image
+///
+/// `CMain::GenerateNoiseBitmap`, `CMain::m_fScale`.
+///
+/// ### Terrain Generation
 ///
 /// UNDER CONSTRUCTION
 ///
@@ -46,13 +104,22 @@
 /// > Ian Parberry, “Modeling Real-World Terrain with Exponentially Distributed Noise”,
 /// > Journal of Computer Graphics Techniques, Vol. 4, No. 2, pp. 1-9, 2015.
 ///
+/// \image html terrainperlin.png "Fig. 4: Terrain generated from Perlin noise." width=400
+///
 /// How to Use It
 /// -------------
+///
+/// The menu bar at the top of the application window has six drop-down menus,
+/// `File`, `Generate`, `Distribution`, `Hash`, `Spline`, and `Settings`, as follows.
+/// 
+/// ### The `File` Menu
 ///
 /// The `File` menu lets you `Save` the current image, view its noise properties,
 /// or `Quit` the application.
 ///
 /// \image html File.png
+/// 
+/// ### The `Generate` Menu
 ///
 /// The `Generate` menu lets you generate either Perlin or Value noise.
 /// There will be a checkmark next to the current noise type. Selecting
@@ -60,11 +127,13 @@
 /// by adding the table size to the \f$x\f$ and \f$y\f$ coordinates of
 /// the origin (the top left corner of the image). Selecting
 /// `Reset origin` will reset the origin to \f$(0, 0)\f$. Selecting
-/// `Randomize` will re-randomize the gradient/height table.
+/// `Randomize` will re-randomize the gradient/value table.
 ///
 /// \image html Generate.png
+/// 
+/// ### The `Distribution` Menu
 ///
-/// The `Distribution` menu lets you fill the gradient/height table with
+/// The `Distribution` menu lets you fill the gradient/value table with
 /// pseudo-random values in the range \f$[-1, 1]\f$ drawn from either a
 /// uniform distribution, the cosine of values in the range \f$[0, \pi]\f$
 /// from a uniform distribution, values from a normal distribution, an
@@ -72,42 +141,30 @@
 /// displacement. There will be a checkmark next to the current distribution.
 ///
 /// \image html Distribution.png
+/// 
+/// ### The `Hash` Menu
 ///
 /// The `Hash` menu lets you pick the hash function, either the Perlin hash
 /// function using a pseudo-random permutation, or `std::hash`. 
 /// There will be a checkmark next to the current hash function.
 ///
 /// \image html Hash.png
+/// 
+/// ### The `Spline` Menu
 ///
 /// The `Spline` menu lets you pick the spline function, either no spline
 /// function, cubic spline, or quintic spline. 
 /// There will be a checkmark next to the current spline function.
 ///
 /// \image html Spline.png
+/// 
+/// ### The `Settings` Menu
 ///
 /// The `Settings` menu lets you adjust the number of octaves of noise,
-/// scale the image up or down, and scale the gradient/height table up
+/// scale the image up or down, and scale the gradient/value table up
 /// or down. Selecting `Reset to defaults` resets these three values to
 /// their defaults.
 ///
 /// \image html Settings.png
-///
-/// Code Overview
-/// -------------
-///
-/// It is assumed that the reader is familiar with the basics
-/// of Windows programming such as `WinMain`, the Window procedure, message
-/// passing, and drop-down menus.
-/// Main.cpp contains the mandatory Windows functions wWinMain()
-/// and a Window procedure `WndProc()`, which share a single global variable
-/// `static CMain* g_pMain`. Most of the other gnarly Windows-specific
-/// code is hidden away in `WindowsHelpers.cpp`.
-///
-/// The two main classes are `CMain`, which encapsulates the main body of the
-/// code in the approved object-oriented
-/// fashion, and `CPerlinNoise2D`, which generates Perlin or Value noise.
-/// `CMain` draws the noise to a `Gdiplus::Bitmap`, which
-/// is drawn to the application window's
-/// client area only on receipt of a `WM_PAINT` message.
 
  
