@@ -108,7 +108,7 @@ $(function() {
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#include &quot;<a class="code" href="_includes_8h.html">Includes.h</a>&quot;</span></div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#include &quot;Windows.h&quot;</span></div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="preprocessor">#include &quot;<a class="code" href="_windows_helpers_8h.html">WindowsHelpers.h</a>&quot;</span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#include &quot;<a class="code" href="perlin_8h.html">perlin.h</a>&quot;</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="preprocessor">#include &quot;<a class="code" href="_perlin_8h.html">perlin.h</a>&quot;</span></div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="class_c_main.html">   40</a></span><span class="keyword">class </span><a class="code hl_class" href="class_c_main.html">CMain</a>{</div>
@@ -196,6 +196,7 @@ $(function() {
 <div class="ttc" id="a_defines_8h_html_a52c66400e352995e80d212dc580744f8"><div class="ttname"><a href="_defines_8h.html#a52c66400e352995e80d212dc580744f8">eHash</a></div><div class="ttdeci">eHash</div><div class="ttdoc">Hash function type.</div><div class="ttdef"><b>Definition:</b> <a href="_defines_8h_source.html#l00046">Defines.h:46</a></div></div>
 <div class="ttc" id="a_defines_8h_html_acf7bf617f80248f793b94ae302c9c662"><div class="ttname"><a href="_defines_8h.html#acf7bf617f80248f793b94ae302c9c662">eNoise</a></div><div class="ttdeci">eNoise</div><div class="ttdoc">Perlin noise type.</div><div class="ttdef"><b>Definition:</b> <a href="_defines_8h_source.html#l00038">Defines.h:38</a></div></div>
 <div class="ttc" id="a_includes_8h_html"><div class="ttname"><a href="_includes_8h.html">Includes.h</a></div><div class="ttdoc">Useful includes.</div></div>
+<div class="ttc" id="a_perlin_8h_html"><div class="ttname"><a href="_perlin_8h.html">Perlin.h</a></div><div class="ttdoc">Interface for the Perlin and Value noise generators.</div></div>
 <div class="ttc" id="a_windows_helpers_8h_html"><div class="ttname"><a href="_windows_helpers_8h.html">WindowsHelpers.h</a></div><div class="ttdoc">Interface for some helpful Windows-specific functions.</div></div>
 <div class="ttc" id="aclass_c_main_html"><div class="ttname"><a href="class_c_main.html">CMain</a></div><div class="ttdoc">The main class.</div><div class="ttdef"><b>Definition:</b> <a href="_c_main_8h_source.html#l00040">CMain.h:40</a></div></div>
 <div class="ttc" id="aclass_c_main_html_a01e52082c9a54c2d8b8ccb3a68483e54"><div class="ttname"><a href="class_c_main.html#a01e52082c9a54c2d8b8ccb3a68483e54">CMain::ClearBitmap</a></div><div class="ttdeci">void ClearBitmap(Gdiplus::Color)</div><div class="ttdoc">Clear bitmap to color.</div><div class="ttdef"><b>Definition:</b> <a href="_c_main_8cpp_source.html#l00180">CMain.cpp:180</a></div></div>
@@ -251,12 +252,11 @@ $(function() {
 <div class="ttc" id="aclass_c_main_html_af1722294a2cf45d83a1bf3de82a39439"><div class="ttname"><a href="class_c_main.html#af1722294a2cf45d83a1bf3de82a39439">CMain::IncreaseScale</a></div><div class="ttdeci">void IncreaseScale()</div><div class="ttdoc">Increase scale.</div><div class="ttdef"><b>Definition:</b> <a href="_c_main_8cpp_source.html#l00333">CMain.cpp:333</a></div></div>
 <div class="ttc" id="aclass_c_main_html_afcd1b0c3a630469c583bfa975025f17f"><div class="ttname"><a href="class_c_main.html#afcd1b0c3a630469c583bfa975025f17f">CMain::m_hWnd</a></div><div class="ttdeci">HWND m_hWnd</div><div class="ttdoc">Window handle.</div><div class="ttdef"><b>Definition:</b> <a href="_c_main_8h_source.html#l00042">CMain.h:42</a></div></div>
 <div class="ttc" id="aclass_c_main_html_aff7b62b732bd4b6ff4514aa509f0d215"><div class="ttname"><a href="class_c_main.html#aff7b62b732bd4b6ff4514aa509f0d215">CMain::m_eSpline</a></div><div class="ttdeci">eSpline m_eSpline</div><div class="ttdoc">Spline function type.</div><div class="ttdef"><b>Definition:</b> <a href="_c_main_8h_source.html#l00052">CMain.h:52</a></div></div>
-<div class="ttc" id="aclass_c_perlin_noise2_d_html"><div class="ttname"><a href="class_c_perlin_noise2_d.html">CPerlinNoise2D</a></div><div class="ttdoc">2D Perlin and Value noise generator.</div><div class="ttdef"><b>Definition:</b> <a href="perlin_8h_source.html#l00037">perlin.h:37</a></div></div>
-<div class="ttc" id="aperlin_8h_html"><div class="ttname"><a href="perlin_8h.html">perlin.h</a></div><div class="ttdoc">Interface for the Perlin and Value noise generators.</div></div>
+<div class="ttc" id="aclass_c_perlin_noise2_d_html"><div class="ttname"><a href="class_c_perlin_noise2_d.html">CPerlinNoise2D</a></div><div class="ttdoc">2D Perlin and Value noise generator.</div><div class="ttdef"><b>Definition:</b> <a href="_perlin_8h_source.html#l00037">Perlin.h:37</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Feb 18 2022 18:34:30 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
+Generated on Mon Feb 21 2022 15:39:51 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
 </small></address>
 </body>
 </html>

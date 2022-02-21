@@ -129,17 +129,16 @@ void CMain::CreateMenus(){
 
 void CMain::UpdateMenus(){
   UpdateFileMenu(m_hFileMenu, m_eNoise); 
-
   UpdateGenerateMenu(m_hGenMenu, m_eNoise);
-  UpdateMenuItemBool(m_hGenMenu, IDM_GENERATE_RESETORIGIN, m_eNoise,
-    m_fOriginX == 0.0f && m_fOriginY == 0.0f);
-
   UpdateDistributionMenu(m_hDistMenu, m_eNoise, m_eDistr); 
   UpdateHashMenu(m_hHashMenu, m_eNoise, m_eHash); 
   UpdateSplineMenu(m_hSplineMenu, m_eNoise, m_eSpline); 
-
   UpdateSettingsMenu(m_hSetMenu, m_eNoise); 
 
+  //update individual menu items
+
+  UpdateMenuItemBool(m_hGenMenu, IDM_GENERATE_RESETORIGIN, m_eNoise,
+    m_fOriginX == 0.0f && m_fOriginY == 0.0f);
   UpdateMenuItem(m_hSetMenu, 
     IDM_SETTINGS_OCTAVE_UP, IDM_SETTINGS_OCTAVE_DN, m_eNoise, 
     m_nOctaves, m_nMinOctaves, m_nMaxOctaves);

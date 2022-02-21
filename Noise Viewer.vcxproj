@@ -142,7 +142,7 @@
     <ClCompile Include="Src\CMain.cpp" />
     <ClCompile Include="Src\Helpers.cpp" />
     <ClCompile Include="Src\Main.cpp" />
-    <ClCompile Include="Src\perlin.cpp" />
+    <ClCompile Include="Src\Perlin.cpp" />
     <ClCompile Include="Src\WindowsHelpers.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -150,7 +150,7 @@
     <ClInclude Include="Src\Defines.h" />
     <ClInclude Include="Src\Helpers.h" />
     <ClInclude Include="Src\Includes.h" />
-    <ClInclude Include="Src\perlin.h" />
+    <ClInclude Include="Src\Perlin.h" />
     <ClInclude Include="Src\resource.h" />
     <ClInclude Include="Src\WindowsHelpers.h" />
   </ItemGroup>

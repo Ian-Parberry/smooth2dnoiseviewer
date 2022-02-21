@@ -1,36 +1,55 @@
 /// \mainpage
 ///
-/// Introduction
+/// 1. Introduction
 /// ------------
 ///
 /// The source code for this basic 2D smooth noise generator, 
 /// written and maintained by
 /// [Ian Parberry](http://ianparberry.com), is intended to be used by students to
-/// extend and modify while they are learning about Perlin noise. It can
-/// generate and save images from 2D Perlin and Value noise (see Figure 1 below for examples). 
+/// learn about Perlin noise. It can
+/// generate and save images from 2D Perlin and Value noise (see Figure 1 below for examples).
 ///
-/// \image html noise.png "Fig. 1: Examples of Perlin noise (left) and Value noise (right)." width=400
+/// \image html noise.png "Fig. 1: Examples of Perlin noise (left) and Value noise (right)." width=400 
 ///
-/// Code Overview
-/// -------------
+/// Students can begin by using the generator to observe what happens when various parameters
+/// are changed using the menus described below in Section 4. More advanced students should
+/// begin by reading Sections 2 and 3 below before diving into the code, although the code is
+/// designed and documented to be read on its own if you prefer to learn bottom-up rather than top-down. 
+///
+/// 2. Code Overview
+/// ----------------
 ///
 /// It is assumed that the reader is familiar with the basics
 /// of Windows programming such as `WinMain`, the Window procedure, message
 /// passing, and drop-down menus.
-/// Main.cpp contains the mandatory Windows functions `wWinMain()`
-/// and a Window procedure `WndProc()`, which share a single global variable
-/// `static CMain* g_pMain`. Most of the other gnarly Windows-specific
-/// code is hidden away in `WindowsHelpers.cpp`.
+/// `Main.cpp` contains the mandatory Windows functions `wWinMain()`
+/// and a Window procedure `WndProc()`, which use a single global variable
+/// `static CMain* g_pMain`.  
+/// The width and height of the client area of the window (and any saved image)
+/// are set to 600 in `Main.cpp` as `static const int g_nWidth` and `static const int g_nHeight`.
+/// These may be changed in the code at your discretion.
+/// Most of the other gnarly Windows-specific
+/// code, which used the `Win32` API, is hidden away in `WindowsHelpers.cpp`.
+/// `Gdi+` is used for the graphics.
 ///
 /// The two main classes are `CMain`, which encapsulates the main body of the
 /// code in the approved object-oriented
-/// fashion, and `CPerlinNoise2D`, which generates Perlin or Value noise.
+/// fashion, and `CPerlinNoise2D`, which generates Perlin and Value noise.
 /// `CMain` draws the noise to a `Gdiplus::Bitmap`, which
 /// is drawn to the application window's
 /// client area only on receipt of a `WM_PAINT` message.
+/// Both classes have separate header and code files: `CMain` is defined in `CMain.h`
+/// and implemented in `CMain.cpp`; `CPerlinNoise2D` is defined in `Perlin.h`
+/// and implemented in `Perlin.cpp`; 
 ///
-/// About Perlin Noise
-/// ------------------
+/// Enumerated types (`enum class`) are used for various properties in the code and are
+/// defined in `Defines.h`. These are named with a leading lower-case `e` followed by an upper-case letter
+/// as follows, `eNoise`, `eHash`, `eDistribution`, `eSpline`. Windows conventions are somewhat
+/// followed in the naming of variables, such as using the prefix  `m_` for member variables
+/// and `g_` for global variables.
+///
+/// 3. About Perlin Noise
+/// ---------------------
 ///
 /// This code is a combination of Ken Perlin's original code (see the references below)
 /// and various implementations to be found on the internet. One important variation is
@@ -43,95 +62,189 @@
 /// > Ken Perlin, “Improving noise”, Proceedings of the 29th Annual Conference on
 /// > Computer Graphics and Interactive Techniques (SIGGRAPH 02), pp. 681–682, 2002.
 ///
-/// ### The Main Idea
+/// ### 3.1 The Main Idea
 ///
-/// UNDER CONSTRUCTION
+/// Perlin noise computes for each point \f$(x, y)\f$ , where \f$x\f$ and \f$y\f$
+/// are floating point numbers, a noise value \f$z \in [-1,1]\f$
+/// that is sufficiently different but varying smoothly from noise values at
+/// nearby points. It does this by computing a hash value at the four integer points surrounding
+/// \f$(x, y)\f$, that is, \f$p_0 = (\lfloor x \rfloor, \lfloor y \rfloor)\f$,
+/// \f$p_1 = (\lfloor x \rfloor + 1, \lfloor y \rfloor)\f$, 
+/// \f$p_2 = (\lfloor x \rfloor, \lfloor y \rfloor + 1)\f$,
+/// and \f$p_3 = (\lfloor x \rfloor + 1, \lfloor y \rfloor + 1)\f$, which we will refer to
+/// as _corners_.  For convenience, we will call the square made up of four corners and the
+/// non-integer points between them as a _cell_.
+/// In the case of Perlin noise, the hashed values
+/// are used as indices into a table of gradients `CPerlinNoise2D::m_fTable` to obtain
+/// hashed gradients \f$x_i'\f$ and \f$y_i'\f$ at the four corners \f$p_i\f$, respectively,
+/// for \f$0 \leq i < 4\f$.
+/// The fractional parts of \f$x\f$ and \f$y\f$,
+/// \f$x_f = x - \lfloor x \rfloor\f$ and \f$y_f = y - \lfloor y \rfloor\f$  are smoothed
+/// using a _spline function_ (see below) to get \f$x_s\f$ and \f$y_s\f$.
+/// Next, linearly interpolate by \f$x_s\f$ between 
+/// \f$x_f x_0' + y_f y_0'\f$ and \f$x_f x_1' + y_f y_1'\f$ along the top corners
+/// to get a value \f$a\f$ and
+/// \f$x_f x_1' + y_f (y_1'-1)\f$ and \f$x_f x_2' + y_f (y_2'-1)\f$ along the bottom corners
+/// to get a value \f$b\f$. Finally, linearly interpolate by \f$x_s\f$ between \f$a\f$ and \f$b\f$
+/// to get the result \f$z\f$. Value noise is similar, except that it treats the contents of 
+/// `CPerlinNoise2D::m_fTable` directly as values, not gradients.
 ///
-/// `CPerlinNoise2D::noise()`
+/// The process described in the previous paragraph is implemented as `CPerlinNoise2D::noise()`.
+/// If \f$z\f$ is interpreted as a height value for the corresponding 2D point \f$(x, y)\f$,
+/// then an example of the surface generated by Perlin noise is shown in Fig. 2 (left), and
+/// one by Value noise is shown in Fig. 2 (right).  The corner points have integer coordinates
+/// and the arrows indicate \f$x\f$ and \f$y\f$ gradients (left) and values (right).
 ///
-/// \image html surfaces.png "Fig. 2: Interpolated surfaces from Perlin noise (left) and Value noise (right)." width=500
+/// \image html surfaces.png "Fig. 2: Interpolated surfaces from Perlin noise (left) and Value noise (right)." width=400
 ///
-/// ### Spline Curves
-///
-/// Suppose \f$x \in [0,1]\f$.
-/// The _cubic spline_ of \f$x\f$ is defined to be \f$3x^2 - 2x^3\f$
-/// , and
-/// the _quintic spline_ of \f$x\f$ is defined to be \f$10x^3 - 15x^4 + 6x^5\f$.
-/// These are implemented in `CPerlinNoise2D::spline3()` and `CPerlinNoise2D::spline5`, respectively.
-///
-/// UNDER CONSTRUCTION
-///
-/// \image html splinecurve.png "Fig. 3: Spline curves (left), their derivatives (center) and second derivatives (right)." width=800
-/// 
-/// ### The Gradient/Value Table
-///
-/// `CPerlinNoise2D::m_fTable` 
-///
-/// UNDER CONSTRUCTION
-///
-/// ### The Hash Function
-///
-/// `CPerlinNoise2D::m_nPerm`, `CPerlinNoise2D::hash()`, `CPerlinNoise2D::hashstd()`
-///
-/// UNDER CONSTRUCTION
-///
-/// ### The Pairing Function
-///
-/// UNDER CONSTRUCTION
-///
-/// `CPerlinNoise2D::pair()`, `CPerlinNoise2D::pairstd()`
-///
-/// ### Turbulence
-///
-/// UNDER CONSTRUCTION
-///
-/// `CPerlinNoise2D::generate()`
-///
-/// ### Building a Bitmap Image
-///
-/// `CMain::GenerateNoiseBitmap`, `CMain::m_fScale`.
-///
-/// ### Terrain Generation
-///
-/// UNDER CONSTRUCTION
-///
-/// > Ian Parberry, “Designer Worlds: Procedural Generation of Infinite Terrain from Real-World
-/// > Elevation Data”, Journal of Computer Graphics Techniques, Vol. 3, No. 1, pp. 74-85, 2014.
+/// Note that `CPerlinNoise2D::noise()`
+/// does not explicitly create this surface, but computes the \f$z\f$ value of
+/// a single 2D point without reference to \f$z\f$ values of any other points.
+/// However, some applications of 2D Perlin noise such as texture generation, a speed-up can be
+/// obtained by amortizing the calculations over the whole surface in each cell, as described
+/// in the following:
 ///
 /// > Ian Parberry, “Amortized Noise”, Journal of Computer Graphics Techniques,
 /// > Vol. 3, No. 2, pp. 31-47, 2014.
 ///
+/// The algorithm described in this section computes what is called a single _octave_ of perlin noise,
+/// which looks like the three examples in Fig. 3.
+///
+/// \image html perlin1.png "Fig. 3: Three examples of a single octave of Perlin noise" width=500
+///
+/// ### 3.2 Turbulence
+///
+/// The width of a cell of Perlin noise can be called its _wavelength_ and the difference between
+/// the lowest \f$z\f$ value and the highest \f$z\f$ value its _amplitude_. The algorithm
+/// above generates noise with wavelength \f$1\f$ and amplitude \f$2\f$.
+/// `CPerlinNoise2D::generate` adds multiple octaves of Perlin or Value noise,
+/// scaling down the amplitude by a value called the _lacunarity_ and scaling down the
+/// wavelength by multiplying the \f$x\f$ and \f$y\f$ coordinates by a value called the _persistence_.
+/// `CPerlinNoise2D::generate` allows you to specify the lacunarity and the persistence, but they
+/// are currently set to the common default values of \f$0.5\f$ and \f$2\f$, respectively.
+/// The number of octaves can be chosen using the  `Settings` menu (see Section 4.6).
+///
+/// \image html octaves.gif "Fig. 4: 1-4 octaves of Perlin noise" width=200
+///
+/// ### 3.3 Spline Curves
+///
+/// Suppose \f$x \in [0,1]\f$.
+/// The _cubic spline_ of \f$x\f$ is defined to be \f$3x^2 - 2x^3\f$, and
+/// the _quintic spline_ of \f$x\f$ is defined to be \f$10x^3 - 15x^4 + 6x^5\f$.
+/// These are implemented in `CPerlinNoise2D::spline3()` and `CPerlinNoise2D::spline5`, respectively.
+/// Perlin's original imlementation used cubic splines for speed, but later implementation used
+/// quintic splines for smoothness. Fig. 5 shows Spline curves (left), their derivatives (center)
+/// and second derivatives (right). 
+///
+/// \image html splinecurve.png "Fig. 5: Spline curves (left), their derivatives (center) and second derivatives (right)." width=800
+///
+/// Looking at the derivatives and second derivatives in Fig. 5, you can see
+/// that the gradient of cubic spline is not smooth, but that of the quintic spline is.
+/// This matters very little in applications in which there is a great amount of quantization,
+/// but does generate slightly different results, as can be seen in the animated gif in Fig. 6.
+/// 
+/// \image html Perlin-Perm-4-256-64.gif "Fig. 6: 4 octaves of Perlin noise with cubic vs. quintic spline." width=200
+///
+/// It is tempting to use no spline function at all, which looks particularly bad when the
+/// number of octaves is small (see Fig. 7, left) but not so bad with enough octaves (see Fig. 7, right).
+///
+/// \image html nospline.png "Fig. 7: 1 octave (left) and 4 octaves (right) of Perlin noise with no spline." width=400
+///
+/// The spline function can be chosen using the `Spline` menu (see Section 4.5).
+///
+/// ### 3.4 The Gradient/Value Table
+///
+/// The gradient/value table is stored in `CPerlinNoise2D::m_fTable`. Most implementations of Perlin
+/// noise fill this table with pseudo-random values from \f$[-1,1]\f$ chosen from a uniform
+/// distribution. The size of this table doesn't matter unless it is very small. The table
+/// size in this implementation is `CPerlinNoise2D::m_nSize`and can be modifed
+/// using the  `Settings` menu (see Section 4.6).
+///
+/// As shown in the following papers, it is often useful to fill the table with values chosen
+/// pseudo-randomly from other distributions.
+///
+/// > Ian Parberry, “Designer Worlds: Procedural Generation of Infinite Terrain from Real-World
+/// > Elevation Data”, Journal of Computer Graphics Techniques, Vol. 3, No. 1, pp. 74-85, 2014.
+///
 /// > Ian Parberry, “Modeling Real-World Terrain with Exponentially Distributed Noise”,
 /// > Journal of Computer Graphics Techniques, Vol. 4, No. 2, pp. 1-9, 2015.
 ///
-/// \image html terrainperlin.png "Fig. 4: Terrain generated from Perlin noise." width=400
+/// The gradient/value table distribution can be changed using the `Distribution` menu
+/// (see Section 4.3). The table is filled with pseudo-random values using the appropriate
+/// `std::distribution` applied to an instance of `std::default_random_engine` in a set of
+/// functions controlled from a `switch` statement in `CPerlinNoise2D::RandomizeTable`.
 ///
-/// How to Use It
-/// -------------
+/// ### 3.5 The Hash and Pairing Functions
+///
+/// Perlin's original implementation used a random permutation as a hash function, resulting
+/// in noise that repeats with a frequency equal to the size of the permutation (we use
+/// `CPerlinNoise2D::m_nSize` for the size of the permutation as well as the size of the
+/// gradient/value table, for obvious reasons. This permutation was chosen using a variant
+/// of the standard pseudo-random permutation generation algorithm, although in later versions
+/// a fixed permutation was used. This implementation re-instates the pseudo-random permutation
+/// since we want the user to be able to change the permutation size.
+///
+/// The permutation is stored in `CPerlinNoise2D::m_nPerm` and set in
+/// `CPerlinNoise2D::RandomizePermutation()`. Perlin's 1D has function is `CPerlinNoise2D::hash()`,
+/// and his 2D function consists of a _pairing function_ to combine a pair of coordinates into one,
+/// followed by a 1D hash function. Perlin's pairing function is `CPerlinNoise2D::pair()`.
+///
+/// To avoid the repeated nose inherent in using a permutation as a hash function at the cost
+/// of increased running time, we can use a modern 1D hash function such as `std::hash`.
+/// This is implemented in `CPerlinNoise2D::hashstd()`, and required a slightly different
+/// pairing function implemented in `CPerlinNoise2D::pairstd()`. The hash function can
+/// be changed from one mode to the ither using the `Hash` menu (see Section 4.4).
+///
+/// ### 3.6 Building a Bitmap Image
+///
+/// The grayscale bitmap is constructed in
+/// `CMain::GenerateNoiseBitmap`, which calls `CPerlinNoise2D::generate` to generate a value in
+/// \f$[-1, 1]\f$ that is mapped to a grayscale value in the obvious manner.
+/// `CMain::m_fScale`. Since Perlin noise return a zero value at integer coordinates (and
+/// Value noise returns a hashed one), it is necessary to divide these coordinates by 
+/// `CMain::m_fScale`. The scale is equal to the cell size, so increasing the scale has
+/// the effect of appearing to zoom in closer to the noise.
+/// Scale can be changed using the `Settings` menu (see Section 4.6).
+///
+/// 4. The Controls
+/// ---------------
 ///
 /// The menu bar at the top of the application window has six drop-down menus,
 /// `File`, `Generate`, `Distribution`, `Hash`, `Spline`, and `Settings`, as follows.
 /// 
-/// ### The `File` Menu
+/// ### 4.1 The `File` Menu
 ///
-/// The `File` menu lets you `Save` the current image, view its noise properties,
-/// or `Quit` the application.
+/// The `File` menu lets you `Save` the current image, view its noise `Properties`,
+/// or `Quit` the application. The `Save` option actually pops up a Windows `Save as` dialog box
+/// with a default file name munged together in function `CMain::GetFileName()`
+/// from the noise properties. Only `png` format is
+/// supported at present, but the obvious changes can be made to function `SaveBitmap()` in
+/// `WindowsHelpers.cpp` to allow other formats.
 ///
-/// \image html File.png
+/// \image html File.png width=150
 /// 
-/// ### The `Generate` Menu
+/// Selecting `Properties` will display the information shown in the following dialog box.
+///
+/// \image html props.png width=400
+/// 
+/// ### 4.2 The `Generate` Menu
 ///
 /// The `Generate` menu lets you generate either Perlin or Value noise.
 /// There will be a checkmark next to the current noise type. Selecting
 /// `Jump` will jump the position of the top-left corner of the image
 /// by adding the table size to the \f$x\f$ and \f$y\f$ coordinates of
-/// the origin (the top left corner of the image). Selecting
-/// `Reset origin` will reset the origin to \f$(0, 0)\f$. Selecting
-/// `Randomize` will re-randomize the gradient/value table.
+/// the origin (the top left corner of the image). 
+/// Note that `Jump` will have no effect on the image if the permutation hash function
+/// is used because Perlin noise repeats itself with frequency equal to the table size,
+/// but it will have effect if `std::hash` is used (see Section 4.4 for the `Hash` menu).
+/// The change in origin will, of course, be recorded in the `Properties` dialog box
+/// described in Section 4.1.
+/// Selecting `Reset origin` will reset the origin to \f$(0, 0)\f$.
+/// Selecting `Randomize` will re-randomize the gradient/value table.
 ///
 /// \image html Generate.png
 /// 
-/// ### The `Distribution` Menu
+/// ### 4.3 The `Distribution` Menu
 ///
 /// The `Distribution` menu lets you fill the gradient/value table with
 /// pseudo-random values in the range \f$[-1, 1]\f$ drawn from either a
@@ -142,7 +255,7 @@
 ///
 /// \image html Distribution.png
 /// 
-/// ### The `Hash` Menu
+/// ### 4.4 The `Hash` Menu
 ///
 /// The `Hash` menu lets you pick the hash function, either the Perlin hash
 /// function using a pseudo-random permutation, or `std::hash`. 
@@ -150,7 +263,7 @@
 ///
 /// \image html Hash.png
 /// 
-/// ### The `Spline` Menu
+/// ### 4.5 The `Spline` Menu
 ///
 /// The `Spline` menu lets you pick the spline function, either no spline
 /// function, cubic spline, or quintic spline. 
@@ -158,13 +271,16 @@
 ///
 /// \image html Spline.png
 /// 
-/// ### The `Settings` Menu
+/// ### 4.6 The `Settings` Menu
 ///
-/// The `Settings` menu lets you adjust the number of octaves of noise,
-/// scale the image up or down, and scale the gradient/value table up
-/// or down. Selecting `Reset to defaults` resets these three values to
+/// The `Settings` menu lets you increment or decrement the number of octaves of noise,
+/// scale the image up or down by a factor of two, and scale the gradient/value table up
+/// or down by a factor of two. Selecting `Reset to defaults` resets these three values to
 /// their defaults.
 ///
 /// \image html Settings.png
+///
+/// The actual values of these properties can be found in the `Properties` dialog
+/// box described Section 4.1.
 
  
