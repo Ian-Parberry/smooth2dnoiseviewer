@@ -24,5 +24,7 @@ var searchData=
   ['idm_5fsettings_5ftsize_5fup_21',['IDM_SETTINGS_TSIZE_UP',['../_windows_helpers_8h.html#a13f5fd957d35a07ba59a0077a447ead0',1,'WindowsHelpers.h']]],
   ['idm_5fspline_5fcubic_22',['IDM_SPLINE_CUBIC',['../_windows_helpers_8h.html#ac6a6eb38f85b7a70ccab0bba7f06839a',1,'WindowsHelpers.h']]],
   ['idm_5fspline_5fnone_23',['IDM_SPLINE_NONE',['../_windows_helpers_8h.html#a69bd76966bb500d6caa7bc8bb60d815e',1,'WindowsHelpers.h']]],
-  ['idm_5fspline_5fquintic_24',['IDM_SPLINE_QUINTIC',['../_windows_helpers_8h.html#a6869db1805448a9fc51fedb292ea6cfe',1,'WindowsHelpers.h']]]
+  ['idm_5fspline_5fquintic_24',['IDM_SPLINE_QUINTIC',['../_windows_helpers_8h.html#a6869db1805448a9fc51fedb292ea6cfe',1,'WindowsHelpers.h']]],
+  ['idm_5fview_5fcoords_25',['IDM_VIEW_COORDS',['../_windows_helpers_8h.html#aed08220f26b682d69f33f974952674e2',1,'WindowsHelpers.h']]],
+  ['idm_5fview_5fgrid_26',['IDM_VIEW_GRID',['../_windows_helpers_8h.html#a26266e9de0d07ddc406db1fd115a4975',1,'WindowsHelpers.h']]]
 ];

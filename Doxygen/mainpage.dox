@@ -24,8 +24,7 @@
 /// passing, and drop-down menus.
 /// `Main.cpp` contains the mandatory Windows functions `wWinMain()`
 /// and a Window procedure `WndProc()`, which use a single global variable
-/// `static CMain* g_pMain`.  
-/// The width and height of the client area of the window (and any saved image)
+/// `static CMain* g_pMain`.  The width and height of the client area of the window (and any saved image)
 /// are set to 600 in `Main.cpp` as `static const int g_nWidth` and `static const int g_nHeight`.
 /// These may be changed in the code at your discretion.
 /// Most of the other gnarly Windows-specific
@@ -40,7 +39,7 @@
 /// client area only on receipt of a `WM_PAINT` message.
 /// Both classes have separate header and code files: `CMain` is defined in `CMain.h`
 /// and implemented in `CMain.cpp`; `CPerlinNoise2D` is defined in `Perlin.h`
-/// and implemented in `Perlin.cpp`; 
+/// and implemented in `Perlin.cpp`. 
 ///
 /// Enumerated types (`enum class`) are used for various properties in the code and are
 /// defined in `Defines.h`. These are named with a leading lower-case `e` followed by an upper-case letter
@@ -122,7 +121,7 @@
 /// wavelength by multiplying the \f$x\f$ and \f$y\f$ coordinates by a value called the _persistence_.
 /// `CPerlinNoise2D::generate` allows you to specify the lacunarity and the persistence, but they
 /// are currently set to the common default values of \f$0.5\f$ and \f$2\f$, respectively.
-/// The number of octaves can be chosen using the  `Settings` menu (see Section 4.6).
+/// The number of octaves can be chosen using the  `Settings` menu (see Section 4.7).
 ///
 /// \image html octaves.gif "Fig. 4: 1-4 octaves of Perlin noise" width=200
 ///
@@ -143,14 +142,14 @@
 /// This matters very little in applications in which there is a great amount of quantization,
 /// but does generate slightly different results, as can be seen in the animated gif in Fig. 6.
 /// 
-/// \image html Perlin-Perm-4-256-64.gif "Fig. 6: 4 octaves of Perlin noise with cubic vs. quintic spline." width=200
+/// \image html Perlin-Perm-4-256-64.gif "Fig. 6: Four octaves of Perlin noise with cubic vs. quintic spline." width=200
 ///
 /// It is tempting to use no spline function at all, which looks particularly bad when the
 /// number of octaves is small (see Fig. 7, left) but not so bad with enough octaves (see Fig. 7, right).
 ///
-/// \image html nospline.png "Fig. 7: 1 octave (left) and 4 octaves (right) of Perlin noise with no spline." width=400
+/// \image html nospline.png "Fig. 7: One octave (left) and four octaves (right) of Perlin noise with no spline." width=400
 ///
-/// The spline function can be chosen using the `Spline` menu (see Section 4.5).
+/// The spline function can be chosen using the `Spline` menu (see Section 4.6).
 ///
 /// ### 3.4 The Gradient/Value Table
 ///
@@ -158,7 +157,7 @@
 /// noise fill this table with pseudo-random values from \f$[-1,1]\f$ chosen from a uniform
 /// distribution. The size of this table doesn't matter unless it is very small. The table
 /// size in this implementation is `CPerlinNoise2D::m_nSize`and can be modifed
-/// using the  `Settings` menu (see Section 4.6).
+/// using the  `Settings` menu (see Section 4.7).
 ///
 /// As shown in the following papers, it is often useful to fill the table with values chosen
 /// pseudo-randomly from other distributions.
@@ -170,9 +169,13 @@
 /// > Journal of Computer Graphics Techniques, Vol. 4, No. 2, pp. 1-9, 2015.
 ///
 /// The gradient/value table distribution can be changed using the `Distribution` menu
-/// (see Section 4.3). The table is filled with pseudo-random values using the appropriate
+/// (see Section 4.4). The table is filled with pseudo-random values using the appropriate
 /// `std::distribution` applied to an instance of `std::default_random_engine` in a set of
 /// functions controlled from a `switch` statement in `CPerlinNoise2D::RandomizeTable`.
+/// Examples of Perlin noise generated using the various distributions available for the
+/// gradient/value table are shown in Fig. 8.
+///
+/// \image html distributions.gif "Fig. 8: Perlin noise with various gradient/value table distributions." width=200
 ///
 /// ### 3.5 The Hash and Pairing Functions
 ///
@@ -193,7 +196,7 @@
 /// of increased running time, we can use a modern 1D hash function such as `std::hash`.
 /// This is implemented in `CPerlinNoise2D::hashstd()`, and required a slightly different
 /// pairing function implemented in `CPerlinNoise2D::pairstd()`. The hash function can
-/// be changed from one mode to the ither using the `Hash` menu (see Section 4.4).
+/// be changed from one mode to the ither using the `Hash` menu (see Section 4.5).
 ///
 /// ### 3.6 Building a Bitmap Image
 ///
@@ -204,15 +207,17 @@
 /// Value noise returns a hashed one), it is necessary to divide these coordinates by 
 /// `CMain::m_fScale`. The scale is equal to the cell size, so increasing the scale has
 /// the effect of appearing to zoom in closer to the noise.
-/// Scale can be changed using the `Settings` menu (see Section 4.6).
+/// Scale can be changed using the `Settings` menu (see Section 4.7).
 ///
 /// 4. The Controls
 /// ---------------
 ///
 /// The menu bar at the top of the application window has six drop-down menus,
-/// `File`, `Generate`, `Distribution`, `Hash`, `Spline`, and `Settings`, as follows.
+/// `File`, `Generate`, `View`, `Distribution`, `Hash`, `Spline`, and `Settings`, as follows.
 /// 
 /// ### 4.1 The `File` Menu
+///
+/// \image html File.png width=150
 ///
 /// The `File` menu lets you `Save` the current image, view its noise `Properties`,
 /// or `Quit` the application. The `Save` option actually pops up a Windows `Save as` dialog box
@@ -220,31 +225,44 @@
 /// from the noise properties. Only `png` format is
 /// supported at present, but the obvious changes can be made to function `SaveBitmap()` in
 /// `WindowsHelpers.cpp` to allow other formats.
-///
-/// \image html File.png width=150
-/// 
 /// Selecting `Properties` will display the information shown in the following dialog box.
 ///
 /// \image html props.png width=400
 /// 
 /// ### 4.2 The `Generate` Menu
 ///
+/// \image html Generate.png 
+///
 /// The `Generate` menu lets you generate either Perlin or Value noise.
 /// There will be a checkmark next to the current noise type. Selecting
 /// `Jump` will jump the position of the top-left corner of the image
 /// by adding the table size to the \f$x\f$ and \f$y\f$ coordinates of
 /// the origin (the top left corner of the image). 
-/// Note that `Jump` will have no effect on the image if the permutation hash function
+/// Note that `Jump` will have no effect on the noise image if the permutation hash function
 /// is used because Perlin noise repeats itself with frequency equal to the table size,
-/// but it will have effect if `std::hash` is used (see Section 4.4 for the `Hash` menu).
-/// The change in origin will, of course, be recorded in the `Properties` dialog box
-/// described in Section 4.1.
+/// but it will have effect if `std::hash` is used (see Section 4.5 for the `Hash` menu).
+/// The change in origin will be recorded in the `Properties` dialog box
+/// described in Section 4.1, and it will be visible if `Coordinates` is checked
+/// in the `View` menu (see Section 4.3).
 /// Selecting `Reset origin` will reset the origin to \f$(0, 0)\f$.
 /// Selecting `Randomize` will re-randomize the gradient/value table.
 ///
-/// \image html Generate.png
+/// ### 4.3 The `View` Menu
+///
+/// \image html View.png 
+///
+/// Selecting `Coordinates` from the `View` menu will toggle the drawing of the noise coordinates
+/// of the top-left and bottom-right pixels of the bitmap. Selecting `Grid` will
+/// toggle the drawing of a grid at integer points. 
+/// The following image shows at left the top-left corner of a noise bitmap with the coordinates
+/// of the top-left pixel,
+/// and at right a noise bitmap with grid lines drawn. 
 /// 
-/// ### 4.3 The `Distribution` Menu
+/// \image html grid.png width=400
+/// 
+/// ### 4.4 The `Distribution` Menu
+///
+/// \image html Distribution.png
 ///
 /// The `Distribution` menu lets you fill the gradient/value table with
 /// pseudo-random values in the range \f$[-1, 1]\f$ drawn from either a
@@ -252,34 +270,31 @@
 /// from a uniform distribution, values from a normal distribution, an
 /// exponential distribution, or a distribution constructed using midpoint
 /// displacement. There will be a checkmark next to the current distribution.
-///
-/// \image html Distribution.png
 /// 
-/// ### 4.4 The `Hash` Menu
+/// ### 4.5 The `Hash` Menu
+///
+/// \image html Hash.png
 ///
 /// The `Hash` menu lets you pick the hash function, either the Perlin hash
 /// function using a pseudo-random permutation, or `std::hash`. 
 /// There will be a checkmark next to the current hash function.
-///
-/// \image html Hash.png
 /// 
-/// ### 4.5 The `Spline` Menu
+/// ### 4.6 The `Spline` Menu
+///
+/// \image html Spline.png
 ///
 /// The `Spline` menu lets you pick the spline function, either no spline
 /// function, cubic spline, or quintic spline. 
 /// There will be a checkmark next to the current spline function.
-///
-/// \image html Spline.png
 /// 
-/// ### 4.6 The `Settings` Menu
+/// ### 4.7 The `Settings` Menu
+///
+/// \image html Settings.png
 ///
 /// The `Settings` menu lets you increment or decrement the number of octaves of noise,
 /// scale the image up or down by a factor of two, and scale the gradient/value table up
 /// or down by a factor of two. Selecting `Reset to defaults` resets these three values to
 /// their defaults.
-///
-/// \image html Settings.png
-///
 /// The actual values of these properties can be found in the `Properties` dialog
 /// box described Section 4.1.
 
