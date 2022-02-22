@@ -42,9 +42,9 @@
 /// sequence of 1 bits that is one less than the size. The mask will be used to
 /// ensure that all indices into the permutation and the table are in range,
 /// Space is created for the permutation, and for the table, which will be used
-/// for a gradient table in Perlin noise and a height table in Value noise.
+/// for a gradient table in Perlin noise and a value table in Value noise.
 /// The permutation is initialized to a pseudo-random permutation from a
-/// uniform distribution, The table is filled with pseudo-random values chosen
+/// uniform distribution. The table is filled with pseudo-random values chosen
 /// uniformly from \f$[-1,1]\f$.
 /// \param n Number of consecutive 1 bits in the mask, log base 2 of the size.
 
@@ -52,9 +52,9 @@ CPerlinNoise2D::CPerlinNoise2D(size_t n):
   m_nSize((size_t)round(pow(2.0f, (float)n))), //size must be a power of 2
   m_nMask(m_nSize - 1), //mask of n consecutive 1s
   m_nPerm(new size_t[m_nSize]), //permutation
-  m_fTable(new float[m_nSize]) //gradients or heights
+  m_fTable(new float[m_nSize]) //gradients or height values
 {  
-  RandomizeTable(eDistribution::Uniform); //randomize gradient/height table
+  RandomizeTable(eDistribution::Uniform); //randomize gradient/value table
   RandomizePermutation(); //randomize permutation
 } //constructor
 
@@ -78,8 +78,6 @@ CPerlinNoise2D::~CPerlinNoise2D(){
 /// C standard library function `rand()` used as a source of randomness.
 
 void CPerlinNoise2D::RandomizePermutation(){
-  m_nSeed = timeGetTime(); ///< Pseudorandom number seed.
-
   for(size_t i=0; i<m_nSize; i++) //identity permutation
     m_nPerm[i] = i; 
 
@@ -87,7 +85,7 @@ void CPerlinNoise2D::RandomizePermutation(){
     std::swap(m_nPerm[i], m_nPerm[i + rand()%(m_nSize - i)]);
 } //RandomizePermutation
 
-/// Initialize a chunk of the gradient/height table `m_fTable` using midpoint
+/// Initialize a chunk of the gradient/value table `m_fTable` using midpoint
 /// displacement. Given \f$\mathsf{i}\f$ and \f$\mathsf{j}\f$ such that
 /// \f$\mathsf{j} > \mathsf{i}+1\f$ and
 /// \f$0 \leq \mathsf{i}, \mathsf{j} \leq\f$ `m_nSize`, where
@@ -99,7 +97,8 @@ void CPerlinNoise2D::RandomizePermutation(){
 /// first and last entry offset by a pseudo-random value in \f$[-1,1]\f$
 /// times a value called the _lacunarity_. The function then halves the
 /// lacunarity and calls itself recursively on the top and bottom halves of
-/// the table chunk.
+/// the table chunk. The source of randomness is `std::default_random_engine`
+/// with `std::uniform_real_distribution<float>(-1.0f, 1.0f)`.
 /// \param i Lower index.
 /// \param j Upper index.
 /// \param alpha Lacunarity.
@@ -120,7 +119,9 @@ void CPerlinNoise2D::RandomizeTableMidpoint(size_t i, size_t j, float alpha){
   } //if
 } //RandomizeTableMidpoint
 
-/// Fill the gradient/height table `m_fTable` using midpoint displacement.
+/// Fill the gradient/value table `m_fTable` using midpoint displacement.
+/// This function fills in the first and last entries then calls the recursive
+/// `RandomizeTableMidpoint(size_t, size_t, float)` to fill in the rest.
 
 void CPerlinNoise2D::RandomizeTableMidpoint(){
   m_fTable[0] = 1.0f;
@@ -129,7 +130,9 @@ void CPerlinNoise2D::RandomizeTableMidpoint(){
   RandomizeTableMidpoint(0, m_nSize, 0.5f);
 } //RandomizeTableMidpoint
 
-/// Fill the gradient/height table `m_fTable` using a uniform distribution.
+/// Fill the gradient/value table `m_fTable` using a uniform distribution.
+/// The source of randomness is `std::default_random_engine`
+/// with `std::uniform_real_distribution<float>(-1.0f, 1.0f)`.
 
 void CPerlinNoise2D::RandomizeTableUniform(){  
   std::uniform_real_distribution<float> d(-1.0f, 1.0f);
@@ -138,7 +141,9 @@ void CPerlinNoise2D::RandomizeTableUniform(){
     m_fTable[i] = d(m_stdRandom);
 } //RandomizeTableUniform
 
-/// Fill the gradient/height table `m_fTable` using a normal distribution.
+/// Fill the gradient/value table `m_fTable` using a normal distribution.
+/// The source of randomness is `std::default_random_engine`
+/// with `std::normal_distribution<float>(500.0f, 200.0f)`.
 
 void CPerlinNoise2D::RandomizeTableNormal(){  
   std::normal_distribution<float> d(500.0f, 200.0f);
@@ -147,7 +152,11 @@ void CPerlinNoise2D::RandomizeTableNormal(){
     m_fTable[i] = 2.0f*clamp(0.0f, d(m_stdRandom)/1000.0f, 1.0f) - 1.0f;
 } //RandomizeTableNormal
 
-/// Fill the gradient/height table `m_fTable` using a cosine distribution.
+/// Fill the gradient/value table `m_fTable` using a cosine distribution.
+/// The source of randomness is `std::default_random_engine`
+/// with `std::uniform_real_distribution<float>(0.0f, 1.0f)`.
+/// It simple multiplies the each pseudo-random number by \f$pi\f$ and
+/// enters the cosine of the result into the table.
 
 void CPerlinNoise2D::RandomizeTableCos(){  
   std::uniform_real_distribution<float> d(0.0f, 1.0f);
@@ -156,7 +165,10 @@ void CPerlinNoise2D::RandomizeTableCos(){
     m_fTable[i] = cosf(PI*d(m_stdRandom));
 } //RandomizeTableCos
 
-/// Fill the gradient/height table `m_fTable` using an exponential distribution.
+/// Fill the gradient/value table `m_fTable` using an exponential distribution.
+/// The source of randomness is `std::default_random_engine`
+/// with `std::exponential_distribution<float>(8.0f)`. It fills half of the
+/// table with negative gradients and half with positive gradients.
 
 void CPerlinNoise2D::RandomizeTableExp(){  
   std::exponential_distribution<float> d(8.0f);
@@ -171,13 +183,13 @@ void CPerlinNoise2D::RandomizeTableExp(){
 } //RandomizeTableExp
 
 /// Set `m_fTable` to pseudo-random values in \f$[-1, 1]\f$ according 
-/// to some probability distribution. The pseudo-random number generators are
-/// seeded from `m_nSeed`, which means that the table contents are the same each
-/// time this function is called with the same parameter, up until `Randomize()`
-/// is called.
+/// to some probability distribution. The pseudo-random number generator is
+/// re-seeded with a time value each time this function is called.
 /// \param d Probability distribution enumerated type.
 
-void CPerlinNoise2D::RandomizeTable(eDistribution d){
+void CPerlinNoise2D::RandomizeTable(eDistribution d){ 
+  m_stdRandom.seed(timeGetTime()); //reset PRNG
+
   switch(d){
     case eDistribution::Uniform: RandomizeTableUniform();   break;
     case eDistribution::Cosine:  RandomizeTableCos();       break;
@@ -234,7 +246,7 @@ inline const float CPerlinNoise2D::spline(float x) const{
 /// \param h Hash value for gradient table index.
 /// \param x X-coordinate of point in the range \f$[0, 1]\f$.
 /// \param y Y-coordinate of point in the range \f$[0, 1]\f$.
-/// \return z-height in the range \f$[-1, 1]\f$.
+/// \return z-value in the range \f$[-1, 1]\f$.
 
 inline const float CPerlinNoise2D::z(size_t h, float x, float y, eNoise t) const{
   h = h & m_nMask; //safety
@@ -246,7 +258,7 @@ inline const float CPerlinNoise2D::z(size_t h, float x, float y, eNoise t) const
     break;
       
     case eNoise::Value:
-      result = m_fTable[h]; //get height directly from table
+      result = m_fTable[h]; //get value directly from table
     break;
   } //switch
 
@@ -319,7 +331,7 @@ void CPerlinNoise2D::HashCorners(size_t x, size_t y, size_t c[4]) const{
 /// \param fY Fractional part of Y-coordinate (ignored in Value noise).
 /// \param c Array of two gradients at grid points along X-axis.
 /// \param t Noise type.
-/// \param Linearly interpolated gradient or height.
+/// \param Linearly interpolated gradient or value.
 
 const float CPerlinNoise2D::Lerp(float sX, float fX, float fY, size_t* c,
   eNoise t) const

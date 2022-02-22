@@ -40,12 +40,14 @@
 class CMain{
   private:
     HWND m_hWnd = nullptr; ///< Window handle.
-    HMENU m_hFileMenu = nullptr; ///< Handle to the `File` menu.
-    HMENU m_hGenMenu = nullptr; ///< Handle to the `Generate` menu.
-    HMENU m_hDistMenu = nullptr; ///< Handle to the `Distribution` menu.
-    HMENU m_hHashMenu = nullptr; ///< Handle to the `Hash` menu.
+
+    HMENU m_hFileMenu   = nullptr; ///< Handle to the `File` menu.
+    HMENU m_hGenMenu    = nullptr; ///< Handle to the `Generate` menu.
+    HMENU m_hViewMenu   = nullptr; ///< Handle to the `View` menu.
+    HMENU m_hDistMenu   = nullptr; ///< Handle to the `Distribution` menu.
+    HMENU m_hHashMenu   = nullptr; ///< Handle to the `Hash` menu.
     HMENU m_hSplineMenu = nullptr; ///< Handle to the `Spline` menu.
-    HMENU m_hSetMenu = nullptr; ///< Handle to the `Settings` menu.
+    HMENU m_hSetMenu    = nullptr; ///< Handle to the `Settings` menu.
     
     eNoise m_eNoise = eNoise::None; ///< Noise type.
     eDistribution m_eDistr = eDistribution::Uniform; ///< Distribution type.
@@ -75,12 +77,18 @@ class CMain{
     Gdiplus::Bitmap* m_pBitmap = nullptr; ///< Pointer to a bitmap image.
     CPerlinNoise2D* m_pPerlin = nullptr; ///< Pointer to Perlin noise generator.
 
+    bool m_bShowCoords = false; ///< Show coordinates flag.
+    bool m_bShowGrid = false; ///< Show grid flag.
+
     void CreateMenus(); ///< Create menus.
     void UpdateMenus(); ///< Update menus.
 
     void SetPixel(UINT, UINT, float); ///< Set pixel grayscale from float.
     void SetPixel(UINT, UINT, BYTE); ///< Set pixel grayscale from byte.
     void SetPixel(UINT, UINT, Gdiplus::Color); ///< Set pixel from GDI+ color.
+
+    void DrawCoords(); ///< Draw coordinates to bitmap.
+    void DrawGrid(); ///< Draw grid to bitmap.
 
   public:
     CMain(const HWND hwnd); ///< Constructor.
@@ -95,6 +103,8 @@ class CMain{
     void SetDistribution(eDistribution); ///< Set probability distribution.
     void SetSpline(eSpline); ///< Set spline function.
     void SetHash(eHash); ///< Set hash function.
+    void ToggleViewCoords(); ///< Toggle View Coordinates flag.
+    void ToggleViewGrid(); ///< Toggle View Grid flag.
 
     void Jump(); ///< Change origin coordinates.
     void Jump(float x, float y); ///< Change origin coordinates.

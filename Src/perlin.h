@@ -27,7 +27,6 @@
 #ifndef __PERLIN_H__
 #define __PERLIN_H__
 
-#include <cinttypes>
 #include <random>
 
 #include "Defines.h"
@@ -40,12 +39,11 @@ class CPerlinNoise2D{
     size_t m_nMask = 0; ///< Mask for values less than `m_nSize`.
 
     eHash m_eHash = eHash::Permutation; ///< Hash function type.
+    eSpline m_eSpline = eSpline::Cubic; ///< Spline function type.
 
     size_t* m_nPerm = nullptr; ///< Random permutation, used for hash function.
     float* m_fTable = nullptr; ///< Table of gradients or values.
     
-    eSpline m_eSpline = eSpline::Cubic; ///< Spline function type.
-    unsigned m_nSeed = 0; ///< Pseudorandom number seed.
     std::default_random_engine m_stdRandom; ///< PRNG.
     
     inline const size_t pair(size_t, size_t) const; ///< Perlin pairing function.

@@ -171,6 +171,20 @@ HMENU CreateGenerateMenu(HMENU hMenubar){
   return hMenu;
 } //CreateGenerateMenu
 
+/// Create `View` menu.
+/// \param hMenubar Handle to menu bar.
+/// \return Handle to `View` menu.
+
+HMENU CreateViewMenu(HMENU hMenubar){
+  HMENU hMenu = CreateMenu();
+
+  AppendMenuW(hMenu, MF_STRING, IDM_VIEW_COORDS, L"Coordinates");
+  AppendMenuW(hMenu, MF_STRING, IDM_VIEW_GRID,   L"Grid");
+  
+  AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&View");
+  return hMenu;
+} //CreateViewMenu
+
 /// Create `Distribution` menu.
 /// \param hMenubar Handle to menu bar.
 /// \return Handle to `Distribution` menu.
@@ -288,16 +302,37 @@ void UpdateGenerateMenu(HMENU hMenu, eNoise noise){
     (noise == eNoise::None)? MF_GRAYED: MF_ENABLED);
 } //UpdateGenerateMenu
 
+/// Gray out entries in the `View` menu according to the
+/// current noise properties.
+/// \param hMenu Menu handle.
+/// \param noise Noise enumerated type.
+
+void UpdateViewMenu(HMENU hMenu, eNoise noise){
+  EnableMenuItem(hMenu, IDM_VIEW_COORDS, 
+    (noise == eNoise::None)? MF_GRAYED: MF_ENABLED);
+  EnableMenuItem(hMenu, IDM_VIEW_GRID, 
+    (noise == eNoise::None)? MF_GRAYED: MF_ENABLED);
+} //UpdateViewMenu
+
 /// Gray or ungray a menu item depending on noise type and a boolean value.
 /// \param hMenu Menu handle.
 /// \param item Menu item id.
 /// \param noise Noise enumerated type.
 /// \param bGray True if entry is to be grayed out.
 
-void UpdateMenuItemBool(HMENU hMenu, UINT item, eNoise noise, bool bGray){
+void UpdateMenuItemGray(HMENU hMenu, UINT item, eNoise noise, bool bGray){
   EnableMenuItem(hMenu, item, 
     (noise == eNoise::None || bGray)? MF_GRAYED: MF_ENABLED);
-} //UpdateMenuItemBool
+} //UpdateMenuItemGray
+
+/// Update the check mark on a menu item.
+/// \param hMenu Menu handle.
+/// \param item Menu item id.
+/// \param bCheck True if entry is to be checked.
+
+void UpdateMenuItemCheck(HMENU hMenu, UINT item, bool bCheck){
+  CheckMenuItem(hMenu, item, bCheck? MF_CHECKED: MF_UNCHECKED);
+} //UpdateMenuItemCheck
   
 /// Gray out and set the checkmarks in the `Distribution` menu according to the
 /// current noise and distribution types.

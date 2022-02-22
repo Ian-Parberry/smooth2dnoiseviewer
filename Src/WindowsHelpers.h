@@ -47,26 +47,29 @@
 #define IDM_GENERATE_JUMP        7 ///< Menu id for jump.
 #define IDM_GENERATE_RESETORIGIN 8 ///< Menu id for reset origin.
 
-#define IDM_DISTRIBUTION_UNIFORM      9 ///< Menu id for uniform distribution.
-#define IDM_DISTRIBUTION_COSINE      10 ///< Menu id for cosine distribution.
-#define IDM_DISTRIBUTION_NORMAL      11 ///< Menu id for normal distribution.
-#define IDM_DISTRIBUTION_EXPONENTIAL 12 ///< Menu id for exponential distribution.
-#define IDM_DISTRIBUTION_MIDPOINT    13 ///< Menu id for midpoint displacement.
+#define IDM_VIEW_COORDS  9 ///< Menu id for view coordinates.
+#define IDM_VIEW_GRID   10 ///< Menu id for view grid.
 
-#define IDM_HASH_PERM  14 ///< Menu id for permutation hash.
-#define IDM_HASH_STD   15 ///< Menu id for std::hash.
+#define IDM_DISTRIBUTION_UNIFORM     11 ///< Menu id for uniform distribution.
+#define IDM_DISTRIBUTION_COSINE      12 ///< Menu id for cosine distribution.
+#define IDM_DISTRIBUTION_NORMAL      13 ///< Menu id for normal distribution.
+#define IDM_DISTRIBUTION_EXPONENTIAL 14 ///< Menu id for exponential distribution.
+#define IDM_DISTRIBUTION_MIDPOINT    15 ///< Menu id for midpoint displacement.
 
-#define IDM_SPLINE_NONE    16 ///< Menu id for cubic spline.
-#define IDM_SPLINE_CUBIC   17 ///< Menu id for no spline.
-#define IDM_SPLINE_QUINTIC 18 ///< Menu id for quintic spline.
+#define IDM_HASH_PERM  16 ///< Menu id for permutation hash.
+#define IDM_HASH_STD   17 ///< Menu id for std::hash.
 
-#define IDM_SETTINGS_OCTAVE_UP 19 ///< Menu id for octave up.
-#define IDM_SETTINGS_OCTAVE_DN 20 ///< Menu id for octave down.
-#define IDM_SETTINGS_SCALE_UP  21 ///< Menu id for scale up.
-#define IDM_SETTINGS_SCALE_DN  22 ///< Menu id for scale down.
-#define IDM_SETTINGS_TSIZE_UP  23 ///< Menu id for table size up.
-#define IDM_SETTINGS_TSIZE_DN  24 ///< Menu id for table size down.
-#define IDM_SETTINGS_RESET     25 ///< Menu id for reset settings.
+#define IDM_SPLINE_NONE    18 ///< Menu id for cubic spline.
+#define IDM_SPLINE_CUBIC   19 ///< Menu id for no spline.
+#define IDM_SPLINE_QUINTIC 20 ///< Menu id for quintic spline.
+
+#define IDM_SETTINGS_OCTAVE_UP 21 ///< Menu id for octave up.
+#define IDM_SETTINGS_OCTAVE_DN 22 ///< Menu id for octave down.
+#define IDM_SETTINGS_SCALE_UP  23 ///< Menu id for scale up.
+#define IDM_SETTINGS_SCALE_DN  24 ///< Menu id for scale down.
+#define IDM_SETTINGS_TSIZE_UP  25 ///< Menu id for table size up.
+#define IDM_SETTINGS_TSIZE_DN  26 ///< Menu id for table size down.
+#define IDM_SETTINGS_RESET     27 ///< Menu id for reset settings.
 
 #pragma endregion Menu IDs
 
@@ -92,15 +95,18 @@ HRESULT SaveBitmap(HWND, const std::wstring&, Gdiplus::Bitmap*); ///< Save bitma
 
 HMENU CreateFileMenu(HMENU); ///< Create `File` menu.
 HMENU CreateGenerateMenu(HMENU); ///< Create `Generate` menu.
+HMENU CreateViewMenu(HMENU); ///< Create `View` menu.
 HMENU CreateDistributionMenu(HMENU); ///< Create `Distribution` menu.
 HMENU CreateHashMenu(HMENU); ///< Create `Hash` menu.
 HMENU CreateSplineMenu(HMENU); ///< Create `Spline` menu.
 HMENU CreateSettingsMenu(HMENU); ///< Create `Settings` menu.
 
-void UpdateMenuItemBool(HMENU, UINT, eNoise, bool); ///< Update menu item bool.
+void UpdateMenuItemGray(HMENU, UINT, eNoise, bool); ///< Update menu item bool.
+void UpdateMenuItemCheck(HMENU, UINT, bool); ///< Update menu item check.
 
 void UpdateFileMenu(HMENU, eNoise); ///< Update `File` menu.
 void UpdateGenerateMenu(HMENU, eNoise); ///< Update `Generate` menu.
+void UpdateViewMenu(HMENU, eNoise); ///< Update `View` menu.
 
 void UpdateDistributionMenu(HMENU, eNoise, eDistribution); ///< Update `Distribution` menu.
 void UpdateHashMenu(HMENU, eNoise, eHash); ///< Update `Hash` menu.

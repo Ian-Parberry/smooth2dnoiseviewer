@@ -115,6 +115,7 @@ void CMain::CreateMenus(){
 
   m_hFileMenu = CreateFileMenu(hMenubar);
   m_hGenMenu = CreateGenerateMenu(hMenubar);
+  m_hViewMenu = CreateViewMenu(hMenubar);
   m_hDistMenu = CreateDistributionMenu(hMenubar);
   m_hHashMenu = CreateHashMenu(hMenubar);
   m_hSplineMenu = CreateSplineMenu(hMenubar);
@@ -130,6 +131,7 @@ void CMain::CreateMenus(){
 void CMain::UpdateMenus(){
   UpdateFileMenu(m_hFileMenu, m_eNoise); 
   UpdateGenerateMenu(m_hGenMenu, m_eNoise);
+  UpdateViewMenu(m_hViewMenu, m_eNoise);
   UpdateDistributionMenu(m_hDistMenu, m_eNoise, m_eDistr); 
   UpdateHashMenu(m_hHashMenu, m_eNoise, m_eHash); 
   UpdateSplineMenu(m_hSplineMenu, m_eNoise, m_eSpline); 
@@ -137,8 +139,9 @@ void CMain::UpdateMenus(){
 
   //update individual menu items
 
-  UpdateMenuItemBool(m_hGenMenu, IDM_GENERATE_RESETORIGIN, m_eNoise,
+  UpdateMenuItemGray(m_hGenMenu, IDM_GENERATE_RESETORIGIN, m_eNoise,
     m_fOriginX == 0.0f && m_fOriginY == 0.0f);
+
   UpdateMenuItem(m_hSetMenu, 
     IDM_SETTINGS_OCTAVE_UP, IDM_SETTINGS_OCTAVE_DN, m_eNoise, 
     m_nOctaves, m_nMinOctaves, m_nMaxOctaves);
@@ -151,7 +154,7 @@ void CMain::UpdateMenus(){
   UpdateMenuItem(m_hSetMenu, 
     IDM_SETTINGS_TSIZE_UP, IDM_SETTINGS_TSIZE_DN, m_eNoise, 
     m_nLog2TableSize, m_nMinLog2TableSize, m_nMaxLog2TableSize); 
-  UpdateMenuItemBool(m_hSetMenu, IDM_SETTINGS_RESET, m_eNoise,
+  UpdateMenuItemGray(m_hSetMenu, IDM_SETTINGS_RESET, m_eNoise,
     m_nOctaves == m_nDefOctaves && m_fScale == m_fDefScale
     && m_nLog2TableSize == m_nDefLog2TableSize); 
 } //UpdateMenus
@@ -235,7 +238,84 @@ void CMain::GenerateNoiseBitmap(eNoise t){
       SetPixel(i, j, m_pPerlin->generate(x, y, t, m_nOctaves));
     } //for
   } //for
+  
+  if(m_bShowGrid)DrawGrid();
+  if(m_bShowCoords)DrawCoords();
 } //GenerateNoiseBitmap
+ 
+/// Draw the coordinates of the top left and bottom right of the noise to the
+/// corresponding corners of the bitmap pointed to by `m_pBitmap`. The font
+/// family, font, style, and color of the text are hard-coded.
+
+void CMain::DrawCoords(){ 
+  Gdiplus::FontFamily ff(L"Arial");
+  Gdiplus::Font font(&ff, 20, Gdiplus::FontStyleRegular, Gdiplus::UnitPixel);
+  Gdiplus::SolidBrush brush(Gdiplus::Color::White);
+
+  Gdiplus::Graphics graphics(m_pBitmap);
+
+  //top left corner
+
+  Gdiplus::PointF pointF(0.0f, 0.0f); //text position on screen
+  
+  std::wstring wstr = L"("; //text of origin coordinates
+  wstr += std::to_wstring((size_t)floorf(m_fOriginX)) + L", ";
+  wstr += std::to_wstring((size_t)floorf(m_fOriginY)) + L")";
+
+  graphics.DrawString(wstr.c_str(), -1, &font, pointF, &brush);
+
+  //bottom right corner
+
+  const float x = m_fOriginX + m_pBitmap->GetWidth()/m_fScale; //x-coordinate
+  const float y = m_fOriginY + m_pBitmap->GetHeight()/m_fScale; //y-coordinate
+
+  wstr = L"(" + to_wstring_f(x, 2) + L", " + to_wstring_f(y, 2) + L")"; //text
+
+  Gdiplus::RectF rec, unused;
+  graphics.MeasureString(wstr.c_str(), -1, &font, unused, &rec); //measure text
+  const float w = ceilf(rec.Width); //width of text on screen
+  const float h = ceilf(rec.Height); //height of text on screen
+
+  pointF.X = m_pBitmap->GetWidth() - w; //text x-coordinate on screen
+  pointF.Y = m_pBitmap->GetHeight() - h; //text y-coordinate on screen
+
+  graphics.DrawString(wstr.c_str(), -1, &font, pointF, &brush);
+} //DrawCoords
+
+/// Draw grid for first octave to the bitmap pointed to by `m_pBitmap`.
+
+void CMain::DrawGrid(){ 
+  const float fBitmapWidth = (float)m_pBitmap->GetWidth();
+  const float fBitmapHeight = (float)m_pBitmap->GetHeight();
+
+  const UINT nv = (UINT)floorf(fBitmapWidth/m_fScale); //number of vertical lines
+  const UINT nh = (UINT)floorf(fBitmapHeight/m_fScale); //number of horizontal lines
+
+  Gdiplus::Graphics graphics(m_pBitmap);
+  Gdiplus::Pen pen(Gdiplus::Color(255, 0, 255, 0)); //green
+
+  //horizontal lines
+
+  Gdiplus::PointF left(0.0f, m_fScale);
+  Gdiplus::PointF right(fBitmapWidth, m_fScale);
+
+  for(UINT i=0; i<nh; i++){
+    graphics.DrawLine(&pen, left, right);
+    left.Y += m_fScale;
+    right.Y += m_fScale;
+  } //for
+
+  //vertical lines
+
+  Gdiplus::PointF top(m_fScale, 0.0f);
+  Gdiplus::PointF bottom(m_fScale, fBitmapHeight);
+
+  for(UINT i=0; i<nv; i++){
+    graphics.DrawLine(&pen, top, bottom);
+    top.X += m_fScale;
+    bottom.X += m_fScale;
+  } //for
+} //DrawGrid
 
 /// Generate last type of noise.
 
@@ -251,7 +331,7 @@ void CMain::GenerateNoiseBitmap(){
 #pragma region Menu response functions
 
 /// Set Perlin noise probability distribution and regenerate noise. This will
-/// change the contents of the Perlin noise gradient/height table.
+/// change the contents of the Perlin noise gradient/value table.
 /// \param d Probability distribution enumerated type.
 
 void CMain::SetDistribution(eDistribution d){
@@ -280,6 +360,24 @@ void CMain::SetHash(eHash d){
   UpdateHashMenu(m_hHashMenu, m_eNoise, d);
   GenerateNoiseBitmap();
 } //SetHash
+
+/// Toggle the View Coordinates flag, put a checkmark next to the menu item,
+/// and redraw the bitmap.
+
+void CMain::ToggleViewCoords(){
+  m_bShowCoords = !m_bShowCoords;
+  UpdateMenuItemCheck(m_hViewMenu, IDM_VIEW_COORDS, m_bShowCoords);
+  GenerateNoiseBitmap();
+} //ToggleViewCoords
+
+/// Toggle the View Grid flag, put a checkmark next to the menu item, and
+/// redraw the bitmap.
+
+void CMain::ToggleViewGrid(){
+  m_bShowGrid = !m_bShowGrid;
+  UpdateMenuItemCheck(m_hViewMenu, IDM_VIEW_GRID, m_bShowGrid);
+  GenerateNoiseBitmap();
+} // ToggleViewGrid
 
 /// Increment both coordinates of the origin by the table size and regenerate
 /// noise.
@@ -396,9 +494,10 @@ const std::wstring CMain::GetFileName() const{
 
   switch(m_eDistr){
     case eDistribution::Uniform: break; //nothing, which is the default  
-    case eDistribution::Cosine:  wstr += L"-Cos"; break;   
-    case eDistribution::Normal:  wstr += L"-Norm"; break;    
-    case eDistribution::Exponential: wstr += L"-Exp"; break;
+    case eDistribution::Cosine:      wstr += L"-Cos"; break;   
+    case eDistribution::Normal:      wstr += L"-Norm"; break;    
+    case eDistribution::Exponential: wstr += L"-Exp"; break;    
+    case eDistribution::Midpoint:    wstr += L"-Mid"; break;
   } //switch
 
   switch(m_eSpline){

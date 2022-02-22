@@ -122,6 +122,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
           g_pMain->Jump(0.0f, 0.0f);
           InvalidateRect(hWnd, nullptr, FALSE);
           break;
+
+        case IDM_VIEW_COORDS:
+          g_pMain->ToggleViewCoords();
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        case IDM_VIEW_GRID:
+          g_pMain->ToggleViewGrid();
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
             
         case IDM_DISTRIBUTION_UNIFORM:
             if(g_pMain->GetDistribution() != eDistribution::Uniform){
