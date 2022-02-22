@@ -517,7 +517,9 @@ const std::wstring CMain::GetFileName() const{
 /// \return Wide string noise description.
 
 const std::wstring CMain::GetNoiseDescription() const{
-  std::wstring wstr;
+  std::wstring wstr; //for noise description
+
+  //number of octaves
 
   if(m_eNoise == eNoise::Perlin || m_eNoise == eNoise::Value){
     wstr += std::to_wstring(m_nOctaves) + L" octave";
@@ -525,14 +527,22 @@ const std::wstring CMain::GetNoiseDescription() const{
     wstr += L" of ";
   } //if
 
+  //type of noise
+
   switch(m_eNoise){
     case eNoise::Perlin: wstr += L"Perlin"; break;
     case eNoise::Value:  wstr += L"Value";  break;
   } //switch
+
+  wstr += L" Noise";
+
+  //origin
   
-  wstr += L" Noise with origin (";
+  wstr += L" with origin (";
   wstr += to_wstring_f(m_fOriginX, 2) + L", ";
   wstr += to_wstring_f(m_fOriginY, 2) + L"), ";
+
+  //hash function
 
   switch(m_eHash){
     case eHash::Permutation: wstr += L"a permutation"; break;
@@ -541,11 +551,14 @@ const std::wstring CMain::GetNoiseDescription() const{
 
   wstr += L" hash function, ";
 
+  //distribution
+
   switch(m_eDistr){
-    case eDistribution::Uniform: wstr += L"uniform"; break;    
-    case eDistribution::Cosine:  wstr += L"cosine"; break;   
-    case eDistribution::Normal:  wstr += L"normal"; break;    
+    case eDistribution::Uniform:     wstr += L"uniform"; break;    
+    case eDistribution::Cosine:      wstr += L"cosine"; break;   
+    case eDistribution::Normal:      wstr += L"normal"; break;    
     case eDistribution::Exponential: wstr += L"exponential"; break;
+    case eDistribution::Midpoint: wstr += L"midpoint displacement"; break;
   } //switch
 
   switch(m_eNoise){
@@ -555,26 +568,35 @@ const std::wstring CMain::GetNoiseDescription() const{
 
   wstr += L" distribution, ";
 
+  //spline function
+
   switch(m_eSpline){
     case eSpline::None:    wstr += L"no"; break; 
     case eSpline::Cubic:   wstr += L"cubic"; break; //nothing
     case eSpline::Quintic: wstr += L"quintic"; break;
   } //switch
 
-  wstr += L" spline function, scale ";
-  wstr += std::to_wstring((size_t)round(m_fScale));
-  wstr += L", and ";
+  wstr += L" spline function, ";
+
+  //scale
+
+  wstr += L"scale " + std::to_wstring((size_t)round(m_fScale)) + L", and ";
+
+  //table size
   
   if(m_eHash == eHash::Permutation)
     wstr += L"permutation and ";
 
   switch(m_eNoise){
     case eNoise::Perlin: wstr += L"gradient "; break;
-    case eNoise::Value:  wstr += L"height ";  break;
+    case eNoise::Value:  wstr += L"value ";  break;
   } //switch
       
   wstr += L"table size ";
   wstr += std::to_wstring(1 << m_nLog2TableSize);
+
+  //lacunarity and persistence
+
   wstr += L". Lacunarity and persistence are fixed at 0.5 and 2.0, respectively.";
 
   return wstr;
