@@ -90,4 +90,6 @@ var menudata={children:[
 {text:"w",url:"globals_func.html#index_w"}]},
 {text:"Variables",url:"globals_vars.html"},
 {text:"Enumerations",url:"globals_enum.html"},
-{text:"Macros",url:"globals_defs.html"}]}]}]}
+{text:"Macros",url:"globals_defs.html",children:[
+{text:"_",url:"globals_defs.html#index__5F"},
+{text:"i",url:"globals_defs.html#index_i"}]}]}]}]}

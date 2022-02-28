@@ -120,6 +120,9 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:a08d2f182c5cade96561801b628ca4241"><td class="memItemLeft" align="right" valign="top">const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_perlin_noise2_d.html#a08d2f182c5cade96561801b628ca4241">hashstd</a> (size_t) const</td></tr>
 <tr class="memdesc:a08d2f182c5cade96561801b628ca4241"><td class="mdescLeft">&#160;</td><td class="mdescRight">std::hash function.  <a href="class_c_perlin_noise2_d.html#a08d2f182c5cade96561801b628ca4241">More...</a><br /></td></tr>
 <tr class="separator:a08d2f182c5cade96561801b628ca4241"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59518ce6ca8c0282751bd247da4dd1f2"><td class="memItemLeft" align="right" valign="top">const size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_perlin_noise2_d.html#a59518ce6ca8c0282751bd247da4dd1f2">hash2</a> (size_t, size_t) const</td></tr>
+<tr class="memdesc:a59518ce6ca8c0282751bd247da4dd1f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hash function.  <a href="class_c_perlin_noise2_d.html#a59518ce6ca8c0282751bd247da4dd1f2">More...</a><br /></td></tr>
+<tr class="separator:a59518ce6ca8c0282751bd247da4dd1f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b82c9cba97d84d7014d228e7dd44f39"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_perlin_noise2_d.html#a8b82c9cba97d84d7014d228e7dd44f39">HashCorners</a> (size_t, size_t, size_t[4]) const</td></tr>
 <tr class="memdesc:a8b82c9cba97d84d7014d228e7dd44f39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Hash grid corners.  <a href="class_c_perlin_noise2_d.html#a8b82c9cba97d84d7014d228e7dd44f39">More...</a><br /></td></tr>
 <tr class="separator:a8b82c9cba97d84d7014d228e7dd44f39"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -294,7 +297,7 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Turbulence value in \([-1, 1]\) at point \((\mathsf{x}, \mathsf{y})\). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00395">395</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00418">418</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -330,6 +333,52 @@ Private Attributes</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>Hashed number in the range [0, <code>m_nSize</code> - 1]. </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00294">294</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a59518ce6ca8c0282751bd247da4dd1f2" name="a59518ce6ca8c0282751bd247da4dd1f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59518ce6ca8c0282751bd247da4dd1f2">&#9670;&nbsp;</a></span>hash2()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const size_t CPerlinNoise2D::hash2 </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>y</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p >A stupid 2D hash function munged together by xor-ing two linear hash functions together. For fixed primes \(p_0, p_1, p_2\) and parameters \(x, y\), this function returns \((p_0x + p_1y) \bmod p_2 \) right-shifted by 8 bits and masked with <code>m_nMask</code>. </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>A number. </td></tr>
+    <tr><td class="paramname">y</td><td>A number. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Hashed number in the range [0, <code>m_nSize</code> - 1]. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00316">316</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -381,7 +430,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00313">313</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00331">331</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -483,7 +532,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00336">336</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00359">359</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -536,7 +585,7 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A smoothed noise value in [-1, 1] at the given point. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00355">355</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00378">378</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -1196,7 +1245,7 @@ Private Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 22 2022 14:37:00 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
+Generated on Mon Feb 28 2022 16:29:14 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
 </small></address>
 </body>
 </html>

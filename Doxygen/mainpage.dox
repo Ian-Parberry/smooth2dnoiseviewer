@@ -106,7 +106,7 @@
 /// > Ian Parberry, “Amortized Noise”, Journal of Computer Graphics Techniques,
 /// > Vol. 3, No. 2, pp. 31-47, 2014.
 ///
-/// The algorithm described in this section computes what is called a single _octave_ of perlin noise,
+/// The algorithm described in this section computes what is called a single _octave_ of Perlin noise,
 /// which looks like the three examples in Fig. 3.
 ///
 /// \image html perlin1.png "Fig. 3: Three examples of a single octave of Perlin noise" width=500
@@ -131,7 +131,7 @@
 /// The _cubic spline_ of \f$x\f$ is defined to be \f$3x^2 - 2x^3\f$, and
 /// the _quintic spline_ of \f$x\f$ is defined to be \f$10x^3 - 15x^4 + 6x^5\f$.
 /// These are implemented in `CPerlinNoise2D::spline3()` and `CPerlinNoise2D::spline5`, respectively.
-/// Perlin's original imlementation used cubic splines for speed, but later implementation used
+/// Perlin's original implementation used cubic splines for speed, but later implementation used
 /// quintic splines for smoothness. Fig. 5 shows Spline curves (left), their derivatives (center)
 /// and second derivatives (right). 
 ///
@@ -156,7 +156,7 @@
 /// The gradient/value table is stored in `CPerlinNoise2D::m_fTable`. Most implementations of Perlin
 /// noise fill this table with pseudo-random values from \f$[-1,1]\f$ chosen from a uniform
 /// distribution. The size of this table doesn't matter unless it is very small. The table
-/// size in this implementation is `CPerlinNoise2D::m_nSize`and can be modifed
+/// size in this implementation is `CPerlinNoise2D::m_nSize`and can be modified
 /// using the  `Settings` menu (see Section 4.7).
 ///
 /// As shown in the following papers, it is often useful to fill the table with values chosen
@@ -192,11 +192,16 @@
 /// and his 2D function consists of a _pairing function_ to combine a pair of coordinates into one,
 /// followed by a 1D hash function. Perlin's pairing function is `CPerlinNoise2D::pair()`.
 ///
-/// To avoid the repeated nose inherent in using a permutation as a hash function at the cost
-/// of increased running time, we can use a modern 1D hash function such as `std::hash`.
+/// To avoid the repeats inherent in using a permutation as a hash function at the cost
+/// of increased running time, we can use, for example, a 2D linear congruential hash function
+/// such as the one implemented in `CPerlinNoise2D::hash2()` which on input \f$x, y\f$ returns
+/// \f$(p_0x + p_1y) \bmod p_2 \f$ (for hard-coded primes \f$p_0, p_1, p_2\f$)
+/// right-shifted by 8 bits and masked with `m_nMask`.
+///
+/// A better alternative would be to use a modern 1D hash function such as `std::hash`.
 /// This is implemented in `CPerlinNoise2D::hashstd()`, and required a slightly different
 /// pairing function implemented in `CPerlinNoise2D::pairstd()`. The hash function can
-/// be changed from one mode to the ither using the `Hash` menu (see Section 4.5).
+/// be changed using the `Hash` menu (see Section 4.5).
 ///
 /// ### 3.6 Building a Bitmap Image
 ///
@@ -212,12 +217,12 @@
 /// 4. The Controls
 /// ---------------
 ///
-/// The menu bar at the top of the application window has six drop-down menus,
-/// `File`, `Generate`, `View`, `Distribution`, `Hash`, `Spline`, and `Settings`, as follows.
+/// The menu bar at the top of the application window has eight drop-down menus,
+/// `File`, `Generate`, `View`, `Distribution`, `Hash`, `Spline`, `Settings`, and `Help` , as follows.
 /// 
 /// ### 4.1 The `File` Menu
 ///
-/// \image html File.png width=150
+/// \image html file.png width=150
 ///
 /// The `File` menu lets you `Save` the current image, view its noise `Properties`,
 /// or `Quit` the application. The `Save` option actually pops up a Windows `Save as` dialog box
@@ -231,7 +236,7 @@
 /// 
 /// ### 4.2 The `Generate` Menu
 ///
-/// \image html Generate.png 
+/// \image html generate.png 
 ///
 /// The `Generate` menu lets you generate either Perlin or Value noise.
 /// There will be a checkmark next to the current noise type. Selecting
@@ -249,7 +254,7 @@
 ///
 /// ### 4.3 The `View` Menu
 ///
-/// \image html View.png 
+/// \image html view.png 
 ///
 /// Selecting `Coordinates` from the `View` menu will toggle the drawing of the noise coordinates
 /// of the top-left and bottom-right pixels of the bitmap. Selecting `Grid` will
@@ -262,7 +267,7 @@
 /// 
 /// ### 4.4 The `Distribution` Menu
 ///
-/// \image html Distribution.png
+/// \image html distribution.png
 ///
 /// The `Distribution` menu lets you fill the gradient/value table with
 /// pseudo-random values in the range \f$[-1, 1]\f$ drawn from either a
@@ -276,12 +281,13 @@
 /// \image html Hash.png
 ///
 /// The `Hash` menu lets you pick the hash function, either the Perlin hash
-/// function using a pseudo-random permutation, or `std::hash`. 
+/// function using a pseudo-random permutation, a 2D linear congruential hash function,
+/// or `std::hash`. 
 /// There will be a checkmark next to the current hash function.
 /// 
 /// ### 4.6 The `Spline` Menu
 ///
-/// \image html Spline.png
+/// \image html spline.png
 ///
 /// The `Spline` menu lets you pick the spline function, either no spline
 /// function, cubic spline, or quintic spline. 
@@ -289,13 +295,24 @@
 /// 
 /// ### 4.7 The `Settings` Menu
 ///
-/// \image html Settings.png
+/// \image html settings.png
 ///
 /// The `Settings` menu lets you increment or decrement the number of octaves of noise,
 /// scale the image up or down by a factor of two, and scale the gradient/value table up
 /// or down by a factor of two. Selecting `Reset to defaults` resets these three values to
 /// their defaults.
 /// The actual values of these properties can be found in the `Properties` dialog
-/// box described Section 4.1.
+/// box described in Section 4.1.
+///
+/// ### 4.8 The `Help` Menu
+///
+/// \image html help.png
+///
+/// The `Help` menu has two entries, `Display help` which opens up this documentation in a browser,
+/// and `About` which displays the `About` dialog box.
+///
+/// \image html about.png width=350
+///
+///
 
  
