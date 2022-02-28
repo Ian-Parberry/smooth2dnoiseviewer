@@ -305,6 +305,24 @@ inline const size_t CPerlinNoise2D::hashstd(size_t x) const{
   return std::hash<size_t>{}(x) & m_nMask;
 } //hashstd
 
+/// A stupid 2D hash function munged together by xor-ing two linear hash
+/// functions together. For fixed primes \f$p_0, p_1, p_2\f$ and parameters
+/// \f$x, y\f$, this function returns \f$(p_0x + p_1y) \bmod p_2 \f$ 
+/// right-shifted by 8 bits and masked with `m_nMask`.
+/// \param x A number.
+/// \param y A number.
+/// \return Hashed number in the range [0, `m_nSize` - 1].
+
+inline const size_t CPerlinNoise2D::hash2(size_t x, size_t y) const{
+  const uint64_t p0 = 43214161; //prime
+  const uint64_t p1 = 43216891; //prime
+  const uint64_t p2 = 73202201; //prime
+  
+  const uint64_t h = (p0*(uint64_t)x + p1*(uint64_t)y)%p2; //hash
+
+  return size_t(h >> 8) & m_nMask; //shift and mask
+} //hash2
+
 /// Get hash values at grid corners (at whole number coordinates).
 /// \param x X-coordinate.
 /// \param y Y-coordinate.
@@ -315,6 +333,11 @@ void CPerlinNoise2D::HashCorners(size_t x, size_t y, size_t c[4]) const{
     case eHash::Permutation:
       c[0] = hash(pair(x, y));     c[1] = hash(pair(x + 1, y));
       c[2] = hash(pair(x, y + 1)); c[3] = hash(pair(x + 1, y + 1));
+    break;
+
+    case eHash::LinearCongruential:
+      c[0] = hash2(x, y);     c[1] = hash2(x + 1, y);
+      c[2] = hash2(x, y + 1); c[3] = hash2(x + 1, y + 1);
     break;
 
     case eHash::Std:

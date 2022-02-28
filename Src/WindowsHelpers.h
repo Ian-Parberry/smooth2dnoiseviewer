@@ -56,20 +56,24 @@
 #define IDM_DISTRIBUTION_EXPONENTIAL 14 ///< Menu id for exponential distribution.
 #define IDM_DISTRIBUTION_MIDPOINT    15 ///< Menu id for midpoint displacement.
 
-#define IDM_HASH_PERM  16 ///< Menu id for permutation hash.
-#define IDM_HASH_STD   17 ///< Menu id for std::hash.
+#define IDM_HASH_PERM   16 ///< Menu id for permutation hash.
+#define IDM_HASH_LCON   17 ///< Menu id for linear congruential hash.
+#define IDM_HASH_STD    18 ///< Menu id for std::hash.
 
-#define IDM_SPLINE_NONE    18 ///< Menu id for cubic spline.
-#define IDM_SPLINE_CUBIC   19 ///< Menu id for no spline.
-#define IDM_SPLINE_QUINTIC 20 ///< Menu id for quintic spline.
+#define IDM_SPLINE_NONE    19 ///< Menu id for cubic spline.
+#define IDM_SPLINE_CUBIC   20 ///< Menu id for no spline.
+#define IDM_SPLINE_QUINTIC 21 ///< Menu id for quintic spline.
 
-#define IDM_SETTINGS_OCTAVE_UP 21 ///< Menu id for octave up.
-#define IDM_SETTINGS_OCTAVE_DN 22 ///< Menu id for octave down.
-#define IDM_SETTINGS_SCALE_UP  23 ///< Menu id for scale up.
-#define IDM_SETTINGS_SCALE_DN  24 ///< Menu id for scale down.
-#define IDM_SETTINGS_TSIZE_UP  25 ///< Menu id for table size up.
-#define IDM_SETTINGS_TSIZE_DN  26 ///< Menu id for table size down.
-#define IDM_SETTINGS_RESET     27 ///< Menu id for reset settings.
+#define IDM_SETTINGS_OCTAVE_UP 22 ///< Menu id for octave up.
+#define IDM_SETTINGS_OCTAVE_DN 23 ///< Menu id for octave down.
+#define IDM_SETTINGS_SCALE_UP  24 ///< Menu id for scale up.
+#define IDM_SETTINGS_SCALE_DN  25 ///< Menu id for scale down.
+#define IDM_SETTINGS_TSIZE_UP  26 ///< Menu id for table size up.
+#define IDM_SETTINGS_TSIZE_DN  27 ///< Menu id for table size down.
+#define IDM_SETTINGS_RESET     28 ///< Menu id for reset settings.
+
+#define IDM_HELP_HELP  29 ///< Menu id for display help.
+#define IDM_HELP_ABOUT 30 ///< Menu id for display About info.
 
 #pragma endregion Menu IDs
 
@@ -100,6 +104,7 @@ HMENU CreateDistributionMenu(HMENU); ///< Create `Distribution` menu.
 HMENU CreateHashMenu(HMENU); ///< Create `Hash` menu.
 HMENU CreateSplineMenu(HMENU); ///< Create `Spline` menu.
 HMENU CreateSettingsMenu(HMENU); ///< Create `Settings` menu.
+void CreateHelpMenu(HMENU); ///< Create `Help` menu.
 
 void UpdateMenuItemGray(HMENU, UINT, eNoise, bool); ///< Update menu item bool.
 void UpdateMenuItemCheck(HMENU, UINT, bool); ///< Update menu item check.

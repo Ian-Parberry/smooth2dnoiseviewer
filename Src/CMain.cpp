@@ -120,6 +120,7 @@ void CMain::CreateMenus(){
   m_hHashMenu = CreateHashMenu(hMenubar);
   m_hSplineMenu = CreateSplineMenu(hMenubar);
   m_hSetMenu = CreateSettingsMenu(hMenubar);
+  CreateHelpMenu(hMenubar);
 
   SetMenu(m_hWnd, hMenubar);
   UpdateMenus();
@@ -488,16 +489,17 @@ const std::wstring CMain::GetFileName() const{
   } //switch
 
   switch(m_eHash){
-    case eHash::Permutation: wstr += L"-Perm"; break;
-    case eHash::Std:  wstr += L"-Std";  break;
+    case eHash::Permutation:        wstr += L"-Perm"; break;
+    case eHash::LinearCongruential: wstr += L"-Lin";  break;
+    case eHash::Std:                wstr += L"-Std";  break;
   } //switch
 
   switch(m_eDistr){
     case eDistribution::Uniform: break; //nothing, which is the default  
-    case eDistribution::Cosine:      wstr += L"-Cos"; break;   
+    case eDistribution::Cosine:      wstr += L"-Cos";  break;   
     case eDistribution::Normal:      wstr += L"-Norm"; break;    
-    case eDistribution::Exponential: wstr += L"-Exp"; break;    
-    case eDistribution::Midpoint:    wstr += L"-Mid"; break;
+    case eDistribution::Exponential: wstr += L"-Exp";  break;    
+    case eDistribution::Midpoint:    wstr += L"-Mid";  break;
   } //switch
 
   switch(m_eSpline){
@@ -545,8 +547,9 @@ const std::wstring CMain::GetNoiseDescription() const{
   //hash function
 
   switch(m_eHash){
-    case eHash::Permutation: wstr += L"a permutation"; break;
-    case eHash::Std:  wstr += L"std";  break;
+    case eHash::Permutation:         wstr += L"a permutation"; break;
+    case eHash::LinearCongruential:  wstr += L"linear congruential"; break;
+    case eHash::Std:                 wstr += L"std";  break;
   } //switch
 
   wstr += L" hash function, ";
@@ -558,12 +561,12 @@ const std::wstring CMain::GetNoiseDescription() const{
     case eDistribution::Cosine:      wstr += L"cosine"; break;   
     case eDistribution::Normal:      wstr += L"normal"; break;    
     case eDistribution::Exponential: wstr += L"exponential"; break;
-    case eDistribution::Midpoint: wstr += L"midpoint displacement"; break;
+    case eDistribution::Midpoint:    wstr += L"midpoint displacement"; break;
   } //switch
 
   switch(m_eNoise){
     case eNoise::Perlin: wstr += L" gradient"; break;
-    case eNoise::Value:  wstr += L" height";  break;
+    case eNoise::Value:  wstr += L" height";   break;
   } //switch
 
   wstr += L" distribution, ";
@@ -571,8 +574,8 @@ const std::wstring CMain::GetNoiseDescription() const{
   //spline function
 
   switch(m_eSpline){
-    case eSpline::None:    wstr += L"no"; break; 
-    case eSpline::Cubic:   wstr += L"cubic"; break; //nothing
+    case eSpline::None:    wstr += L"no";      break; 
+    case eSpline::Cubic:   wstr += L"cubic";   break; 
     case eSpline::Quintic: wstr += L"quintic"; break;
   } //switch
 

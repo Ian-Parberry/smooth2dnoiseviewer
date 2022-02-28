@@ -173,6 +173,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
           InvalidateRect(hWnd, nullptr, FALSE);
           break;
 
+        case IDM_HASH_LCON:
+          g_pMain->SetHash(eHash::LinearCongruential);
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
         case IDM_HASH_STD:
           g_pMain->SetHash(eHash::Std);
           InvalidateRect(hWnd, nullptr, FALSE);
@@ -191,6 +196,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
         case IDM_SPLINE_QUINTIC:
           g_pMain->SetSpline(eSpline::Quintic);
           InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        case IDM_HELP_HELP:
+          ShellExecute(0, 0, 
+            L"https://ian-parberry.github.io/smooth2dnoiseviewer/html/", 
+            0, 0, SW_SHOW);
+          break;
+
+        case IDM_HELP_ABOUT:     
+          MessageBox(nullptr, 
+            L"Copyright © Ian Parberry, 2022.\nSource code available under the MIT License from https://github.com/Ian-Parberry/smooth2dnoiseviewer.", 
+            L"About", MB_ICONINFORMATION | MB_OK);
           break;
 
         case IDM_FILE_SAVE: //save bitmap to image file       

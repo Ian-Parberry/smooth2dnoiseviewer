@@ -51,6 +51,7 @@ class CPerlinNoise2D{
     
     inline const size_t hash(size_t) const; ///< Perlin hash function.
     inline const size_t hashstd(size_t) const; ///< std::hash function.
+    inline const size_t hash2(size_t, size_t) const; ///< Hash function.
 
     void HashCorners(size_t, size_t, size_t[4]) const; ///< Hash grid corners.
     

@@ -210,6 +210,7 @@ HMENU CreateHashMenu(HMENU hMenubar){
   HMENU hMenu = CreateMenu();
 
   AppendMenuW(hMenu, MF_STRING, IDM_HASH_PERM,  L"Permutation");
+  AppendMenuW(hMenu, MF_STRING, IDM_HASH_LCON,  L"Linear congruential");
   AppendMenuW(hMenu, MF_STRING, IDM_HASH_STD,   L"Std::hash");
 
   AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&Hash");
@@ -254,6 +255,17 @@ HMENU CreateSettingsMenu(HMENU hMenubar){
   AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&Settings");
   return hMenu;
 } //CreateSettingsMenu
+
+/// Create `Help` menu.
+/// \param hMenubar Handle to menu bar.
+
+void CreateHelpMenu(HMENU hMenubar){
+  HMENU hMenu = CreateMenu();
+  
+  AppendMenuW(hMenu, MF_STRING, IDM_HELP_HELP, L"Display help...");
+  AppendMenuW(hMenu, MF_STRING, IDM_HELP_ABOUT, L"About...");
+  AppendMenuW(hMenubar, MF_POPUP, (UINT_PTR)hMenu, L"&Help");
+} //CreateHelpMenu
 
 #pragma endregion Create menu functions
 
@@ -379,18 +391,22 @@ void UpdateHashMenu(HMENU hMenu, eNoise noise, eHash h){
   switch(noise){
     case eNoise::None: 
       EnableMenuItem(hMenu, IDM_HASH_PERM,  MF_GRAYED);
+      EnableMenuItem(hMenu, IDM_HASH_LCON,  MF_GRAYED);
       EnableMenuItem(hMenu, IDM_HASH_STD,   MF_GRAYED);
     break;
 
     case eNoise::Perlin:
     case eNoise::Value:
       EnableMenuItem(hMenu, IDM_HASH_PERM,  MF_ENABLED);
+      EnableMenuItem(hMenu, IDM_HASH_LCON,  MF_ENABLED);
       EnableMenuItem(hMenu, IDM_HASH_STD,   MF_ENABLED);
     break;
   } //switch
 
   CheckMenuItem(hMenu, IDM_HASH_PERM,
     (h == eHash::Permutation)? MF_CHECKED: MF_UNCHECKED);
+  CheckMenuItem(hMenu, IDM_HASH_LCON,
+    (h == eHash::LinearCongruential)? MF_CHECKED: MF_UNCHECKED);
   CheckMenuItem(hMenu, IDM_HASH_STD,
     (h == eHash::Std)? MF_CHECKED: MF_UNCHECKED);
 } //UpdateHashMenu

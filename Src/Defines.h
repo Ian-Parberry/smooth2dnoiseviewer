@@ -44,7 +44,7 @@ enum class eNoise{
 /// Enumerated type for hash function.
 
 enum class eHash{
-  Permutation, Std
+  Permutation, LinearCongruential, Std
 }; //eHash
 
 /// \brief Distribution.

@@ -44,10 +44,11 @@ class CMain{
     HMENU m_hFileMenu   = nullptr; ///< Handle to the `File` menu.
     HMENU m_hGenMenu    = nullptr; ///< Handle to the `Generate` menu.
     HMENU m_hViewMenu   = nullptr; ///< Handle to the `View` menu.
+    HMENU m_hSetMenu    = nullptr; ///< Handle to the `Settings` menu.
     HMENU m_hDistMenu   = nullptr; ///< Handle to the `Distribution` menu.
     HMENU m_hHashMenu   = nullptr; ///< Handle to the `Hash` menu.
     HMENU m_hSplineMenu = nullptr; ///< Handle to the `Spline` menu.
-    HMENU m_hSetMenu    = nullptr; ///< Handle to the `Settings` menu.
+    HMENU m_hOctaveMenu = nullptr; ///< Handle to the `Octave` menu.
     
     eNoise m_eNoise = eNoise::None; ///< Noise type.
     eDistribution m_eDistr = eDistribution::Uniform; ///< Distribution type.
