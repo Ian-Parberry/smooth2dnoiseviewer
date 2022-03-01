@@ -110,7 +110,7 @@ void CPerlinNoise2D::RandomizeTableMidpoint(size_t i, size_t j, float alpha){
     const size_t mid = (i + j)/2; //mid point
 
     const float fMean = (m_fTable[i] + m_fTable[j - 1])/2.0f; //average of ends
-    const float fRand = d(m_stdRandom); //random value in [-1, 1]
+    const float fRand = alpha*d(m_stdRandom); //random offset
     m_fTable[mid] = clamp(-1.0f, fMean + fRand, 1.0f); //mid point is average plus offset
     alpha *= 0.5f; //increase lacunarity
 
@@ -137,8 +137,11 @@ void CPerlinNoise2D::RandomizeTableMidpoint(){
 void CPerlinNoise2D::RandomizeTableUniform(){  
   std::uniform_real_distribution<float> d(-1.0f, 1.0f);
 
-  for(size_t i=0; i<m_nSize; i++)
+  for(size_t i=0; i<m_nSize; i++){
     m_fTable[i] = d(m_stdRandom);
+    //x = (i&1)? 1.0f: -1.0f; //show worst-case behaviour
+    assert(-1.0f <= m_fTable[i] && m_fTable[i] <= 1.0f);
+  } //for
 } //RandomizeTableUniform
 
 /// Fill the gradient/value table `m_fTable` using a normal distribution.
@@ -148,21 +151,25 @@ void CPerlinNoise2D::RandomizeTableUniform(){
 void CPerlinNoise2D::RandomizeTableNormal(){  
   std::normal_distribution<float> d(500.0f, 200.0f);
 
-  for(size_t i=0; i<m_nSize; i++)
+  for(size_t i=0; i<m_nSize; i++){
     m_fTable[i] = 2.0f*clamp(0.0f, d(m_stdRandom)/1000.0f, 1.0f) - 1.0f;
+    assert(-1.0f <= m_fTable[i] && m_fTable[i] <= 1.0f);
+  } //for
 } //RandomizeTableNormal
 
 /// Fill the gradient/value table `m_fTable` using a cosine distribution.
 /// The source of randomness is `std::default_random_engine`
 /// with `std::uniform_real_distribution<float>(0.0f, 1.0f)`.
-/// It simple multiplies the each pseudo-random number by \f$pi\f$ and
+/// It simply multiplies the each pseudo-random number by \f$pi\f$ and
 /// enters the cosine of the result into the table.
 
 void CPerlinNoise2D::RandomizeTableCos(){  
   std::uniform_real_distribution<float> d(0.0f, 1.0f);
 
-  for(size_t i=0; i<m_nSize; i++)
+  for(size_t i=0; i<m_nSize; i++){
     m_fTable[i] = cosf(PI*d(m_stdRandom));
+    assert(-1.0f <= m_fTable[i] && m_fTable[i] <= 1.0f);
+  } //for
 } //RandomizeTableCos
 
 /// Fill the gradient/value table `m_fTable` using an exponential distribution.
@@ -226,6 +233,8 @@ void CPerlinNoise2D::SetHash(eHash d){
 /// \return The spline of \f$\mathsf{x}\f$ in the range \f$[-1, 1]\f$.
 
 inline const float CPerlinNoise2D::spline(float x) const{
+  assert(-1.0f <= x && x <= 1.0f);
+
   float fResult = 0.0f;
 
   switch(m_eSpline){
@@ -233,37 +242,11 @@ inline const float CPerlinNoise2D::spline(float x) const{
     case eSpline::Cubic:   fResult = spline3(x); break;
     case eSpline::Quintic: fResult = spline5(x); break;
   } //switch
+  
+  assert(-1.0f <= fResult && fResult <= 1.0f);
 
   return fResult;
 } //spline
-
-/// For Perlin noise, multiply hashed gradient from `m_fTable` by coordinates. 
-/// Use the hash value parameter to index into the gradient table for the
-/// X gradient and rehash it for the index of the Y gradient. Add these
-/// gradients multiplied by the fractional values of the position (that is,
-/// return \f$z = x \frac{dz}{dx} + y\frac{dz}{dy}\f$). For Value noise, just
-/// read the \f$z\f$ value directly from the table.
-/// \param h Hash value for gradient table index.
-/// \param x X-coordinate of point in the range \f$[0, 1]\f$.
-/// \param y Y-coordinate of point in the range \f$[0, 1]\f$.
-/// \return z-value in the range \f$[-1, 1]\f$.
-
-inline const float CPerlinNoise2D::z(size_t h, float x, float y, eNoise t) const{
-  h = h & m_nMask; //safety
-  float result = 0; //return result
-
-  switch(t){ //noise type
-    case eNoise::Perlin:
-      result = x*m_fTable[h] + y*m_fTable[hash(h)]; //gradient times position
-    break;
-      
-    case eNoise::Value:
-      result = m_fTable[h]; //get value directly from table
-    break;
-  } //switch
-
-  return clamp(-1.0f, result, 1.0f); //safety
-} //z
 
 /// Perlin's pairing function, which combines two unsigned integers into one.
 /// \param x First unsigned integer.
@@ -347,6 +330,40 @@ void CPerlinNoise2D::HashCorners(size_t x, size_t y, size_t c[4]) const{
   } //switch
 } //HashCorners
 
+/// For Perlin noise, multiply hashed gradient from `m_fTable` by coordinates. 
+/// Use the hash value parameter to index into the gradient table for the
+/// X gradient and rehash it for the index of the Y gradient. Add these
+/// gradients multiplied by the fractional values of the position (that is,
+/// return \f$z = x \frac{dz}{dx} + y\frac{dz}{dy}\f$). For Value noise, just
+/// read the \f$z\f$ value directly from the table.
+/// \param h Hash value for gradient table index.
+/// \param x X-coordinate of point in the range \f$[-1, 1]\f$.
+/// \param y Y-coordinate of point in the range \f$[-1, 1]\f$.
+/// \return z-value in the range \f$[-1, 1]\f$.
+
+inline const float CPerlinNoise2D::z(size_t h, float x, float y, eNoise t) const{
+  assert(-1.0f <= x && x <= 1.0f);
+  assert(-1.0f <= y && y <= 1.0f);
+  assert(h == (h & m_nMask)); 
+
+  float result = 0; //return result
+
+  switch(t){ //noise type
+    case eNoise::Perlin: 
+      result = x*m_fTable[h] + y*m_fTable[hash(h)]; //gradient times position
+      assert(-2.0f <= result && result <= 2.0f);
+    break;
+      
+    case eNoise::Value:
+      result = m_fTable[h]; //get value directly from table
+      assert(-1.0f <= result && result <= 1.0f);
+    break;
+  } //switch
+
+
+  return result; 
+} //z
+
 /// Linear interpolation of gradients or heights (depending on whether we're
 /// generating Perlin or Value noise) along the X-axis.
 /// \param sX Smoothed fractional part of X-coordinate.
@@ -354,12 +371,35 @@ void CPerlinNoise2D::HashCorners(size_t x, size_t y, size_t c[4]) const{
 /// \param fY Fractional part of Y-coordinate (ignored in Value noise).
 /// \param c Array of two gradients at grid points along X-axis.
 /// \param t Noise type.
-/// \param Linearly interpolated gradient or value.
+/// \return Linearly interpolated gradient or value.
 
 const float CPerlinNoise2D::Lerp(float sX, float fX, float fY, size_t* c,
   eNoise t) const
 {
-  return lerp(sX, z(c[0], fX, fY, t), z(c[1], fX - 1, fY, t));
+  assert(-1.0f <= sX && sX <= 1.0f);
+  assert( 0.0f <= fX && fX <= 1.0f);
+  assert(-1.0f <= fY && fY <= 1.0f);
+  assert(-1.0f <= c[0] && c[0] <= 1.0f);
+  assert(-1.0f <= c[1] && c[1] <= 1.0f);
+
+  const float result = lerp(sX, z(c[0], fX, fY, t), z(c[1], fX - 1, fY, t));
+   
+  switch(t){ //noise type
+    case eNoise::Perlin: 
+      //the worst case in the lerp above is fX and fX - 1 have the same
+      //magnitude, that is, fX == 0.5f, in which case each z gets 1.0f from fY
+      //and 0.5f from fX.
+      assert(-1.5f <= result && result <= 1.5f);
+      return result/1.5f; 
+    break;
+      
+    case eNoise::Value:
+      assert(-1.0f <= result && result <= 1.0f);
+      return result; 
+    break;
+
+    default: return 0.0f;
+  } //switch
 } //Lerp
 
 #pragma endregion Helper functions
@@ -396,10 +436,15 @@ const float CPerlinNoise2D::noise(float x, float y, eNoise t) const{
 
   const float a = Lerp(sX, fX, fY, c, t);
   const float b = Lerp(sX, fX, fY - 1, &(c[2]), t);
+  
+  assert(-1.0f <= a && a <= 1.0f);
+  assert(-1.0f <= b && b <= 1.0f);
 
   //now lerp these values along the Y-axis
 
-  return lerp(sY, a, b);
+  const float result = lerp(sY, a, b);
+  assert(-1.0f <= result && result <= 1.0f);
+  return result;
 } //noise
   
 /// Add multiple octaves of Perlin or Value noise to compute an effect similar
@@ -418,8 +463,11 @@ const float CPerlinNoise2D::noise(float x, float y, eNoise t) const{
 const float CPerlinNoise2D::generate(float x, float y, eNoise t, size_t n, 
   float alpha, float beta) const
 {
+  assert(0.0f <= alpha && alpha < 1.0f);
+  assert(beta > 1.0f);
+
   float sum = 0.0f; //for result
-  float amplitude = 1.0f;
+  float amplitude = 1.0f; //octave amplitude
 
   for(size_t i=0; i<n; i++){ //for each octave
     sum += amplitude*noise(x, y, t); //scale noise by amplitude
@@ -427,7 +475,14 @@ const float CPerlinNoise2D::generate(float x, float y, eNoise t, size_t n,
     x *= beta; y *= beta; //multiply frequency by persistence
   } //for
 
-  return (1 - alpha)*sum/(1 - amplitude); //scale by sum of geometric progression
+  assert(amplitude == powf(alpha, (float)n));
+
+  float result = (1 - alpha)*sum/(1 - amplitude); //sum of geometric progression
+
+  if(t == eNoise::Perlin)result *= m_fSqrt2; //scale
+
+  assert(-1.0f <= result && result <= 1.0f); //safety
+  return result;
 } //generate
 
 #pragma endregion Noise generation functions

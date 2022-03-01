@@ -36,4 +36,9 @@
 #include <cmath>
 #include <string>
 
+//includes for assertions
+
+//#define NDEBUG ///< Define to disable asserts.
+#include <cassert>
+
 #endif //__INCLUDES_H__

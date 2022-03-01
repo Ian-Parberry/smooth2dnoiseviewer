@@ -236,7 +236,8 @@ void CMain::GenerateNoiseBitmap(eNoise t){
 
     for(UINT j=0; j<m_pBitmap->GetHeight(); j++){
       const float y = m_fOriginY + j/m_fScale;
-      SetPixel(i, j, m_pPerlin->generate(x, y, t, m_nOctaves));
+      const float z = m_pPerlin->generate(x, y, t, m_nOctaves);
+      SetPixel(i, j, z);
     } //for
   } //for
   

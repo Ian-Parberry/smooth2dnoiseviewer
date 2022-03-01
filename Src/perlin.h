@@ -45,6 +45,8 @@ class CPerlinNoise2D{
     float* m_fTable = nullptr; ///< Table of gradients or values.
     
     std::default_random_engine m_stdRandom; ///< PRNG.
+
+    const float m_fSqrt2 = sqrtf(2.0f); ///< Square root of 2.
     
     inline const size_t pair(size_t, size_t) const; ///< Perlin pairing function.
     inline const size_t pairstd(size_t, size_t) const; ///< Std pairing function.
