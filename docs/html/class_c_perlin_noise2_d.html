@@ -183,6 +183,9 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:ab0fa8e2a1c318ccd981f1117bfb061c9"><td class="memItemLeft" align="right" valign="top">std::default_random_engine&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_perlin_noise2_d.html#ab0fa8e2a1c318ccd981f1117bfb061c9">m_stdRandom</a></td></tr>
 <tr class="memdesc:ab0fa8e2a1c318ccd981f1117bfb061c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">PRNG.  <a href="class_c_perlin_noise2_d.html#ab0fa8e2a1c318ccd981f1117bfb061c9">More...</a><br /></td></tr>
 <tr class="separator:ab0fa8e2a1c318ccd981f1117bfb061c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f44fe93ff5255cbc28f88a0dbaf3381"><td class="memItemLeft" align="right" valign="top">const float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_perlin_noise2_d.html#a2f44fe93ff5255cbc28f88a0dbaf3381">m_fSqrt2</a> = sqrtf(2.0f)</td></tr>
+<tr class="memdesc:a2f44fe93ff5255cbc28f88a0dbaf3381"><td class="mdescLeft">&#160;</td><td class="mdescRight">Square root of 2.  <a href="class_c_perlin_noise2_d.html#a2f44fe93ff5255cbc28f88a0dbaf3381">More...</a><br /></td></tr>
+<tr class="separator:a2f44fe93ff5255cbc28f88a0dbaf3381"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
@@ -297,7 +300,7 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Turbulence value in \([-1, 1]\) at point \((\mathsf{x}, \mathsf{y})\). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00418">418</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00463">463</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -332,7 +335,7 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Hashed number in the range [0, <code>m_nSize</code> - 1]. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00294">294</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00277">277</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -378,7 +381,7 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Hashed number in the range [0, <code>m_nSize</code> - 1]. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00316">316</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00299">299</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -430,7 +433,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00331">331</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00314">314</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -465,7 +468,7 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Hashed number in the range [0, <code>m_nSize</code> - 1]. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00304">304</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00287">287</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -527,12 +530,12 @@ Private Attributes</h2></td></tr>
     <tr><td class="paramname">fY</td><td>Fractional part of Y-coordinate (ignored in Value noise). </td></tr>
     <tr><td class="paramname">c</td><td>Array of two gradients at grid points along X-axis. </td></tr>
     <tr><td class="paramname">t</td><td>Noise type. </td></tr>
-    <tr><td class="paramname">Linearly</td><td>interpolated gradient or value. </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>Linearly interpolated gradient or value. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00359">359</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00376">376</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -585,7 +588,7 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A smoothed noise value in [-1, 1] at the given point. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00378">378</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00418">418</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -631,7 +634,7 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>An unsigned integer that depends upon x and y. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00273">273</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00256">256</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -677,7 +680,7 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>An unsigned integer that combines the parameters into a single number. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00285">285</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00268">268</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -731,7 +734,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00190">190</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00197">197</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -757,9 +760,9 @@ Private Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p >Fill the gradient/value table <code>m_fTable</code> using a cosine distribution. The source of randomness is <code>std::default_random_engine</code> with <code>std::uniform_real_distribution&lt;float&gt;(0.0f, 1.0f)</code>. It simple multiplies the each pseudo-random number by \(pi\) and enters the cosine of the result into the table. </p>
+<p >Fill the gradient/value table <code>m_fTable</code> using a cosine distribution. The source of randomness is <code>std::default_random_engine</code> with <code>std::uniform_real_distribution&lt;float&gt;(0.0f, 1.0f)</code>. It simply multiplies the each pseudo-random number by \(pi\) and enters the cosine of the result into the table. </p>
 
-<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00161">161</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00166">166</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -787,7 +790,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p >Fill the gradient/value table <code>m_fTable</code> using an exponential distribution. The source of randomness is <code>std::default_random_engine</code> with <code>std::exponential_distribution&lt;float&gt;(8.0f)</code>. It fills half of the table with negative gradients and half with positive gradients. </p>
 
-<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00173">173</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00180">180</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -895,7 +898,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p >Fill the gradient/value table <code>m_fTable</code> using a normal distribution. The source of randomness is <code>std::default_random_engine</code> with <code>std::normal_distribution&lt;float&gt;(500.0f, 200.0f)</code>. </p>
 
-<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00148">148</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00151">151</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -949,7 +952,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00212">212</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00219">219</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -975,7 +978,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00205">205</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00212">212</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -1010,7 +1013,7 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The spline of \(\mathsf{x}\) in the range \([-1, 1]\). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00228">228</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00235">235</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -1062,14 +1065,14 @@ Private Attributes</h2></td></tr>
 <p >For Perlin noise, multiply hashed gradient from <code>m_fTable</code> by coordinates. Use the hash value parameter to index into the gradient table for the X gradient and rehash it for the index of the Y gradient. Add these gradients multiplied by the fractional values of the position (that is, return \(z = x \frac{dz}{dx} + y\frac{dz}{dy}\)). For Value noise, just read the \(z\) value directly from the table. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">h</td><td>Hash value for gradient table index. </td></tr>
-    <tr><td class="paramname">x</td><td>X-coordinate of point in the range \([0, 1]\). </td></tr>
-    <tr><td class="paramname">y</td><td>Y-coordinate of point in the range \([0, 1]\). </td></tr>
+    <tr><td class="paramname">x</td><td>X-coordinate of point in the range \([-1, 1]\). </td></tr>
+    <tr><td class="paramname">y</td><td>Y-coordinate of point in the range \([-1, 1]\). </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>z-value in the range \([-1, 1]\). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00251">251</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_perlin_8cpp_source.html#l00344">344</a> of file <a class="el" href="_perlin_8cpp_source.html">Perlin.cpp</a>.</p>
 
 </div>
 </div>
@@ -1119,6 +1122,30 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="_perlin_8h_source.html#l00042">42</a> of file <a class="el" href="_perlin_8h_source.html">Perlin.h</a>.</p>
+
+</div>
+</div>
+<a id="a2f44fe93ff5255cbc28f88a0dbaf3381" name="a2f44fe93ff5255cbc28f88a0dbaf3381"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f44fe93ff5255cbc28f88a0dbaf3381">&#9670;&nbsp;</a></span>m_fSqrt2</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const float CPerlinNoise2D::m_fSqrt2 = sqrtf(2.0f)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_perlin_8h_source.html#l00049">49</a> of file <a class="el" href="_perlin_8h_source.html">Perlin.h</a>.</p>
 
 </div>
 </div>
@@ -1245,7 +1272,7 @@ Private Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Feb 28 2022 16:29:14 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
+Generated on Tue Mar 1 2022 15:57:28 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
 </small></address>
 </body>
 </html>
