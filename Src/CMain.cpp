@@ -286,6 +286,14 @@ void CMain::DrawCoords(){
 
   graphics.DrawString(wstr.c_str(), -1, &font, pointF, &brush);
 } //DrawCoords
+ 
+/// Erase the coordinates of the top left and bottom right of the noise from
+/// the bitmap pointed to by `m_pBitmap` by overdrawing the corresponding
+/// rectangles with Perlin noise.
+
+void CMain::UndrawCoords(){ 
+  //TODO: this. Will need a function to overdraw a rectangle too.
+} //UndrawCoords
 
 /// Draw grid for first octave to the bitmap pointed to by `m_pBitmap`.
 
@@ -378,7 +386,10 @@ void CMain::SetHash(eHash d){
 void CMain::ToggleViewCoords(){
   m_bShowCoords = !m_bShowCoords;
   UpdateMenuItemCheck(m_hViewMenu, IDM_VIEW_COORDS, m_bShowCoords);
-  GenerateNoiseBitmap();
+
+  if(m_bShowCoords)DrawCoords();
+  else //UndrawCoords(); //TODO
+    GenerateNoiseBitmap();
 } //ToggleViewCoords
 
 /// Toggle the View Grid flag, put a checkmark next to the menu item, and
@@ -387,7 +398,10 @@ void CMain::ToggleViewCoords(){
 void CMain::ToggleViewGrid(){
   m_bShowGrid = !m_bShowGrid;
   UpdateMenuItemCheck(m_hViewMenu, IDM_VIEW_GRID, m_bShowGrid);
-  GenerateNoiseBitmap();
+  
+  if(m_bShowGrid)DrawGrid();
+  else //UndrawGrid(); //TODO
+    GenerateNoiseBitmap();
 } // ToggleViewGrid
 
 /// Increment both coordinates of the origin by the table size and regenerate
