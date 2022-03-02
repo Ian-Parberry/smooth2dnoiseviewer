@@ -191,8 +191,9 @@ HMENU CreateViewMenu(HMENU hMenubar){
 
 HMENU CreateDistributionMenu(HMENU hMenubar){
   HMENU hMenu = CreateMenu();
-
+  
   AppendMenuW(hMenu, MF_STRING, IDM_DISTRIBUTION_UNIFORM, L"Uniform");
+  AppendMenuW(hMenu, MF_STRING, IDM_DISTRIBUTION_MAXIMAL, L"Maximal");
   AppendMenuW(hMenu, MF_STRING, IDM_DISTRIBUTION_COSINE,  L"Cosine");
   AppendMenuW(hMenu, MF_STRING, IDM_DISTRIBUTION_NORMAL,  L"Normal");
   AppendMenuW(hMenu, MF_STRING, IDM_DISTRIBUTION_EXPONENTIAL, L"Exponential");
@@ -354,23 +355,27 @@ void UpdateMenuItemCheck(HMENU hMenu, UINT item, bool bCheck){
 
 void UpdateDistributionMenu(HMENU hMenu, eNoise noise, eDistribution distr){
   if(noise == eNoise::None){
-    EnableMenuItem(hMenu, IDM_DISTRIBUTION_UNIFORM, MF_GRAYED);
-    EnableMenuItem(hMenu, IDM_DISTRIBUTION_COSINE, MF_GRAYED);
-    EnableMenuItem(hMenu, IDM_DISTRIBUTION_NORMAL, MF_GRAYED);
+    EnableMenuItem(hMenu, IDM_DISTRIBUTION_UNIFORM,     MF_GRAYED);
+    EnableMenuItem(hMenu, IDM_DISTRIBUTION_MAXIMAL,     MF_GRAYED);
+    EnableMenuItem(hMenu, IDM_DISTRIBUTION_COSINE,      MF_GRAYED);
+    EnableMenuItem(hMenu, IDM_DISTRIBUTION_NORMAL,      MF_GRAYED);
     EnableMenuItem(hMenu, IDM_DISTRIBUTION_EXPONENTIAL, MF_GRAYED);
-    EnableMenuItem(hMenu, IDM_DISTRIBUTION_MIDPOINT, MF_GRAYED);
+    EnableMenuItem(hMenu, IDM_DISTRIBUTION_MIDPOINT,    MF_GRAYED);
   } //if
 
   else{
-    EnableMenuItem(hMenu, IDM_DISTRIBUTION_UNIFORM, MF_ENABLED);
-    EnableMenuItem(hMenu, IDM_DISTRIBUTION_COSINE, MF_ENABLED);
-    EnableMenuItem(hMenu, IDM_DISTRIBUTION_NORMAL, MF_ENABLED);
+    EnableMenuItem(hMenu, IDM_DISTRIBUTION_UNIFORM,     MF_ENABLED);
+    EnableMenuItem(hMenu, IDM_DISTRIBUTION_MAXIMAL,     MF_ENABLED);
+    EnableMenuItem(hMenu, IDM_DISTRIBUTION_COSINE,      MF_ENABLED);
+    EnableMenuItem(hMenu, IDM_DISTRIBUTION_NORMAL,      MF_ENABLED);
     EnableMenuItem(hMenu, IDM_DISTRIBUTION_EXPONENTIAL, MF_ENABLED);
-    EnableMenuItem(hMenu, IDM_DISTRIBUTION_MIDPOINT, MF_ENABLED);
+    EnableMenuItem(hMenu, IDM_DISTRIBUTION_MIDPOINT,    MF_ENABLED);
   } //if
-
+  
   CheckMenuItem(hMenu, IDM_DISTRIBUTION_UNIFORM, 
     distr == eDistribution::Uniform? MF_CHECKED: MF_UNCHECKED);
+  CheckMenuItem(hMenu, IDM_DISTRIBUTION_MAXIMAL, 
+    distr == eDistribution::Maximal? MF_CHECKED: MF_UNCHECKED);
   CheckMenuItem(hMenu, IDM_DISTRIBUTION_COSINE, 
     distr == eDistribution::Cosine? MF_CHECKED: MF_UNCHECKED);
   CheckMenuItem(hMenu, IDM_DISTRIBUTION_NORMAL, 

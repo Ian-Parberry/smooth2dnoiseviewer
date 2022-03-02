@@ -230,6 +230,7 @@ void CMain::SetPixel(UINT i, UINT j, Gdiplus::Color clr){
 void CMain::GenerateNoiseBitmap(eNoise t){ 
   m_eNoise = t; //remember the noise type
   UpdateMenus(); //changing noise type may change the menu status
+  float zmin = 0, zmax = 0;
 
   for(UINT i=0; i<m_pBitmap->GetWidth(); i++){
     const float x = m_fOriginX + i/m_fScale;
@@ -237,6 +238,8 @@ void CMain::GenerateNoiseBitmap(eNoise t){
     for(UINT j=0; j<m_pBitmap->GetHeight(); j++){
       const float y = m_fOriginY + j/m_fScale;
       const float z = m_pPerlin->generate(x, y, t, m_nOctaves);
+      zmin = min(zmin, z);
+      zmax = max(zmax, z);
       SetPixel(i, j, z);
     } //for
   } //for
@@ -335,12 +338,18 @@ void CMain::GenerateNoiseBitmap(){
 /// Set Perlin noise probability distribution and regenerate noise. This will
 /// change the contents of the Perlin noise gradient/value table.
 /// \param d Probability distribution enumerated type.
+/// \return true if the distribution changed.
 
-void CMain::SetDistribution(eDistribution d){
-  m_eDistr = d;
-  m_pPerlin->RandomizeTable(d);
-  UpdateDistributionMenu(m_hDistMenu, m_eNoise, m_eDistr);
-  GenerateNoiseBitmap();
+bool CMain::SetDistribution(eDistribution d){
+  if(m_eDistr != d){
+    m_eDistr = d;
+    m_pPerlin->RandomizeTable(d);
+    UpdateDistributionMenu(m_hDistMenu, m_eNoise, m_eDistr);
+    GenerateNoiseBitmap();
+    return true;
+  } //if
+
+  return false;
 } //SetDistribution
 
 /// Set Perlin noise spline function and regenerate noise.
@@ -497,6 +506,7 @@ const std::wstring CMain::GetFileName() const{
 
   switch(m_eDistr){
     case eDistribution::Uniform: break; //nothing, which is the default  
+    case eDistribution::Maximal:     wstr += L"-Max";  break;    
     case eDistribution::Cosine:      wstr += L"-Cos";  break;   
     case eDistribution::Normal:      wstr += L"-Norm"; break;    
     case eDistribution::Exponential: wstr += L"-Exp";  break;    
@@ -558,7 +568,8 @@ const std::wstring CMain::GetNoiseDescription() const{
   //distribution
 
   switch(m_eDistr){
-    case eDistribution::Uniform:     wstr += L"uniform"; break;    
+    case eDistribution::Uniform:     wstr += L"uniform"; break;  
+    case eDistribution::Maximal:     wstr += L"maximal"; break;    
     case eDistribution::Cosine:      wstr += L"cosine"; break;   
     case eDistribution::Normal:      wstr += L"normal"; break;    
     case eDistribution::Exponential: wstr += L"exponential"; break;

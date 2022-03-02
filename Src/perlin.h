@@ -57,12 +57,14 @@ class CPerlinNoise2D{
 
     void HashCorners(size_t, size_t, size_t[4]) const; ///< Hash grid corners.
     
-    void RandomizeTableMidpoint(size_t, size_t, float); ///< Midpoint displacement distribution.
-    void RandomizeTableMidpoint(); ///< Randomize table using midpoint displacement distribution.
     void RandomizeTableUniform(); ///< Randomize table using uniform distribution.
-    void RandomizeTableCos(); ///< Randomize table using cosine distribution.
+    void RandomizeTableCos(); ///< Randomize table using cosine.
     void RandomizeTableNormal(); ///< Randomize table using normal distribution.
     void RandomizeTableExp(); ///< Randomize table using exponential distribution.
+    void RandomizeTableMaximal(); ///< Randomize table using large magnitude values.
+
+    void RandomizeTableMidpoint(size_t, size_t, float); ///< Midpoint displacement.
+    void RandomizeTableMidpoint(); ///< Randomize table using midpoint displacement.
 
     inline const float spline(float) const; ///< Spline curve.
     inline const float z(size_t, float, float, eNoise) const; ///< Apply gradients.

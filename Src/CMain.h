@@ -101,7 +101,7 @@ class CMain{
     void GenerateNoiseBitmap(eNoise); ///< Generate Perlin or Value noise bitmap.
     void GenerateNoiseBitmap(); ///< Generate bitmap again with saved parameters.
 
-    void SetDistribution(eDistribution); ///< Set probability distribution.
+    bool SetDistribution(eDistribution); ///< Set probability distribution.
     void SetSpline(eSpline); ///< Set spline function.
     void SetHash(eHash); ///< Set hash function.
     void ToggleViewCoords(); ///< Toggle View Coordinates flag.

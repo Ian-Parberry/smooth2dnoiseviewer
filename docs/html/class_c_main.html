@@ -105,9 +105,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2e0fc8d7f2582ce75a23b795674d90a7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_main.html#a2e0fc8d7f2582ce75a23b795674d90a7">GenerateNoiseBitmap</a> ()</td></tr>
 <tr class="memdesc:a2e0fc8d7f2582ce75a23b795674d90a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate bitmap again with saved parameters.  <a href="class_c_main.html#a2e0fc8d7f2582ce75a23b795674d90a7">More...</a><br /></td></tr>
 <tr class="separator:a2e0fc8d7f2582ce75a23b795674d90a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1a5b960f39f025f5dba93cfbe9ebcac5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_main.html#a1a5b960f39f025f5dba93cfbe9ebcac5">SetDistribution</a> (<a class="el" href="_defines_8h.html#a352389712570c16202dd2f89203c916b">eDistribution</a>)</td></tr>
-<tr class="memdesc:a1a5b960f39f025f5dba93cfbe9ebcac5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set probability distribution.  <a href="class_c_main.html#a1a5b960f39f025f5dba93cfbe9ebcac5">More...</a><br /></td></tr>
-<tr class="separator:a1a5b960f39f025f5dba93cfbe9ebcac5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a48c3aa07ab9abccd6474b777fb92e5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_main.html#a5a48c3aa07ab9abccd6474b777fb92e5">SetDistribution</a> (<a class="el" href="_defines_8h.html#a352389712570c16202dd2f89203c916b">eDistribution</a>)</td></tr>
+<tr class="memdesc:a5a48c3aa07ab9abccd6474b777fb92e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set probability distribution.  <a href="class_c_main.html#a5a48c3aa07ab9abccd6474b777fb92e5">More...</a><br /></td></tr>
+<tr class="separator:a5a48c3aa07ab9abccd6474b777fb92e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad19ca39b065772a5d90debb823c606d2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_c_main.html#ad19ca39b065772a5d90debb823c606d2">SetSpline</a> (<a class="el" href="_defines_8h.html#a3affdf47188b2b2c1e80e405b74e3c61">eSpline</a>)</td></tr>
 <tr class="memdesc:ad19ca39b065772a5d90debb823c606d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set spline function.  <a href="class_c_main.html#ad19ca39b065772a5d90debb823c606d2">More...</a><br /></td></tr>
 <tr class="separator:ad19ca39b065772a5d90debb823c606d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -448,7 +448,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p >Decrease the number of octaves in <code>m_nOctaves</code> by one down to a minimum of <code>m_nMinOctaves</code>. </p>
 
-<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00424">424</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00433">433</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
 
 </div>
 </div>
@@ -468,7 +468,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p >Decrease the scale in <code>m_fScale</code> by a factor of 2 down to a minimum of <code>m_fMinScale</code>. </p>
 
-<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00440">440</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00449">449</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
 
 </div>
 </div>
@@ -488,7 +488,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p >Decrease the table size by a factor of 2 by subtracting one from <code>m_nLog2TableSize</code> down to a minimum of <code>m_nMinLog2TableSize</code>. </p>
 
-<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00458">458</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00467">467</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
 
 </div>
 </div>
@@ -516,7 +516,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p >Draw the coordinates of the top left and bottom right of the noise to the corresponding corners of the bitmap pointed to by <code>m_pBitmap</code>. The font family, font, style, and color of the text are hard-coded. </p>
 
-<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00252">252</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00255">255</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
 
 </div>
 </div>
@@ -544,7 +544,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p >Draw grid for first octave to the bitmap pointed to by <code>m_pBitmap</code>. </p>
 
-<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00289">289</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00292">292</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
 
 </div>
 </div>
@@ -564,7 +564,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p >Generate last type of noise. </p>
 
-<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00324">324</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00327">327</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
 
 </div>
 </div>
@@ -610,7 +610,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p >Reader function for the bitmap pointer <code>m_pBitmap</code>. </p><dl class="section return"><dt>Returns</dt><dd>The bitmap pointer <code>m_pBitmap</code>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00612">612</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00623">623</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
 
 </div>
 </div>
@@ -630,7 +630,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p >Reader function for the distribution type <code>m_eDistr</code>. </p><dl class="section return"><dt>Returns</dt><dd>The distribution type <code>m_eDistr</code>. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00619">619</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00630">630</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
 
 </div>
 </div>
@@ -655,7 +655,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00484">484</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00493">493</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
 
 </div>
 </div>
@@ -675,7 +675,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p >Get noise description including type of noise and its parameters. </p><dl class="section return"><dt>Returns</dt><dd>Wide string noise description. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00522">522</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00532">532</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
 
 </div>
 </div>
@@ -695,7 +695,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p >Increase the number of octaves in <code>m_nOctaves</code> by one up to a maximum of <code>m_nMaxOctaves</code>. </p>
 
-<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00416">416</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00425">425</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
 
 </div>
 </div>
@@ -715,7 +715,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p >Increase the scale in <code>m_fScale</code> by a factor of 2 up to a maximum of <code>m_fMaxScale</code>. </p>
 
-<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00432">432</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00441">441</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
 
 </div>
 </div>
@@ -735,7 +735,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p >Increase the table size by a factor of 2 by adding one to <code>m_nLog2TableSize</code> up to a maximum of <code>m_nMaxLog2TableSize</code>. </p>
 
-<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00448">448</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00457">457</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
 
 </div>
 </div>
@@ -755,7 +755,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p >Increment both coordinates of the origin by the table size and regenerate noise. </p>
 
-<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00387">387</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00396">396</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
 
 </div>
 </div>
@@ -792,7 +792,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00398">398</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00407">407</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
 
 </div>
 </div>
@@ -850,7 +850,7 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if the origin coordinates are the desired coordinates. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00409">409</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00418">418</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
 
 </div>
 </div>
@@ -870,18 +870,18 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p >Reset number of octaves, scale, and table size to defaults. </p>
 
-<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00467">467</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00476">476</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a1a5b960f39f025f5dba93cfbe9ebcac5" name="a1a5b960f39f025f5dba93cfbe9ebcac5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1a5b960f39f025f5dba93cfbe9ebcac5">&#9670;&nbsp;</a></span>SetDistribution()</h2>
+<a id="a5a48c3aa07ab9abccd6474b777fb92e5" name="a5a48c3aa07ab9abccd6474b777fb92e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a48c3aa07ab9abccd6474b777fb92e5">&#9670;&nbsp;</a></span>SetDistribution()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void CMain::SetDistribution </td>
+          <td class="memname">bool CMain::SetDistribution </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="_defines_8h.html#a352389712570c16202dd2f89203c916b">eDistribution</a>&#160;</td>
           <td class="paramname"><em>d</em></td><td>)</td>
@@ -895,8 +895,9 @@ Private Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>true if the distribution changed. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00339">339</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00343">343</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
 
 </div>
 </div>
@@ -922,7 +923,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00359">359</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00368">368</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
 
 </div>
 </div>
@@ -1097,7 +1098,7 @@ Private Attributes</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00349">349</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00358">358</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
 
 </div>
 </div>
@@ -1117,7 +1118,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p >Toggle the View Coordinates flag, put a checkmark next to the menu item, and redraw the bitmap. </p>
 
-<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00369">369</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00378">378</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
 
 </div>
 </div>
@@ -1137,7 +1138,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <p >Toggle the View Grid flag, put a checkmark next to the menu item, and redraw the bitmap. </p>
 
-<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00378">378</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_c_main_8cpp_source.html#l00387">387</a> of file <a class="el" href="_c_main_8cpp_source.html">CMain.cpp</a>.</p>
 
 </div>
 </div>
@@ -1941,7 +1942,7 @@ Private Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Mar 1 2022 15:57:28 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
+Generated on Tue Mar 1 2022 18:57:08 for Smooth 2D Noise Viewer by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.2
 </small></address>
 </body>
 </html>

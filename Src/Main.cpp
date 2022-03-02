@@ -63,6 +63,129 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
       nMenuId = LOWORD(wParam); //menu id
 
       switch(nMenuId){  
+
+        //file menu ---------------------------------------------------
+
+        case IDM_FILE_SAVE: //save bitmap to image file       
+          SaveBitmap(hWnd, g_pMain->GetFileName(), g_pMain->GetBitmap());
+          break;
+
+        case IDM_FILE_PROPS: //display noise properties       
+          MessageBox(nullptr, g_pMain->GetNoiseDescription().c_str(), 
+            L"Properties", MB_ICONINFORMATION | MB_OK);
+          break;
+
+        case IDM_FILE_QUIT: //so long, farewell, auf weidersehn, goodbye!
+          SendMessage(hWnd, WM_CLOSE, 0, 0);
+          break;
+
+        //generate menu ---------------------------------------------------
+
+        case IDM_GENERATE_PERLINNOISE:
+          g_pMain->GenerateNoiseBitmap(eNoise::Perlin);
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        case IDM_GENERATE_VALUENOISE:
+          g_pMain->GenerateNoiseBitmap(eNoise::Value);
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        case IDM_GENERATE_RANDOMIZE:
+          g_pMain->SetDistribution(g_pMain->GetDistribution());
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        case IDM_GENERATE_JUMP:
+          g_pMain->Jump();
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        case IDM_GENERATE_RESETORIGIN:
+          g_pMain->Jump(0.0f, 0.0f);
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        //view menu ---------------------------------------------------
+
+        case IDM_VIEW_COORDS:
+          g_pMain->ToggleViewCoords();
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        case IDM_VIEW_GRID:
+          g_pMain->ToggleViewGrid();
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+       //distribution menu ---------------------------------------------------
+            
+        case IDM_DISTRIBUTION_UNIFORM:
+          if(g_pMain->SetDistribution(eDistribution::Uniform))
+            InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        case IDM_DISTRIBUTION_MAXIMAL:
+          if(g_pMain->SetDistribution(eDistribution::Maximal))
+            InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        case IDM_DISTRIBUTION_COSINE:
+          if(g_pMain->SetDistribution(eDistribution::Cosine))
+            InvalidateRect(hWnd, nullptr, FALSE);
+          break; 
+
+        case IDM_DISTRIBUTION_NORMAL:
+          if(g_pMain->SetDistribution(eDistribution::Normal))
+            InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        case IDM_DISTRIBUTION_EXPONENTIAL:
+          if(g_pMain->SetDistribution(eDistribution::Exponential))
+            InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        case IDM_DISTRIBUTION_MIDPOINT:
+          if(g_pMain->SetDistribution(eDistribution::Midpoint))
+            InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        //hash function menu --------------------------------------------------
+
+        case IDM_HASH_PERM:
+          g_pMain->SetHash(eHash::Permutation);
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        case IDM_HASH_LCON:
+          g_pMain->SetHash(eHash::LinearCongruential);
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        case IDM_HASH_STD:
+          g_pMain->SetHash(eHash::Std);
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        //spline function menu ------------------------------------------------
+
+        case IDM_SPLINE_NONE:
+          g_pMain->SetSpline(eSpline::None);
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        case IDM_SPLINE_CUBIC:
+          g_pMain->SetSpline(eSpline::Cubic);
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        case IDM_SPLINE_QUINTIC:
+          g_pMain->SetSpline(eSpline::Quintic);
+          InvalidateRect(hWnd, nullptr, FALSE);
+          break;
+
+        //settings menu ---------------------------------------------------
+
         case IDM_SETTINGS_OCTAVE_UP:
           g_pMain->IncreaseOctaves();
           InvalidateRect(hWnd, nullptr, FALSE);
@@ -98,105 +221,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
           InvalidateRect(hWnd, nullptr, FALSE);
           break;
 
-        case IDM_GENERATE_PERLINNOISE:
-          g_pMain->GenerateNoiseBitmap(eNoise::Perlin);
-          InvalidateRect(hWnd, nullptr, FALSE);
-          break;
-
-        case IDM_GENERATE_VALUENOISE:
-          g_pMain->GenerateNoiseBitmap(eNoise::Value);
-          InvalidateRect(hWnd, nullptr, FALSE);
-          break;
-
-        case IDM_GENERATE_RANDOMIZE:
-          g_pMain->SetDistribution(g_pMain->GetDistribution());
-          InvalidateRect(hWnd, nullptr, FALSE);
-          break;
-
-        case IDM_GENERATE_JUMP:
-          g_pMain->Jump();
-          InvalidateRect(hWnd, nullptr, FALSE);
-          break;
-
-        case IDM_GENERATE_RESETORIGIN:
-          g_pMain->Jump(0.0f, 0.0f);
-          InvalidateRect(hWnd, nullptr, FALSE);
-          break;
-
-        case IDM_VIEW_COORDS:
-          g_pMain->ToggleViewCoords();
-          InvalidateRect(hWnd, nullptr, FALSE);
-          break;
-
-        case IDM_VIEW_GRID:
-          g_pMain->ToggleViewGrid();
-          InvalidateRect(hWnd, nullptr, FALSE);
-          break;
-            
-        case IDM_DISTRIBUTION_UNIFORM:
-            if(g_pMain->GetDistribution() != eDistribution::Uniform){
-            g_pMain->SetDistribution(eDistribution::Uniform);
-            InvalidateRect(hWnd, nullptr, FALSE);
-          } //if
-          break;
-
-        case IDM_DISTRIBUTION_COSINE:
-          if(g_pMain->GetDistribution() != eDistribution::Cosine){
-            g_pMain->SetDistribution(eDistribution::Cosine);
-            InvalidateRect(hWnd, nullptr, FALSE);
-          } //if
-          break; 
-
-        case IDM_DISTRIBUTION_NORMAL:
-          if(g_pMain->GetDistribution() != eDistribution::Normal){
-            g_pMain->SetDistribution(eDistribution::Normal);
-            InvalidateRect(hWnd, nullptr, FALSE);
-          } //if
-          break;
-
-        case IDM_DISTRIBUTION_EXPONENTIAL:
-          if(g_pMain->GetDistribution() != eDistribution::Exponential){
-            g_pMain->SetDistribution(eDistribution::Exponential);
-            InvalidateRect(hWnd, nullptr, FALSE);
-          } //if
-          break;
-
-        case IDM_DISTRIBUTION_MIDPOINT:
-          if(g_pMain->GetDistribution() != eDistribution::Midpoint){
-            g_pMain->SetDistribution(eDistribution::Midpoint);
-            InvalidateRect(hWnd, nullptr, FALSE);
-          } //if
-          break;
-
-        case IDM_HASH_PERM:
-          g_pMain->SetHash(eHash::Permutation);
-          InvalidateRect(hWnd, nullptr, FALSE);
-          break;
-
-        case IDM_HASH_LCON:
-          g_pMain->SetHash(eHash::LinearCongruential);
-          InvalidateRect(hWnd, nullptr, FALSE);
-          break;
-
-        case IDM_HASH_STD:
-          g_pMain->SetHash(eHash::Std);
-          InvalidateRect(hWnd, nullptr, FALSE);
-          break;
-
-        case IDM_SPLINE_NONE:
-          g_pMain->SetSpline(eSpline::None);
-          InvalidateRect(hWnd, nullptr, FALSE);
-          break;
-
-        case IDM_SPLINE_CUBIC:
-          g_pMain->SetSpline(eSpline::Cubic);
-          InvalidateRect(hWnd, nullptr, FALSE);
-          break;
-
-        case IDM_SPLINE_QUINTIC:
-          g_pMain->SetSpline(eSpline::Quintic);
-          InvalidateRect(hWnd, nullptr, FALSE);
-          break;
+        //help menu ---------------------------------------------------
 
         case IDM_HELP_HELP:
           ShellExecute(0, 0, 
@@ -208,19 +233,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
           MessageBox(nullptr, 
             L"Copyright © Ian Parberry, 2022.\nSource code available under the MIT License from https://github.com/Ian-Parberry/smooth2dnoiseviewer.", 
             L"About", MB_ICONINFORMATION | MB_OK);
-          break;
-
-        case IDM_FILE_SAVE: //save bitmap to image file       
-          SaveBitmap(hWnd, g_pMain->GetFileName(), g_pMain->GetBitmap());
-          break;
-
-        case IDM_FILE_PROPS: //display noise properties       
-          MessageBox(nullptr, g_pMain->GetNoiseDescription().c_str(), 
-            L"Properties", MB_ICONINFORMATION | MB_OK);
-          break;
-
-        case IDM_FILE_QUIT: //so long, farewell, auf weidersehn, goodbye!
-          SendMessage(hWnd, WM_CLOSE, 0, 0);
           break;
       } //switch
 

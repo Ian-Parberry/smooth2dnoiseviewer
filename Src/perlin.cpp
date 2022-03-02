@@ -124,8 +124,8 @@ void CPerlinNoise2D::RandomizeTableMidpoint(size_t i, size_t j, float alpha){
 /// `RandomizeTableMidpoint(size_t, size_t, float)` to fill in the rest.
 
 void CPerlinNoise2D::RandomizeTableMidpoint(){
-  m_fTable[0] = 1.0f;
-  m_fTable[m_nSize - 1] = -1.0f;
+  m_fTable[0] = 0.0f;
+  m_fTable[m_nSize - 1] = 0.0f;
 
   RandomizeTableMidpoint(0, m_nSize, 0.5f);
 } //RandomizeTableMidpoint
@@ -139,10 +139,23 @@ void CPerlinNoise2D::RandomizeTableUniform(){
 
   for(size_t i=0; i<m_nSize; i++){
     m_fTable[i] = d(m_stdRandom);
-    //x = (i&1)? 1.0f: -1.0f; //show worst-case behaviour
     assert(-1.0f <= m_fTable[i] && m_fTable[i] <= 1.0f);
   } //for
 } //RandomizeTableUniform
+
+/// Fill the gradient/value table `m_fTable` with large magnitude entries,
+/// that is, either -1 ot +1, using a uniform distribution. The source of
+/// randomness is `std::default_random_engine` with
+/// `std::uniform_real_distribution<float>(-1.0f, 1.0f)`.
+
+void CPerlinNoise2D::RandomizeTableMaximal(){  
+  std::uniform_real_distribution<float> d(-1.0f, 1.0f);
+
+  for(size_t i=0; i<m_nSize; i++){
+    m_fTable[i] = (d(m_stdRandom) > 0.0f)? 1.0f: -1.0f;
+    assert(-1.0f <= m_fTable[i] && m_fTable[i] <= 1.0f);
+  } //for
+} //RandomizeTableMax
 
 /// Fill the gradient/value table `m_fTable` using a normal distribution.
 /// The source of randomness is `std::default_random_engine`
@@ -199,6 +212,7 @@ void CPerlinNoise2D::RandomizeTable(eDistribution d){
 
   switch(d){
     case eDistribution::Uniform: RandomizeTableUniform();   break;
+    case eDistribution::Maximal: RandomizeTableMaximal();   break;
     case eDistribution::Cosine:  RandomizeTableCos();       break;
     case eDistribution::Normal:  RandomizeTableNormal();    break;
     case eDistribution::Exponential: RandomizeTableExp();   break;
@@ -339,7 +353,7 @@ void CPerlinNoise2D::HashCorners(size_t x, size_t y, size_t c[4]) const{
 /// \param h Hash value for gradient table index.
 /// \param x X-coordinate of point in the range \f$[-1, 1]\f$.
 /// \param y Y-coordinate of point in the range \f$[-1, 1]\f$.
-/// \return z-value in the range \f$[-1, 1]\f$.
+/// \return Corresponding Z-value.
 
 inline const float CPerlinNoise2D::z(size_t h, float x, float y, eNoise t) const{
   assert(-1.0f <= x && x <= 1.0f);
@@ -360,7 +374,6 @@ inline const float CPerlinNoise2D::z(size_t h, float x, float y, eNoise t) const
     break;
   } //switch
 
-
   return result; 
 } //z
 
@@ -379,8 +392,6 @@ const float CPerlinNoise2D::Lerp(float sX, float fX, float fY, size_t* c,
   assert(-1.0f <= sX && sX <= 1.0f);
   assert( 0.0f <= fX && fX <= 1.0f);
   assert(-1.0f <= fY && fY <= 1.0f);
-  assert(-1.0f <= c[0] && c[0] <= 1.0f);
-  assert(-1.0f <= c[1] && c[1] <= 1.0f);
 
   const float result = lerp(sX, z(c[0], fX, fY, t), z(c[1], fX - 1, fY, t));
    
@@ -390,7 +401,8 @@ const float CPerlinNoise2D::Lerp(float sX, float fX, float fY, size_t* c,
       //magnitude, that is, fX == 0.5f, in which case each z gets 1.0f from fY
       //and 0.5f from fX.
       assert(-1.5f <= result && result <= 1.5f);
-      return result/1.5f; 
+      //return result/1.5f; 
+      return result; 
     break;
       
     case eNoise::Value:
@@ -436,9 +448,6 @@ const float CPerlinNoise2D::noise(float x, float y, eNoise t) const{
 
   const float a = Lerp(sX, fX, fY, c, t);
   const float b = Lerp(sX, fX, fY - 1, &(c[2]), t);
-  
-  assert(-1.0f <= a && a <= 1.0f);
-  assert(-1.0f <= b && b <= 1.0f);
 
   //now lerp these values along the Y-axis
 
