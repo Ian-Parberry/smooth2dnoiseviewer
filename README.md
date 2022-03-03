@@ -1,7 +1,9 @@
 
 # Smooth 2D Noise Viewer
 
-![Screenshot.](Doxygen/Images/ss.png)
+<p align="center">
+  <img src="Doxygen/Images/ss.png" width="350" title="Screenshot">
+</p>
 
 The source code for this 2D noise generator and viewer, written and maintained by
 [Ian Parberry](http://ianparberry.com), is intended to be used by students to
