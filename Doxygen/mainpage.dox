@@ -47,6 +47,10 @@
 /// followed in the naming of variables, such as using the prefix  `m_` for member variables
 /// and `g_` for global variables.
 ///
+/// Assertions are used in the code to aid comprehension and to enforce pre- and post-
+/// conditions. When enabled these assertions will have a negative effect on run-time.
+/// To disable assertions, comment out the line `#define NDEBUG` in `Includes.h`.
+///
 /// 3. About Perlin Noise
 /// ---------------------
 ///
