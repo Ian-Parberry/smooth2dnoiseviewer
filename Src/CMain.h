@@ -90,6 +90,7 @@ class CMain{
     void SetPixel(UINT, UINT, Gdiplus::Color); ///< Set pixel from GDI+ color.
     
     void DrawCoords(); ///< Draw coordinates to bitmap.
+    void UndrawCoords(); ///< Undraw coordinates on bitmap.
     void DrawGrid(); ///< Draw grid to bitmap.
 
     void GenerateNoiseBitmap(Gdiplus::PointF, Gdiplus::RectF); ///< Generate bitmap rectangle.

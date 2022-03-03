@@ -325,6 +325,14 @@ void CMain::DrawCoords(){
   if(m_bShowGrid && !m_bShowCoords)
     DrawGrid(); //in case we erased part of the grid lines
 } //DrawCoords
+ 
+/// Erase the coordinates of the top left and bottom right of the noise from
+/// the bitmap pointed to by `m_pBitmap` by overdrawing the corresponding
+/// rectangles with Perlin noise.
+
+void CMain::UndrawCoords(){ 
+  //TODO: this. Will need a function to overdraw a rectangle too.
+} //UndrawCoords
 
 /// If `m_bShowGrid` is `true`, draw a grid for first noise octave to the
 /// bitmap. The line color for the grid is fixed. If `m_bShowGrid` is `false`,
