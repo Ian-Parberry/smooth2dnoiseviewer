@@ -137,7 +137,7 @@ HRESULT SaveBitmap(HWND hwnd, const std::wstring& wstrName,
 
 #pragma region Create menu functions
 
-/// Create `File` menu.
+/// Create the `File` menu.
 /// \param hMenubar Handle to menu bar.
 /// \return Handle to `File` menu.
 
@@ -152,7 +152,7 @@ HMENU CreateFileMenu(HMENU hMenubar){
   return hMenu;
 } //CreateFileMenu
 
-/// Create `Generate` menu.
+/// Create the `Generate` menu.
 /// \param hMenubar Handle to menu bar.
 /// \return Handle to `Generate` menu.
 
@@ -171,7 +171,7 @@ HMENU CreateGenerateMenu(HMENU hMenubar){
   return hMenu;
 } //CreateGenerateMenu
 
-/// Create `View` menu.
+/// Create the `View` menu.
 /// \param hMenubar Handle to menu bar.
 /// \return Handle to `View` menu.
 
@@ -185,7 +185,7 @@ HMENU CreateViewMenu(HMENU hMenubar){
   return hMenu;
 } //CreateViewMenu
 
-/// Create `Distribution` menu.
+/// Create the `Distribution` menu.
 /// \param hMenubar Handle to menu bar.
 /// \return Handle to `Distribution` menu.
 
@@ -203,7 +203,7 @@ HMENU CreateDistributionMenu(HMENU hMenubar){
   return hMenu;
 } //CreateDistributionMenu
 
-/// Create `Hash` menu.
+/// Create the `Hash` menu.
 /// \param hMenubar Handle to menu bar.
 /// \return Handle to `Hash` menu.
 
@@ -218,7 +218,7 @@ HMENU CreateHashMenu(HMENU hMenubar){
   return hMenu;
 } //CreateHashMenu
 
-/// Create `Spline` menu.
+/// Create the `Spline` menu.
 /// \param hMenubar Handle to menu bar.
 /// \return Handle to `Spline` menu.
 
@@ -233,7 +233,7 @@ HMENU CreateSplineMenu(HMENU hMenubar){
   return hMenu;
 } //CreateSplineMenu
 
-/// Create `Settings` menu.
+/// Create the `Settings` menu.
 /// \param hMenubar Handle to menu bar.
 /// \return Handle to `Settings` menu.
 
@@ -257,7 +257,7 @@ HMENU CreateSettingsMenu(HMENU hMenubar){
   return hMenu;
 } //CreateSettingsMenu
 
-/// Create `Help` menu.
+/// Create the `Help` menu.
 /// \param hMenubar Handle to menu bar.
 
 void CreateHelpMenu(HMENU hMenubar){

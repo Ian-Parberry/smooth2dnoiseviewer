@@ -33,7 +33,7 @@
 /// \param t Parameter.
 /// \return Cubic spline of parameter.
 
-float spline3(float t){
+const float spline3(float t){
   return t*t*(3.0f - 2.0f*t);
 } //spline3
 
@@ -42,7 +42,7 @@ float spline3(float t){
 /// \param t Parameter.
 /// \return Quintic spline of parameter.
 
-float spline5(float t){
+const float spline5(float t){
   return t*t*t*(10.0f + 3.0f*t*(2.0f*t - 5.0f));
 } //spline5
 
@@ -53,7 +53,7 @@ float spline5(float t){
 /// \return A \f$\mathsf{t}\f$ fraction of the way between \f$\mathsf{a}\f$
 /// and \f$\mathsf{b}\f$, that is, \f$\mathsf{(1-t)a + tb}\f$.
 
-float lerp(float t, float a, float b){
+const float lerp(float t, float a, float b){
   return a + t*(b - a);
 } //lerp
 
@@ -64,7 +64,7 @@ float lerp(float t, float a, float b){
 /// \return Closest value to \f$\mathsf{x}\f$ between the lower and upper,
 /// bounds (inclusive), that is, \f$\mathsf{\max(a, \min(x, b))}\f$.
 
-float clamp(float a, float x, float b){
+const float clamp(float a, float x, float b){
   return std::max(a, std::min(x, b));
 } //clamp
 
@@ -82,10 +82,15 @@ std::wstring to_wstring_f(float x, size_t n){
 
 /// Test whether an unsigned integer is a power of 2. This is a sneaky one. 
 /// It relies pm the fact that `n` is a power of 2 iff `n` is nonzero and
-/// `n & (n - 1)` is zero.
+/// `n & (n - 1)` is zero. To see this, note that if \f$n = 2^k\f$, then the
+/// binary representation of \f$n\f$ is a one followed by \f$k\f$ zeros and
+/// that of \f$n-1\f$ is a zero followed by \f$k\f$ ones. Clearly the bit-wise
+/// conjunction of the two is zero. Conversely, if \f$n\f$ is not a power
+/// of two, then the binary representations of \f$n\f$ and \f$n-1\f$ will share
+/// one-bits in the same position so their conjunction will be non-zero.
 /// \param n A number.
 /// \return true if the parameter is a power of 2.
 
-bool isPowerOf2(size_t n){
+const bool isPowerOf2(size_t n){
   return n != 0 && (n & (n - 1)) == 0;
 } //isPowerOf2

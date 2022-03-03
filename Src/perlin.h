@@ -34,6 +34,16 @@
 #include "Defines.h"
 
 /// \brief 2D Perlin and Value noise generator.
+///
+/// This implementation of a Perlin noise generator can generate either Perlin
+/// or Value noise using gradients or values (respectively) from a table
+/// that can be filled with pseudo-random numbers from various probability
+/// distributions. There is a choice of hash functions including Perlin's
+/// original pseudo-random permutation method and various non-repeating
+/// hash functions. There is a choice of spline functions including cubic and
+/// quintic splines. The table size can be doubled or halved within
+/// hard-coded limits. The source of pseudo-randomness is
+/// `std::default_random_engine`
 
 class CPerlinNoise2D{
   private:
@@ -84,8 +94,13 @@ class CPerlinNoise2D{
     CPerlinNoise2D(); ///< Constructor.
     ~CPerlinNoise2D(); ///<Destructor.
     
+    const float generate(float, float, eNoise, size_t, float=0.5f, float=2.0f)
+      const; ///< Generate noise at a point.
+
+    //functions that change the noise properties
+    
+    void SetSeed(); ///< Set seed for PRNG.
     void RandomizeTable(eDistribution); ///< Randomize table from distribution.
-    void Randomize(); ///< Randomize PRNG.
 
     bool DoubleTableSize(); ///< Double table size.
     bool HalveTableSize(); ///< Halve table size.
@@ -93,13 +108,17 @@ class CPerlinNoise2D{
     
     void SetSpline(eSpline); ///< Set spline function.
     void SetHash(eHash); ///< Set hash function.
-    
-    const float generate(float, float, eNoise, size_t, float=0.5f, float=2.0f) const; ///< Perlin noise.
+
+    //reader functions
     
     const size_t GetTableSize() const; ///< Get table size.
     const size_t GetMinTableSize() const; ///< Get minimum table size.
     const size_t GetMaxTableSize() const; ///< Get maximum table size.
     const size_t GetDefTableSize() const; ///< Get default table size.
+
+    const eHash GetHash() const; ///< Get hash function type.
+    const eSpline GetSpline() const; ///< Get spline function type.
+    const eDistribution GetDistribution() const; ///< Get distribution type.
 }; //CPerlinNoise2D
 
 #endif //__PERLIN_H__

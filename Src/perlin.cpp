@@ -37,30 +37,21 @@
 
 #pragma region Constructor and destructor
 
-/// The constructor initializes the size of the permutation and the table, 
-/// which must be a power of 2, and  the mask, which must be a consecutive
-/// sequence of 1 bits that is one less than the size. The mask will be used to
-/// ensure that all indices into the permutation and the table are in range,
-/// Space is created for the permutation, and for the table, which will be used
-/// for a gradient table in Perlin noise and a value table in Value noise.
-/// The permutation is initialized to a pseudo-random permutation from a
-/// uniform distribution. The table is filled with pseudo-random values chosen
-/// uniformly from \f$[-1,1]\f$.
+/// Set the PRNG seed and initialize.
 
-CPerlinNoise2D::CPerlinNoise2D():
-  m_nSeed(timeGetTime()) //seed PRNG
-{  
+CPerlinNoise2D::CPerlinNoise2D(){  
+  SetSeed();
   Initialize(); 
 } //constructor
 
-/// The destructor deletes the permutation and gradient/value table.
+/// Deletes the permutation and gradient/value table.
 
 CPerlinNoise2D::~CPerlinNoise2D(){
   delete [] m_fTable;
   delete [] m_nPerm;
 } //destructor
 
-/// Initialize the generator. Assumes that `m_nSize` has been initialized to
+/// Initialize the generator. Assumes that `m_nSize` has set initialized to
 /// the table size, which must be a power of two. Create and initialize the
 /// permutation and gradient/value tables. Initialize the bit mask.
 
@@ -83,10 +74,14 @@ void CPerlinNoise2D::Initialize(){
 
 #pragma region Functions that change noise settings
 
-/// Set the permutation in `m_nPerm` to a pseudo-random permutation with
-/// each permutation equally likely using the standard algorithm.
+/// Use the standard algorithm to set the permutation in `m_nPerm` to a
+/// pseudo-random permutation with each permutation equally likely .
 /// The source of randomness is `std::default_random_engine`
-/// with `std::uniform_int_distribution`.
+/// with `std::uniform_int_distribution`. This function should be called
+/// during initialization and when the table size changes. The pseudo-random
+/// number generator is re-seeded from `m_nSeed` before the permutation is
+/// generated. This means that the permutation used for each table size remains
+/// the same until `m_nSeed` is changed.
 
 void CPerlinNoise2D::RandomizePermutation(){
   for(size_t i=0; i<m_nSize; i++) //identity permutation
@@ -224,7 +219,9 @@ void CPerlinNoise2D::RandomizeTableExp(){
 
 /// Set `m_fTable` to pseudo-random values in \f$[-1, 1]\f$ according 
 /// to some probability distribution. The pseudo-random number generator is
-/// re-seeded with a time value each time this function is called.
+/// re-seeded from `m_nSeed` before the table is generated. This means that the
+/// table contents for each table size remains the same until `m_nSeed`
+/// is changed.
 /// \param d Probability distribution enumerated type.
 
 void CPerlinNoise2D::RandomizeTable(eDistribution d){ 
@@ -242,7 +239,7 @@ void CPerlinNoise2D::RandomizeTable(eDistribution d){
 } //RandomizeTable
 
 /// Double the size of the permutation and gradient/value tables up to
-/// a maximum of `m_nMaxTableSize`.
+/// a maximum of `m_nMaxTableSize` and call `Initialize()` to re-initialize.
 /// \return true if the table size changed.
 
 bool CPerlinNoise2D::DoubleTableSize(){
@@ -259,7 +256,7 @@ bool CPerlinNoise2D::DoubleTableSize(){
 } //DoubleTableSize
 
 /// Halve the size of the permutation and gradient/value tables down to
-/// a minimum of `m_nMinTableSize`.
+/// a minimum of `m_nMinTableSize` and call `Initialize()` to re-initialize.
 /// \return true if the table size changed.
 
 bool CPerlinNoise2D::HalveTableSize(){
@@ -275,7 +272,7 @@ bool CPerlinNoise2D::HalveTableSize(){
   return false;
 } //HalveTableSize
 
-/// Set table size to the default.
+/// Set table size to the default and call `Initialize()` to re-initialize.
 /// \return true if the table size changed.
 
 bool CPerlinNoise2D::DefaultTableSize(){
@@ -291,13 +288,13 @@ bool CPerlinNoise2D::DefaultTableSize(){
   return false;
 } //DefaultTableSize
 
-/// Randomize the PRNG by setting the seed to `timeGetTime()`, the number of
-/// milliseconds since Windows last rebooted. This should be sufficiently
+/// Set the pseudo-random number generator seed to `timeGetTime()`, the number
+/// of milliseconds since Windows last rebooted. This should be sufficiently
 /// unpredictable to make a good seed.
 
-void CPerlinNoise2D::Randomize(){ 
+void CPerlinNoise2D::SetSeed(){ 
   m_nSeed = timeGetTime();
-} //Randomize
+} //SetSeed
 
 /// Set the spline function type.
 /// \param d Spline function enumerated type.
@@ -381,10 +378,10 @@ inline const size_t CPerlinNoise2D::hashstd(size_t x) const{
   return std::hash<size_t>{}(x) & m_nMask;
 } //hashstd
 
-/// A stupid 2D hash function munged together by xor-ing two linear hash
-/// functions together. For fixed primes \f$p_0, p_1, p_2\f$ and parameters
-/// \f$x, y\f$, this function returns \f$(p_0x + p_1y) \bmod p_2 \f$ 
-/// right-shifted by 8 bits and masked with `m_nMask`.
+/// A 2D linear congruential hash function. For fixed primes \f$p_0, p_1, p_2\f$
+/// and parameters \f$x, y\f$, this function returns
+/// \f$(p_0x + p_1y) \bmod p_2 \f$ right-shifted by 8 bits and masked
+/// with `m_nMask`.
 /// \param x A number.
 /// \param y A number.
 /// \return Hashed number in the range [0, `m_nSize` - 1].
@@ -545,7 +542,7 @@ const float CPerlinNoise2D::noise(float x, float y, eNoise t) const{
 /// \param n Number of octaves.
 /// \param alpha Lacunarity. Defaults to 0.5f.
 /// \param beta Persistence. Defaults to 2.0f.
-/// \return Turbulence value in \f$[-1, 1]\f$ at point \f$(\mathsf{x}, \mathsf{y})\f$.
+/// \return Smooth noise in \f$[-1, 1]\f$ at point \f$(\mathsf{x}, \mathsf{y})\f$.
 
 const float CPerlinNoise2D::generate(float x, float y, eNoise t, size_t n, 
   float alpha, float beta) const
@@ -604,5 +601,26 @@ const size_t CPerlinNoise2D::GetMaxTableSize() const{
 const size_t CPerlinNoise2D::GetDefTableSize() const{
   return m_nDefTableSize;
 } //GetDefTableSize
+
+/// Reader function for the hash function type.
+/// \return The hash function type.
+
+const eHash CPerlinNoise2D::GetHash() const{
+  return m_eHash;
+} //GetHash
+
+/// Reader function for the spline function type.
+/// \return The spline function type.
+
+const eSpline CPerlinNoise2D::GetSpline() const{
+  return m_eSpline;
+} //GetSpline
+
+/// Reader function for the distribution type.
+/// \return The distribution type.
+
+const eDistribution CPerlinNoise2D::GetDistribution() const{
+  return m_eDistribution;
+} //GetDistribution
 
 #pragma endregion Reader functions

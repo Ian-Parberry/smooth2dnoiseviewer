@@ -35,7 +35,8 @@
 ///
 /// The interface between I/O from Windows (input from the drop-down menus,
 /// output to the client area of the window), the noise generator, and the GDI+
-/// graphics interface.
+/// graphics interface. This class maintains a single GDI+ bitmap to which
+/// all noise and related elements (coordinates, grids) are drawn.
 
 class CMain{
   private:
@@ -51,9 +52,6 @@ class CMain{
     HMENU m_hOctaveMenu = nullptr; ///< Handle to the `Octave` menu.
     
     eNoise m_eNoise = eNoise::None; ///< Noise type.
-    eDistribution m_eDistr = eDistribution::Uniform; ///< Distribution type.
-    eSpline m_eSpline = eSpline::Cubic; ///< Spline function type.
-    eHash m_eHash = eHash::Permutation; ///< Hash function type.
 
     float m_fOriginX = 0.0f; ///< X-coordinate of top.
     float m_fOriginY = 0.0f; ///< Y-coordinate of left.
@@ -83,14 +81,11 @@ class CMain{
     void CreateMenus(); ///< Create menus.
     void UpdateMenus(); ///< Update menus.
 
-    void UpdateDistribution(); ///< Update distribution.
-
     void SetPixel(UINT, UINT, float); ///< Set pixel grayscale from float.
     void SetPixel(UINT, UINT, BYTE); ///< Set pixel grayscale from byte.
     void SetPixel(UINT, UINT, Gdiplus::Color); ///< Set pixel from GDI+ color.
     
     void DrawCoords(); ///< Draw coordinates to bitmap.
-    void UndrawCoords(); ///< Undraw coordinates on bitmap.
     void DrawGrid(); ///< Draw grid to bitmap.
 
     void GenerateNoiseBitmap(Gdiplus::PointF, Gdiplus::RectF); ///< Generate bitmap rectangle.
@@ -131,7 +126,6 @@ class CMain{
     Gdiplus::Bitmap* GetBitmap() const; ///< Get pointer to bitmap.
     const std::wstring GetFileName() const; ///< Get noise file name.
     const std::wstring GetNoiseDescription() const; ///< Get noise description.
-    const eDistribution GetDistribution() const; ///< Get distribution type.
 }; //CMain
 
 #endif //__CMAIN_H__

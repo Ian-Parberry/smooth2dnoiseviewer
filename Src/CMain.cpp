@@ -132,9 +132,9 @@ void CMain::UpdateMenus(){
   UpdateFileMenu(m_hFileMenu, m_eNoise); 
   UpdateGenerateMenu(m_hGenMenu, m_eNoise);
   UpdateViewMenu(m_hViewMenu, m_eNoise);
-  UpdateDistributionMenu(m_hDistMenu, m_eNoise, m_eDistr); 
-  UpdateHashMenu(m_hHashMenu, m_eNoise, m_eHash); 
-  UpdateSplineMenu(m_hSplineMenu, m_eNoise, m_eSpline); 
+  UpdateDistributionMenu(m_hDistMenu, m_eNoise, m_pPerlin->GetDistribution()); 
+  UpdateHashMenu(m_hHashMenu, m_eNoise, m_pPerlin->GetHash()); 
+  UpdateSplineMenu(m_hSplineMenu, m_eNoise, m_pPerlin->GetSpline()); 
   UpdateSettingsMenu(m_hSetMenu, m_eNoise); 
 
   //update individual menu items
@@ -246,7 +246,7 @@ void CMain::GenerateNoiseBitmap(eNoise t){
       const float noise = m_pPerlin->generate(x, y, t, m_nOctaves); //noise
       SetPixel(i, j, noise); //draw noise pixel to bitmap
 
-      //recompute maximum, minimum, and sum (for average)
+      //recompute maximum, minimum, and average
       m_fMin = min(m_fMin, noise);
       m_fMax = max(m_fMax, noise);
       m_fAve += noise;
@@ -259,7 +259,11 @@ void CMain::GenerateNoiseBitmap(eNoise t){
   if(m_bShowCoords)DrawCoords();
 } //GenerateNoiseBitmap
 
-/// Generate Perlin or Value noise into a rectangle in the bitmap.
+/// Generate Perlin or Value noise into a rectangle in the bitmap. This is the
+/// cool thing about Perlin noise - the noise value at each point is computed
+/// independently of all the other points. We will use this to quickly
+/// remove the grid and/or the coordinate text from the bitmap without
+/// having to recompute noise values for the whole bitmap.
 /// \param point The position of the rectangle to be written in the bitmap.
 /// \param rect The bounds of the rectangle to be written in the bitmap. 
 
@@ -284,6 +288,8 @@ void CMain::GenerateNoiseBitmap(Gdiplus::PointF point, Gdiplus::RectF rect){
 /// The font family, font, style, and color of the text are hard-coded.
 /// If `m_bShowCoords` is `false`, then overwrite the pixels within the
 /// bounding rectangle of the text coordinates with the corresponding noise.
+/// This enables us to remove the coordinate text from the bitmap without
+/// having to regenerate the whole bitmap.
 
 void CMain::DrawCoords(){ 
   Gdiplus::FontFamily ff(L"Arial");
@@ -325,18 +331,12 @@ void CMain::DrawCoords(){
   if(m_bShowGrid && !m_bShowCoords)
     DrawGrid(); //in case we erased part of the grid lines
 } //DrawCoords
- 
-/// Erase the coordinates of the top left and bottom right of the noise from
-/// the bitmap pointed to by `m_pBitmap` by overdrawing the corresponding
-/// rectangles with Perlin noise.
-
-void CMain::UndrawCoords(){ 
-  //TODO: this. Will need a function to overdraw a rectangle too.
-} //UndrawCoords
 
 /// If `m_bShowGrid` is `true`, draw a grid for first noise octave to the
 /// bitmap. The line color for the grid is fixed. If `m_bShowGrid` is `false`,
 /// then overwrite the pixels in the lines with the corresponding noise.
+/// This enables us to remove the grid lines from the bitmap without
+/// having to regenerate the whole bitmap.
 
 void CMain::DrawGrid(){ 
   const float fBitmapWidth  = (float)m_pBitmap->GetWidth();
@@ -382,7 +382,8 @@ void CMain::DrawGrid(){
     DrawCoords(); //in case we erased some of the coordinate text
 } //DrawGrid
 
-/// Generate last type of noise.
+/// Generate the noise bitmap using the last noise type. Call this function
+/// when some other noise parameter has changed.
 
 void CMain::GenerateNoiseBitmap(){
   GenerateNoiseBitmap(m_eNoise);
@@ -395,9 +396,14 @@ void CMain::GenerateNoiseBitmap(){
 
 #pragma region Menu response functions
 
+/// Change the seed for the noise generator's pseudo-random number generator,
+/// update the gradient/value table using the current distribution,
+/// and regenerate the noise bitmap.
+
 void CMain::Randomize(){
-  m_pPerlin->Randomize();
-  UpdateDistribution();
+  m_pPerlin->SetSeed();
+  m_pPerlin->RandomizeTable(m_pPerlin->GetDistribution());
+  GenerateNoiseBitmap();
 } //Randomize
 
 /// Change Perlin noise probability distribution and regenerate noise. 
@@ -406,28 +412,20 @@ void CMain::Randomize(){
 /// \return true if the distribution changed.
 
 bool CMain::SetDistribution(eDistribution d){
-  if(m_eDistr != d){
-    m_eDistr = d;
-    UpdateDistribution();
+  if(m_pPerlin->GetDistribution() != d){
+    m_pPerlin->RandomizeTable(d);
+    UpdateDistributionMenu(m_hDistMenu, m_eNoise, d);
+    GenerateNoiseBitmap();
     return true;
   } //if
 
   return false;
 } //SetDistribution
 
-/// Update Perlin noise probability distribution and regenerate noise.
-
-void CMain::UpdateDistribution(){
-  m_pPerlin->RandomizeTable(m_eDistr);
-  UpdateDistributionMenu(m_hDistMenu, m_eNoise, m_eDistr);
-  GenerateNoiseBitmap();
-} //UpdateDistribution
-
 /// Set Perlin noise spline function and regenerate noise.
 /// \param d Spline function enumerated type.
 
 void CMain::SetSpline(eSpline d){
-  m_eSpline = d;
   m_pPerlin->SetSpline(d);
   UpdateSplineMenu(m_hSplineMenu, m_eNoise, d);
   GenerateNoiseBitmap();
@@ -437,14 +435,13 @@ void CMain::SetSpline(eSpline d){
 /// \param d Hash function enumerated type.
 
 void CMain::SetHash(eHash d){
-  m_eHash = d;
   m_pPerlin->SetHash(d);
   UpdateHashMenu(m_hHashMenu, m_eNoise, d);
   GenerateNoiseBitmap();
 } //SetHash
 
 /// Toggle the View Coordinates flag, put a checkmark next to the menu item,
-/// and redraw the bitmap.
+/// and draw or undraw the coordinates on the bitmap.
 
 void CMain::ToggleViewCoords(){
   m_bShowCoords = !m_bShowCoords;
@@ -453,7 +450,7 @@ void CMain::ToggleViewCoords(){
 } //ToggleViewCoords
 
 /// Toggle the View Grid flag, put a checkmark next to the menu item, and
-/// redraw the bitmap.
+/// draw or undraw the grid on the bitmap..
 
 void CMain::ToggleViewGrid(){
   m_bShowGrid = !m_bShowGrid;
@@ -461,18 +458,17 @@ void CMain::ToggleViewGrid(){
   DrawGrid();
 } // ToggleViewGrid
 
-/// Increment both coordinates of the origin by `m_nTableSize` and regenerate
-/// noise.
+/// Increment both coordinates of the origin by table size and regenerate
+/// the noise bitmap.
 
 void CMain::Jump(){
   const float offset = (float)m_pPerlin->GetTableSize();
   m_fOriginX += offset;
   m_fOriginY += offset;
-
   GenerateNoiseBitmap();
 } //Jump
 
-/// Set coordinates of the origin.
+/// Set the coordinates of the origin and regenerate the noise bitmap.
 /// \param x New X-coordinate of origin.
 /// \param y New Y-coordinate of origin.
 
@@ -492,7 +488,7 @@ const bool CMain::Origin(float x, float y) const{
 } //Origin
 
 /// Increase the number of octaves in `m_nOctaves` by one up to a maximum
-/// of `m_nMaxOctaves`.
+/// of `m_nMaxOctaves` and regenerate the noise bitmap.
 
 void CMain::IncreaseOctaves(){
   m_nOctaves = std::min<size_t>(m_nOctaves + 1, m_nMaxOctaves);
@@ -500,7 +496,7 @@ void CMain::IncreaseOctaves(){
 } //IncreaseOctaves
 
 /// Decrease the number of octaves in `m_nOctaves` by one down to a minimum
-/// of `m_nMinOctaves`.
+/// of `m_nMinOctaves` and regenerate the noise bitmap.
 
 void CMain::DecreaseOctaves(){
   m_nOctaves = std::max<size_t>(m_nMinOctaves, m_nOctaves - 1);
@@ -508,7 +504,7 @@ void CMain::DecreaseOctaves(){
 } //DecreaseOctaves
 
 /// Increase the scale in `m_fScale` by a factor of 2 up to a maximum
-/// of `m_fMaxScale`.
+/// of `m_fMaxScale` and regenerate the noise bitmap.
 
 void CMain::IncreaseScale(){
   m_fScale = std::min<float>(2.0f*m_fScale, m_fMaxScale);
@@ -516,28 +512,29 @@ void CMain::IncreaseScale(){
 } //IncreaseScale
 
 /// Decrease the scale in `m_fScale` by a factor of 2 down to a minimum
-/// of `m_fMinScale`.
+/// of `m_fMinScale` and regenerate the noise bitmap.
 
 void CMain::DecreaseScale(){
   m_fScale = std::max<float>(m_fMinScale, m_fScale/2.0f);
   GenerateNoiseBitmap();
 } //DecreaseScale
 
-/// Increase the table size by a factor of 2.
+/// Increase the table size by a factor of 2 and regenerate the noise bitmap.
 
 void CMain::IncreaseTableSize(){
   if(m_pPerlin->DoubleTableSize())
     GenerateNoiseBitmap();
 } //IncreaseTableSize
 
-/// Decrease the table size by a factor of 2 `.
+/// Decrease the table size by a factor of 2 and regenerate the noise bitmap.
 
 void CMain::DecreaseTableSize(){
   if(m_pPerlin->HalveTableSize())
     GenerateNoiseBitmap();
 } //DecreaseTableSize
 
-/// Reset number of octaves, scale, and table size to defaults.
+/// Reset number of octaves, scale, and table size to defaults and regenerate
+/// the noise bitmap.
 
 void CMain::Reset(){
   m_nOctaves = m_nDefOctaves;
@@ -564,13 +561,13 @@ const std::wstring CMain::GetFileName() const{
     case eNoise::Value:  wstr = L"Value";  break;
   } //switch
 
-  switch(m_eHash){
+  switch(m_pPerlin->GetHash()){
     case eHash::Permutation:        wstr += L"-Perm"; break;
     case eHash::LinearCongruential: wstr += L"-Lin";  break;
     case eHash::Std:                wstr += L"-Std";  break;
   } //switch
 
-  switch(m_eDistr){
+  switch(m_pPerlin->GetDistribution()){
     case eDistribution::Uniform: break; //nothing, which is the default  
     case eDistribution::Maximal:     wstr += L"-Max";  break;    
     case eDistribution::Cosine:      wstr += L"-Cos";  break;   
@@ -579,7 +576,7 @@ const std::wstring CMain::GetFileName() const{
     case eDistribution::Midpoint:    wstr += L"-Mid";  break;
   } //switch
 
-  switch(m_eSpline){
+  switch(m_pPerlin->GetSpline()){
     case eSpline::None: wstr += L"-NoSpline"; break; 
     case eSpline::Cubic: break; //nothing, which is the default
     case eSpline::Quintic: wstr += L"-Quintic"; break;
@@ -623,7 +620,7 @@ const std::wstring CMain::GetNoiseDescription() const{
 
   //hash function
 
-  switch(m_eHash){
+  switch(m_pPerlin->GetHash()){
     case eHash::Permutation:         wstr += L"a permutation"; break;
     case eHash::LinearCongruential:  wstr += L"linear congruential"; break;
     case eHash::Std:                 wstr += L"std";  break;
@@ -633,7 +630,7 @@ const std::wstring CMain::GetNoiseDescription() const{
 
   //distribution
 
-  switch(m_eDistr){
+  switch(m_pPerlin->GetDistribution()){
     case eDistribution::Uniform:     wstr += L"uniform"; break;  
     case eDistribution::Maximal:     wstr += L"maximal"; break;    
     case eDistribution::Cosine:      wstr += L"cosine"; break;   
@@ -651,7 +648,7 @@ const std::wstring CMain::GetNoiseDescription() const{
 
   //spline function
 
-  switch(m_eSpline){
+  switch(m_pPerlin->GetSpline()){
     case eSpline::None:    wstr += L"no";      break; 
     case eSpline::Cubic:   wstr += L"cubic";   break; 
     case eSpline::Quintic: wstr += L"quintic"; break;
@@ -665,7 +662,7 @@ const std::wstring CMain::GetNoiseDescription() const{
 
   //table size
   
-  if(m_eHash == eHash::Permutation)
+  if(m_pPerlin->GetHash() == eHash::Permutation)
     wstr += L"permutation and ";
 
   switch(m_eNoise){
@@ -695,12 +692,5 @@ const std::wstring CMain::GetNoiseDescription() const{
 Gdiplus::Bitmap* CMain::GetBitmap() const{
   return m_pBitmap;
 } //GetBitmap
-
-/// Reader function for the distribution type `m_eDistr`.
-/// \return The distribution type `m_eDistr`.
-
-const eDistribution CMain::GetDistribution() const{
-  return m_eDistr;
-} //GetDistribution
 
 #pragma endregion Reader functions

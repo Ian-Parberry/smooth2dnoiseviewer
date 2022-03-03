@@ -1,7 +1,9 @@
 
 # Smooth 2D Noise Viewer
 
-The source code for this basic 2D noise generator, written and maintained by
+![Screenshot.](Doxygen/Images/ss.png)
+
+The source code for this 2D noise generator and viewer, written and maintained by
 [Ian Parberry](http://ianparberry.com), is intended to be used by students to
 extend and modify while they are learning about Perlin noise. See 
 [https://ian-parberry.github.io/smooth2dnoiseviewer/](https://ian-parberry.github.io/smooth2dnoiseviewer/)

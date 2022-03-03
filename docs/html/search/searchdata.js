@@ -6,7 +6,8 @@ var indexSectionsWithContent =
   3: "cdghijlnoprstuwz~",
   4: "gmp",
   5: "e",
-  6: "_i"
+  6: "_i",
+  7: "s"
 };
 
 var indexSectionNames =
@@ -17,7 +18,8 @@ var indexSectionNames =
   3: "functions",
   4: "variables",
   5: "enums",
-  6: "defines"
+  6: "defines",
+  7: "pages"
 };
 
 var indexSectionLabels =
@@ -28,6 +30,7 @@ var indexSectionLabels =
   3: "Functions",
   4: "Variables",
   5: "Enumerations",
-  6: "Macros"
+  6: "Macros",
+  7: "Pages"
 };
 
