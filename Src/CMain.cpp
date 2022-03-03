@@ -168,7 +168,7 @@ void CMain::UpdateMenus(){
 
 #pragma region Bitmap functions
 
-/// Create bitmap pointed to by `m_pBitmap` and set all pixels to white.
+/// Create bitmap and set all pixels to white.
 /// \param w Bitmap width in pixels.
 /// \param h Bitmap height in pixels.
 
@@ -179,7 +179,7 @@ void CMain::CreateBitmap(int w, int h){
 } //CreateBitmap
 
 /// Clear the bitmap.
-/// \param clr Color to set the pixels of `m_pBitmap` to.
+/// \param clr Color to set the pixels of bitmap to.
 
 void CMain::ClearBitmap(Gdiplus::Color clr){ 
   Gdiplus::Graphics graphics(m_pBitmap); //for editing
