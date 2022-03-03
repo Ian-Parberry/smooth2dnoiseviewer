@@ -2,7 +2,7 @@
 # Smooth 2D Noise Viewer
 
 <p align="center">
-  <img src="Doxygen/Images/ss.png" width="350" title="Screenshot">
+  <img src="Doxygen/Images/ss.png" width="300" title="Screenshot">
 </p>
 
 The source code for this 2D noise generator and viewer, written and maintained by
