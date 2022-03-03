@@ -67,11 +67,10 @@ class CMain{
     float m_fScale = m_fDefScale; ///< Scale.
     const float m_fMinScale = 8.0f; ///< Minimum scale.
     const float m_fMaxScale = 512.0f; ///< Minimum scale.
-    
-    const UINT m_nDefLog2TableSize = 8; ///< Log base 2 of table size.
-    UINT m_nLog2TableSize = m_nDefLog2TableSize; ///< Log base 2 of table size.
-    const UINT m_nMinLog2TableSize = 4; ///< Min log base 2 of table size.
-    const UINT m_nMaxLog2TableSize = 10; ///< Max log base 2 of table size.
+
+    float m_fMin = 0.0f; ///< Smallest noise value in generated noise.
+    float m_fMax = 0.0f; ///< Largest noise value in generated noise.
+    float m_fAve = 0.0f; ///< Average noise value in generated noise.
 
     ULONG_PTR m_gdiplusToken = 0; ///< GDI+ token.
 
@@ -84,12 +83,16 @@ class CMain{
     void CreateMenus(); ///< Create menus.
     void UpdateMenus(); ///< Update menus.
 
+    void UpdateDistribution(); ///< Update distribution.
+
     void SetPixel(UINT, UINT, float); ///< Set pixel grayscale from float.
     void SetPixel(UINT, UINT, BYTE); ///< Set pixel grayscale from byte.
     void SetPixel(UINT, UINT, Gdiplus::Color); ///< Set pixel from GDI+ color.
-
+    
     void DrawCoords(); ///< Draw coordinates to bitmap.
     void DrawGrid(); ///< Draw grid to bitmap.
+
+    void GenerateNoiseBitmap(Gdiplus::PointF, Gdiplus::RectF); ///< Generate bitmap rectangle.
 
   public:
     CMain(const HWND hwnd); ///< Constructor.
@@ -98,12 +101,15 @@ class CMain{
     void CreateBitmap(int w, int h); ///< Create bitmap.
     void ClearBitmap(Gdiplus::Color); ///< Clear bitmap to color.
 
+    void Randomize(); ///< Randomize PRNG.
+
     void GenerateNoiseBitmap(eNoise); ///< Generate Perlin or Value noise bitmap.
     void GenerateNoiseBitmap(); ///< Generate bitmap again with saved parameters.
 
     bool SetDistribution(eDistribution); ///< Set probability distribution.
     void SetSpline(eSpline); ///< Set spline function.
     void SetHash(eHash); ///< Set hash function.
+
     void ToggleViewCoords(); ///< Toggle View Coordinates flag.
     void ToggleViewGrid(); ///< Toggle View Grid flag.
 

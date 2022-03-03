@@ -79,3 +79,13 @@ std::wstring to_wstring_f(float x, size_t n){
   s << std::fixed << x; //convert x
   return s.str(); //return wstring
 } //to_wstring_f
+
+/// Test whether an unsigned integer is a power of 2. This is a sneaky one. 
+/// It relies pm the fact that `n` is a power of 2 iff `n` is nonzero and
+/// `n & (n - 1)` is zero.
+/// \param n A number.
+/// \return true if the parameter is a power of 2.
+
+bool isPowerOf2(size_t n){
+  return n != 0 && (n & (n - 1)) == 0;
+} //isPowerOf2

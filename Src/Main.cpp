@@ -28,8 +28,8 @@
 
 static CMain* g_pMain = nullptr; ///< Pointer to the main class.
 
-static const int g_nWidth = 600; ///< Client area width in pixels.
-static const int g_nHeight = 600; ///< Client area height in pixels.
+static const int g_nWidth  = 800; ///< Client area width in pixels.
+static const int g_nHeight = 800; ///< Client area height in pixels.
 
 /// \brief Window procedure.
 ///
@@ -58,6 +58,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
     case WM_PAINT: //window needs to be redrawn
       g_pMain->OnPaint();
       return 0;
+
+    //menu bar ---------------------------------------------------
  
     case WM_COMMAND: //user has selected a command from the menu
       nMenuId = LOWORD(wParam); //menu id
@@ -92,7 +94,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam){
           break;
 
         case IDM_GENERATE_RANDOMIZE:
-          g_pMain->SetDistribution(g_pMain->GetDistribution());
+          g_pMain->Randomize();
           InvalidateRect(hWnd, nullptr, FALSE);
           break;
 

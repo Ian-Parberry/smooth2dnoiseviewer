@@ -36,5 +36,6 @@ float lerp(float, float, float); ///< Linear interpolation.
 float clamp(float, float, float); ///< Clamp between two values.
 
 std::wstring to_wstring_f(float x, size_t n); ///< Float to fixed precision wstring.
+bool isPowerOf2(size_t n); ///< Power of 2 test. 
 
 #endif //__HELPERS_H__

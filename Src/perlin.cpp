@@ -28,7 +28,7 @@
 #include <algorithm>
 #include <functional>
 
-#include "perlin.h"
+#include "Perlin.h"
 #include "Helpers.h"
 #include "Includes.h"
 
@@ -46,25 +46,35 @@
 /// The permutation is initialized to a pseudo-random permutation from a
 /// uniform distribution. The table is filled with pseudo-random values chosen
 /// uniformly from \f$[-1,1]\f$.
-/// \param n Number of consecutive 1 bits in the mask, log base 2 of the size.
 
-CPerlinNoise2D::CPerlinNoise2D(size_t n):
-  m_nSize((size_t)round(pow(2.0f, (float)n))), //size must be a power of 2
-  m_nMask(m_nSize - 1), //mask of n consecutive 1s
-  m_nPerm(new size_t[m_nSize]), //permutation
-  m_fTable(new float[m_nSize]) //gradients or height values
+CPerlinNoise2D::CPerlinNoise2D():
+  m_nSeed(timeGetTime()) //seed PRNG
 {  
-  RandomizeTable(eDistribution::Uniform); //randomize gradient/value table
-  RandomizePermutation(); //randomize permutation
+  Initialize(); 
 } //constructor
 
-/// The destructor deletes the permutation and table created in
-/// the constructor.
+/// The destructor deletes the permutation and gradient/value table.
 
 CPerlinNoise2D::~CPerlinNoise2D(){
   delete [] m_fTable;
   delete [] m_nPerm;
 } //destructor
+
+/// Initialize the generator. Assumes that `m_nSize` has been initialized to
+/// the table size, which must be a power of two. Create and initialize the
+/// permutation and gradient/value tables. Initialize the bit mask.
+
+void CPerlinNoise2D::Initialize(){
+  assert(isPowerOf2(m_nSize)); //safety
+  assert(m_nSize > 1); //safety
+
+  m_nMask = m_nSize - 1;  //mask of n consecutive 1s
+  m_nPerm = new size_t[m_nSize]; //permutation
+  m_fTable = new float[m_nSize]; //gradients or height values
+
+  RandomizeTable(m_eDistribution); //randomize gradient/value table
+  RandomizePermutation(); //randomize permutation
+} //Initialize
 
 #pragma endregion Constructor and destructor
 
@@ -74,15 +84,20 @@ CPerlinNoise2D::~CPerlinNoise2D(){
 #pragma region Functions that change noise settings
 
 /// Set the permutation in `m_nPerm` to a pseudo-random permutation with
-/// each permutation equally likely. The standard algorithm is used, with the
-/// C standard library function `rand()` used as a source of randomness.
+/// each permutation equally likely using the standard algorithm.
+/// The source of randomness is `std::default_random_engine`
+/// with `std::uniform_int_distribution`.
 
 void CPerlinNoise2D::RandomizePermutation(){
   for(size_t i=0; i<m_nSize; i++) //identity permutation
     m_nPerm[i] = i; 
 
-  for(size_t i=0; i<m_nSize; i++) //randomize
-    std::swap(m_nPerm[i], m_nPerm[i + rand()%(m_nSize - i)]);
+  m_stdRandom.seed(m_nSeed); //reset PRNG
+
+  for(size_t i=0; i<m_nSize; i++){ //randomize
+    std::uniform_int_distribution<size_t> d(i, m_nSize - 1);
+    std::swap(m_nPerm[i], m_nPerm[d(m_stdRandom)]);
+  } //for
 } //RandomizePermutation
 
 /// Initialize a chunk of the gradient/value table `m_fTable` using midpoint
@@ -104,12 +119,17 @@ void CPerlinNoise2D::RandomizePermutation(){
 /// \param alpha Lacunarity.
 
 void CPerlinNoise2D::RandomizeTableMidpoint(size_t i, size_t j, float alpha){
+  assert(i < j && j < m_nSize);
+  assert(alpha < 0.0f);
+
   std::uniform_real_distribution<float> d(-1.0f, 1.0f);
 
-  if(j > i + 1){ //base of recursion is "do nothing"
+  if(j > i + 1){ //there is a midpoint to fill in
     const size_t mid = (i + j)/2; //mid point
 
-    const float fMean = (m_fTable[i] + m_fTable[j - 1])/2.0f; //average of ends
+    assert(i < mid && mid < j);
+
+    const float fMean = (m_fTable[i] + m_fTable[j])/2.0f; //average of ends
     const float fRand = alpha*d(m_stdRandom); //random offset
     m_fTable[mid] = clamp(-1.0f, fMean + fRand, 1.0f); //mid point is average plus offset
     alpha *= 0.5f; //increase lacunarity
@@ -124,10 +144,10 @@ void CPerlinNoise2D::RandomizeTableMidpoint(size_t i, size_t j, float alpha){
 /// `RandomizeTableMidpoint(size_t, size_t, float)` to fill in the rest.
 
 void CPerlinNoise2D::RandomizeTableMidpoint(){
-  m_fTable[0] = 0.0f;
-  m_fTable[m_nSize - 1] = 0.0f;
+  m_fTable[0] = 1.0f;
+  m_fTable[m_nSize - 1] = -1.0f;
 
-  RandomizeTableMidpoint(0, m_nSize, 0.5f);
+  RandomizeTableMidpoint(0, m_nSize - 1, 0.5f);
 } //RandomizeTableMidpoint
 
 /// Fill the gradient/value table `m_fTable` using a uniform distribution.
@@ -155,7 +175,7 @@ void CPerlinNoise2D::RandomizeTableMaximal(){
     m_fTable[i] = (d(m_stdRandom) > 0.0f)? 1.0f: -1.0f;
     assert(-1.0f <= m_fTable[i] && m_fTable[i] <= 1.0f);
   } //for
-} //RandomizeTableMax
+} //RandomizeTableMaximal
 
 /// Fill the gradient/value table `m_fTable` using a normal distribution.
 /// The source of randomness is `std::default_random_engine`
@@ -191,7 +211,7 @@ void CPerlinNoise2D::RandomizeTableCos(){
 /// table with negative gradients and half with positive gradients.
 
 void CPerlinNoise2D::RandomizeTableExp(){  
-  std::exponential_distribution<float> d(8.0f);
+  std::exponential_distribution<float> d(4.0f);
 
   const size_t half = m_nSize/2;
 
@@ -208,7 +228,8 @@ void CPerlinNoise2D::RandomizeTableExp(){
 /// \param d Probability distribution enumerated type.
 
 void CPerlinNoise2D::RandomizeTable(eDistribution d){ 
-  m_stdRandom.seed(timeGetTime()); //reset PRNG
+  m_stdRandom.seed(m_nSeed); //reset PRNG
+  m_eDistribution = d; //current distribution
 
   switch(d){
     case eDistribution::Uniform: RandomizeTableUniform();   break;
@@ -219,6 +240,64 @@ void CPerlinNoise2D::RandomizeTable(eDistribution d){
     case eDistribution::Midpoint: RandomizeTableMidpoint(); break;
   } //switch
 } //RandomizeTable
+
+/// Double the size of the permutation and gradient/value tables up to
+/// a maximum of `m_nMaxTableSize`.
+/// \return true if the table size changed.
+
+bool CPerlinNoise2D::DoubleTableSize(){
+  if(m_nSize < m_nMaxTableSize){
+    delete [] m_fTable;
+    delete [] m_nPerm;
+  
+    m_nSize *= 2; //size must be a power of 2
+    Initialize();
+    return true;
+  } //if
+
+  return false;
+} //DoubleTableSize
+
+/// Halve the size of the permutation and gradient/value tables down to
+/// a minimum of `m_nMinTableSize`.
+/// \return true if the table size changed.
+
+bool CPerlinNoise2D::HalveTableSize(){
+  if(m_nSize > m_nMinTableSize){
+    delete [] m_fTable;
+    delete [] m_nPerm;
+  
+    m_nSize /= 2; //size must be a power of 2
+    Initialize();
+    return true;
+  } //if
+
+  return false;
+} //HalveTableSize
+
+/// Set table size to the default.
+/// \return true if the table size changed.
+
+bool CPerlinNoise2D::DefaultTableSize(){
+  if(m_nSize != m_nDefTableSize){
+    delete [] m_fTable;
+    delete [] m_nPerm;
+  
+    m_nSize = m_nDefTableSize; 
+    Initialize();
+    return true;
+  } //if
+
+  return false;
+} //DefaultTableSize
+
+/// Randomize the PRNG by setting the seed to `timeGetTime()`, the number of
+/// milliseconds since Windows last rebooted. This should be sufficiently
+/// unpredictable to make a good seed.
+
+void CPerlinNoise2D::Randomize(){ 
+  m_nSeed = timeGetTime();
+} //Randomize
 
 /// Set the spline function type.
 /// \param d Spline function enumerated type.
@@ -311,9 +390,9 @@ inline const size_t CPerlinNoise2D::hashstd(size_t x) const{
 /// \return Hashed number in the range [0, `m_nSize` - 1].
 
 inline const size_t CPerlinNoise2D::hash2(size_t x, size_t y) const{
-  const uint64_t p0 = 43214161; //prime
-  const uint64_t p1 = 43216891; //prime
-  const uint64_t p2 = 73202201; //prime
+  const uint64_t p0 = 11903454645187951493LL; //a prime
+  const uint64_t p1 = 2078231835154824277LL; //another prime
+  const uint64_t p2 = 5719147207009855033LL; //another prime
   
   const uint64_t h = (p0*(uint64_t)x + p1*(uint64_t)y)%p2; //hash
 
@@ -401,7 +480,6 @@ const float CPerlinNoise2D::Lerp(float sX, float fX, float fY, size_t* c,
       //magnitude, that is, fX == 0.5f, in which case each z gets 1.0f from fY
       //and 0.5f from fX.
       assert(-1.5f <= result && result <= 1.5f);
-      //return result/1.5f; 
       return result; 
     break;
       
@@ -487,11 +565,44 @@ const float CPerlinNoise2D::generate(float x, float y, eNoise t, size_t n,
   assert(amplitude == powf(alpha, (float)n));
 
   float result = (1 - alpha)*sum/(1 - amplitude); //sum of geometric progression
-
-  if(t == eNoise::Perlin)result *= m_fSqrt2; //scale
-
+  if(t == eNoise::Perlin)result *= 4.0f/3.0f; //scale up Perlin noise
   assert(-1.0f <= result && result <= 1.0f); //safety
   return result;
 } //generate
 
 #pragma endregion Noise generation functions
+
+////////////////////////////////////////////////////////////////////////////////
+// Reader functions.
+
+#pragma region Reader functions
+
+/// Reader function for the table size.
+/// \return The table size.
+
+const size_t CPerlinNoise2D::GetTableSize() const{
+  return m_nSize;
+} //GetTableSize
+
+/// Reader function for the minimum table size.
+/// \return The minimum table size.
+
+const size_t CPerlinNoise2D::GetMinTableSize() const{
+  return m_nMinTableSize;
+} //GetMinTableSize
+
+/// Reader function for the maximum table size.
+/// \return The maximum table size.
+
+const size_t CPerlinNoise2D::GetMaxTableSize() const{
+  return m_nMaxTableSize;
+} //GetMaxTableSize
+
+/// Reader function for the default table size.
+/// \return The default table size.
+
+const size_t CPerlinNoise2D::GetDefTableSize() const{
+  return m_nDefTableSize;
+} //GetDefTableSize
+
+#pragma endregion Reader functions

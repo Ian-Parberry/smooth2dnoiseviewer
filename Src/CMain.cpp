@@ -42,8 +42,8 @@
 
 CMain::CMain(const HWND hwnd): m_hWnd(hwnd){
   m_gdiplusToken = InitGDIPlus(); //initialize GDI+
+  m_pPerlin = new CPerlinNoise2D(); //Perlin noise generator
   CreateMenus(); //create the menu bar
-  m_pPerlin = new CPerlinNoise2D(m_nLog2TableSize); //Perlin noise generator
 } //constructor
 
 /// Delete the Perlin noise generator, delete the GDI+ objects, shut down GDI+.
@@ -61,9 +61,8 @@ CMain::~CMain(){
 
 #pragma region Drawing functions
 
-/// Draw the bitmap pointed to by `m_pBitmap` to the window client area,
-/// scaled down if necessary. This function should only be called in response
-/// to a `WM_PAINT` message.
+/// Draw the bitmap to the window client area, scaled down if necessary. This
+/// function should only be called in response to a `WM_PAINT` message.
 
 void CMain::OnPaint(){  
   PAINTSTRUCT ps; //paint structure
@@ -151,13 +150,15 @@ void CMain::UpdateMenus(){
     m_nOctaves, m_nMinOctaves, m_nMaxOctaves);  
   UpdateMenuItem(m_hSetMenu, 
     IDM_SETTINGS_SCALE_UP, IDM_SETTINGS_SCALE_DN, m_eNoise, 
-    m_fScale, m_fMinScale, m_fMaxScale);  
+    m_fScale, m_fMinScale, m_fMaxScale); 
+
   UpdateMenuItem(m_hSetMenu, 
     IDM_SETTINGS_TSIZE_UP, IDM_SETTINGS_TSIZE_DN, m_eNoise, 
-    m_nLog2TableSize, m_nMinLog2TableSize, m_nMaxLog2TableSize); 
+    m_pPerlin->GetTableSize(), m_pPerlin->GetMinTableSize(), 
+    m_pPerlin->GetMaxTableSize()); 
   UpdateMenuItemGray(m_hSetMenu, IDM_SETTINGS_RESET, m_eNoise,
     m_nOctaves == m_nDefOctaves && m_fScale == m_fDefScale
-    && m_nLog2TableSize == m_nDefLog2TableSize); 
+    && m_pPerlin->GetTableSize() == m_pPerlin->GetDefTableSize()); 
 } //UpdateMenus
 
 #pragma endregion Menu functions
@@ -177,7 +178,7 @@ void CMain::CreateBitmap(int w, int h){
   ClearBitmap(Gdiplus::Color::White); //clear bitmap to white
 } //CreateBitmap
 
-/// Clear the bitmap pointed to by `m_pBitmap`.
+/// Clear the bitmap.
 /// \param clr Color to set the pixels of `m_pBitmap` to.
 
 void CMain::ClearBitmap(Gdiplus::Color clr){ 
@@ -185,9 +186,9 @@ void CMain::ClearBitmap(Gdiplus::Color clr){
   graphics.Clear(clr); //clear to white
 } //Clear
 
-/// Set a grayscale pixel in the bitmap pointed to by `m_pBitmap` from a
-/// floating point value in \f$[-1, 1]\f$, where \f$-1\f$ is black and \f$+1\f$
-/// is white. The indices of the pixel are assumed to be in range.
+/// Set a grayscale pixel in the bitmap from a floating point value in 
+/// \f$[-1, 1]\f$, where \f$-1\f$ is black and \f$+1\f$ is white. The indices
+/// of the pixel are assumed to be in range.
 /// \param i Row number.
 /// \param j Column number.
 /// \param g Grayscale value in the range \f$[-1, 1]\f$.
@@ -196,9 +197,9 @@ void CMain::SetPixel(UINT i, UINT j, float g){
   SetPixel(i, j, BYTE(float(0xFF)*(g/2 + 0.5f)));
 } //SetPixel
 
-/// Set a grayscale pixel in the bitmap pointed to by `m_pBitmap` from a byte
-/// value in the range \f$[0, 255]\f$, where \f$0\f$ is black and \f$255\f$ is
-/// white. The indices of the pixel are assumed to be in range.
+/// Set a grayscale pixel in the bitmap from a byte value in the range
+/// \f$[0, 255]\f$, where \f$0\f$ is black and \f$255\f$ is white. The indices
+/// of the pixel are assumed to be in range.
 /// \param i Row number.
 /// \param j Column number.
 /// \param b Grayscale value in the range \f$[0, 255]\f$.
@@ -207,8 +208,8 @@ void CMain::SetPixel(UINT i, UINT j, BYTE b){
   SetPixel(i, j, Gdiplus::Color(255, b, b, b));
 } //SetPixel
 
-/// Set a pixel in the bitmap pointed to by `m_pBitmap` to a GDI+ color. The
-/// indices of the pixel are assumed to be in range.
+/// Set a pixel in the bitmap to a GDI+ color. The indices of the pixel are 
+/// assumed to be in range.
 
 void CMain::SetPixel(UINT i, UINT j, Gdiplus::Color clr){
   m_pBitmap->SetPixel(i, j, clr);
@@ -221,36 +222,68 @@ void CMain::SetPixel(UINT i, UINT j, Gdiplus::Color clr){
 
 #pragma region Noise generation functions
 
-/// Generate Perlin or Value noise into the bitmap pointed to by `m_pBitmap`.
-/// Pixel coordinates (which are whole numbers) are offset by `m_fOriginX`
-/// and `m_fOriginY` and scaled by `m_fScale` to get noise coordinates (which
-/// are floating point numbers).
+/// Generate Perlin or Value noise into the bitmap. Pixel coordinates (which 
+/// are whole numbers) are offset by `m_fOriginX` and `m_fOriginY` and scaled
+/// by `m_fScale` to get noise coordinates (which are floating point numbers).
 /// \param t Type of noise.
 
 void CMain::GenerateNoiseBitmap(eNoise t){ 
   m_eNoise = t; //remember the noise type
   UpdateMenus(); //changing noise type may change the menu status
-  float zmin = 0, zmax = 0;
 
-  for(UINT i=0; i<m_pBitmap->GetWidth(); i++){
-    const float x = m_fOriginX + i/m_fScale;
+  m_fMin = 1000.0f; //init noise minima to something stupidly large
+  m_fMax = -1000.0f; //init noise maxima to something stupidly small
+  m_fAve = 0.0f; //init sum for average
 
-    for(UINT j=0; j<m_pBitmap->GetHeight(); j++){
-      const float y = m_fOriginY + j/m_fScale;
-      const float z = m_pPerlin->generate(x, y, t, m_nOctaves);
-      zmin = min(zmin, z);
-      zmax = max(zmax, z);
-      SetPixel(i, j, z);
+  const UINT w = m_pBitmap->GetWidth(); //bitmap width
+  const UINT h = m_pBitmap->GetHeight(); //bitmap height
+
+  for(UINT i=0; i<w; i++){
+    const float x = m_fOriginX + i/m_fScale; //noise X-coordinate
+
+    for(UINT j=0; j<h; j++){
+      const float y = m_fOriginY + j/m_fScale; //noise Y-coordinate
+      const float noise = m_pPerlin->generate(x, y, t, m_nOctaves); //noise
+      SetPixel(i, j, noise); //draw noise pixel to bitmap
+
+      //recompute maximum, minimum, and sum (for average)
+      m_fMin = min(m_fMin, noise);
+      m_fMax = max(m_fMax, noise);
+      m_fAve += noise;
     } //for
   } //for
+
+  m_fAve /= w*h; //compute average from sum
   
   if(m_bShowGrid)DrawGrid();
   if(m_bShowCoords)DrawCoords();
 } //GenerateNoiseBitmap
+
+/// Generate Perlin or Value noise into a rectangle in the bitmap.
+/// \param point The position of the rectangle to be written in the bitmap.
+/// \param rect The bounds of the rectangle to be written in the bitmap. 
+
+void CMain::GenerateNoiseBitmap(Gdiplus::PointF point, Gdiplus::RectF rect){
+  const UINT nLeft   = (UINT)floorf(rect.GetLeft()  + point.X);
+  const UINT nRight  = (UINT)ceilf(rect.GetRight()  + point.X);
+  const UINT nTop    = (UINT)floorf(rect.GetTop()   + point.Y);
+  const UINT nBottom = (UINT)ceilf(rect.GetBottom() + point.Y);
+
+  for(UINT i=nLeft; i<nRight; i++){
+    const float x = m_fOriginX + i/m_fScale;
+
+    for(UINT j=nTop; j<nBottom; j++){
+      const float y = m_fOriginY + j/m_fScale;
+      SetPixel(i, j, m_pPerlin->generate(x, y, m_eNoise, m_nOctaves));
+    } //for
+  } //for
+} //GenerateNoiseBitmap
  
-/// Draw the coordinates of the top left and bottom right of the noise to the
-/// corresponding corners of the bitmap pointed to by `m_pBitmap`. The font
-/// family, font, style, and color of the text are hard-coded.
+/// If `m_bShowCoords` is `true`, then draw the coordinates of the top left
+/// and bottom right of the noise to the corresponding corners of the bitmap.
+/// The font family, font, style, and color of the text are hard-coded.
+/// If `m_bShowCoords` is `false`, then overwrite the pixels within the
+/// bounding rectangle of the text coordinates with the corresponding noise.
 
 void CMain::DrawCoords(){ 
   Gdiplus::FontFamily ff(L"Arial");
@@ -259,38 +292,46 @@ void CMain::DrawCoords(){
 
   Gdiplus::Graphics graphics(m_pBitmap);
 
-  //top left corner
+  //top left corner coordinates
 
-  Gdiplus::PointF pointF(0.0f, 0.0f); //text position on screen
+  Gdiplus::PointF point(0.0f, 0.0f); //text position on screen
   
   std::wstring wstr = L"("; //text of origin coordinates
   wstr += std::to_wstring((size_t)floorf(m_fOriginX)) + L", ";
   wstr += std::to_wstring((size_t)floorf(m_fOriginY)) + L")";
+  
+  Gdiplus::RectF rect, unused;
+  graphics.MeasureString(wstr.c_str(), -1, &font, unused, &rect); //measure text
 
-  graphics.DrawString(wstr.c_str(), -1, &font, pointF, &brush);
+  if(m_bShowCoords) //draw
+    graphics.DrawString(wstr.c_str(), -1, &font, point, &brush);
+  else GenerateNoiseBitmap(point, rect); //undraw
 
-  //bottom right corner
+  //bottom right corner coordinates
 
   const float x = m_fOriginX + m_pBitmap->GetWidth()/m_fScale; //x-coordinate
   const float y = m_fOriginY + m_pBitmap->GetHeight()/m_fScale; //y-coordinate
 
   wstr = L"(" + to_wstring_f(x, 2) + L", " + to_wstring_f(y, 2) + L")"; //text
 
-  Gdiplus::RectF rec, unused;
-  graphics.MeasureString(wstr.c_str(), -1, &font, unused, &rec); //measure text
-  const float w = ceilf(rec.Width); //width of text on screen
-  const float h = ceilf(rec.Height); //height of text on screen
+  graphics.MeasureString(wstr.c_str(), -1, &font, unused, &rect); //measure text
+  point.X = m_pBitmap->GetWidth()  - rect.Width; //text x-coordinate on screen
+  point.Y = m_pBitmap->GetHeight() - rect.Height; //text y-coordinate on screen
+  
+  if(m_bShowCoords) //draw
+    graphics.DrawString(wstr.c_str(), -1, &font, point, &brush);
+  else GenerateNoiseBitmap(point, rect); //undraw
 
-  pointF.X = m_pBitmap->GetWidth() - w; //text x-coordinate on screen
-  pointF.Y = m_pBitmap->GetHeight() - h; //text y-coordinate on screen
-
-  graphics.DrawString(wstr.c_str(), -1, &font, pointF, &brush);
+  if(m_bShowGrid && !m_bShowCoords)
+    DrawGrid(); //in case we erased part of the grid lines
 } //DrawCoords
 
-/// Draw grid for first octave to the bitmap pointed to by `m_pBitmap`.
+/// If `m_bShowGrid` is `true`, draw a grid for first noise octave to the
+/// bitmap. The line color for the grid is fixed. If `m_bShowGrid` is `false`,
+/// then overwrite the pixels in the lines with the corresponding noise.
 
 void CMain::DrawGrid(){ 
-  const float fBitmapWidth = (float)m_pBitmap->GetWidth();
+  const float fBitmapWidth  = (float)m_pBitmap->GetWidth();
   const float fBitmapHeight = (float)m_pBitmap->GetHeight();
 
   const UINT nv = (UINT)floorf(fBitmapWidth/m_fScale); //number of vertical lines
@@ -301,25 +342,36 @@ void CMain::DrawGrid(){
 
   //horizontal lines
 
-  Gdiplus::PointF left(0.0f, m_fScale);
-  Gdiplus::PointF right(fBitmapWidth, m_fScale);
+  Gdiplus::PointF left(0.0f, m_fScale); //left X-coordinate of line
+  Gdiplus::PointF right(fBitmapWidth, m_fScale); //right X-coordinate of line
+  Gdiplus::RectF rect(0.0f, 0.0f, fBitmapWidth, 1.0f); //bounding rectangle
 
-  for(UINT i=0; i<nh; i++){
-    graphics.DrawLine(&pen, left, right);
-    left.Y += m_fScale;
+  for(UINT i=0; i<nh; i++){ //for each horizontal line
+    if(m_bShowGrid)graphics.DrawLine(&pen, left, right); //draw line
+    else GenerateNoiseBitmap(left, rect); //undraw line
+
+    //move down to next horizontal line
+    left.Y += m_fScale; 
     right.Y += m_fScale;
   } //for
 
   //vertical lines
 
-  Gdiplus::PointF top(m_fScale, 0.0f);
-  Gdiplus::PointF bottom(m_fScale, fBitmapHeight);
+  Gdiplus::PointF top(m_fScale, 0.0f); //top Y-coordinate of line
+  Gdiplus::PointF bottom(m_fScale, fBitmapHeight); //bottom Y-coordinate of line
+  rect = Gdiplus::RectF(0.0f, 0.0f, 1.0f, fBitmapHeight); //bounding rectangle
 
-  for(UINT i=0; i<nv; i++){
-    graphics.DrawLine(&pen, top, bottom);
+  for(UINT i=0; i<nv; i++){ //for each vertical line
+    if(m_bShowGrid)graphics.DrawLine(&pen, top, bottom); //draw line
+    else GenerateNoiseBitmap(top, rect); //undraw line
+    
+    //move right to next vertical line
     top.X += m_fScale;
     bottom.X += m_fScale;
   } //for
+
+  if(!m_bShowGrid && m_bShowCoords)
+    DrawCoords(); //in case we erased some of the coordinate text
 } //DrawGrid
 
 /// Generate last type of noise.
@@ -335,22 +387,33 @@ void CMain::GenerateNoiseBitmap(){
 
 #pragma region Menu response functions
 
-/// Set Perlin noise probability distribution and regenerate noise. This will
-/// change the contents of the Perlin noise gradient/value table.
+void CMain::Randomize(){
+  m_pPerlin->Randomize();
+  UpdateDistribution();
+} //Randomize
+
+/// Change Perlin noise probability distribution and regenerate noise. 
+/// This will have no effect if the new distribution is the same as the old one.
 /// \param d Probability distribution enumerated type.
 /// \return true if the distribution changed.
 
 bool CMain::SetDistribution(eDistribution d){
   if(m_eDistr != d){
     m_eDistr = d;
-    m_pPerlin->RandomizeTable(d);
-    UpdateDistributionMenu(m_hDistMenu, m_eNoise, m_eDistr);
-    GenerateNoiseBitmap();
+    UpdateDistribution();
     return true;
   } //if
 
   return false;
 } //SetDistribution
+
+/// Update Perlin noise probability distribution and regenerate noise.
+
+void CMain::UpdateDistribution(){
+  m_pPerlin->RandomizeTable(m_eDistr);
+  UpdateDistributionMenu(m_hDistMenu, m_eNoise, m_eDistr);
+  GenerateNoiseBitmap();
+} //UpdateDistribution
 
 /// Set Perlin noise spline function and regenerate noise.
 /// \param d Spline function enumerated type.
@@ -378,7 +441,7 @@ void CMain::SetHash(eHash d){
 void CMain::ToggleViewCoords(){
   m_bShowCoords = !m_bShowCoords;
   UpdateMenuItemCheck(m_hViewMenu, IDM_VIEW_COORDS, m_bShowCoords);
-  GenerateNoiseBitmap();
+  DrawCoords();
 } //ToggleViewCoords
 
 /// Toggle the View Grid flag, put a checkmark next to the menu item, and
@@ -387,16 +450,17 @@ void CMain::ToggleViewCoords(){
 void CMain::ToggleViewGrid(){
   m_bShowGrid = !m_bShowGrid;
   UpdateMenuItemCheck(m_hViewMenu, IDM_VIEW_GRID, m_bShowGrid);
-  GenerateNoiseBitmap();
+  DrawGrid();
 } // ToggleViewGrid
 
-/// Increment both coordinates of the origin by the table size and regenerate
+/// Increment both coordinates of the origin by `m_nTableSize` and regenerate
 /// noise.
 
 void CMain::Jump(){
-  const float offset = round(pow(2.0f, (float)m_nLog2TableSize));
+  const float offset = (float)m_pPerlin->GetTableSize();
   m_fOriginX += offset;
   m_fOriginY += offset;
+
   GenerateNoiseBitmap();
 } //Jump
 
@@ -451,24 +515,18 @@ void CMain::DecreaseScale(){
   GenerateNoiseBitmap();
 } //DecreaseScale
 
-/// Increase the table size by a factor of 2 by adding one to `m_nLog2TableSize`
-/// up to a maximum of `m_nMaxLog2TableSize`.
+/// Increase the table size by a factor of 2.
 
 void CMain::IncreaseTableSize(){
-  m_nLog2TableSize = std::min<UINT>(m_nLog2TableSize + 1, m_nMaxLog2TableSize);
-  delete m_pPerlin;
-  m_pPerlin = new CPerlinNoise2D(m_nLog2TableSize);
-  GenerateNoiseBitmap();
+  if(m_pPerlin->DoubleTableSize())
+    GenerateNoiseBitmap();
 } //IncreaseTableSize
 
-/// Decrease the table size by a factor of 2 by subtracting one from
-/// `m_nLog2TableSize` down to a minimum of `m_nMinLog2TableSize`.
+/// Decrease the table size by a factor of 2 `.
 
 void CMain::DecreaseTableSize(){
-  m_nLog2TableSize = std::max<UINT>(m_nMinLog2TableSize, m_nLog2TableSize - 1);
-  delete m_pPerlin;
-  m_pPerlin = new CPerlinNoise2D(m_nLog2TableSize);
-  GenerateNoiseBitmap();
+  if(m_pPerlin->HalveTableSize())
+    GenerateNoiseBitmap();
 } //DecreaseTableSize
 
 /// Reset number of octaves, scale, and table size to defaults.
@@ -476,7 +534,7 @@ void CMain::DecreaseTableSize(){
 void CMain::Reset(){
   m_nOctaves = m_nDefOctaves;
   m_fScale = m_fDefScale;
-  m_nLog2TableSize = m_nDefLog2TableSize;
+  m_pPerlin->DefaultTableSize();
   GenerateNoiseBitmap();
 } //Reset
 
@@ -520,7 +578,7 @@ const std::wstring CMain::GetFileName() const{
   } //switch
 
   wstr += L"-" + std::to_wstring(m_nOctaves);
-  wstr += L"-" + std::to_wstring(1 << m_nLog2TableSize);
+  wstr += L"-" + std::to_wstring(m_pPerlin->GetTableSize());
   wstr += L"-" + std::to_wstring((size_t)round(m_fScale));
 
   return wstr;
@@ -608,11 +666,17 @@ const std::wstring CMain::GetNoiseDescription() const{
   } //switch
       
   wstr += L"table size ";
-  wstr += std::to_wstring(1 << m_nLog2TableSize);
+  wstr += std::to_wstring(m_pPerlin->GetTableSize());
+  wstr += L". ";
 
-  //lacunarity and persistence
+  //noise max, min, and average
 
-  wstr += L". Lacunarity and persistence are fixed at 0.5 and 2.0, respectively.";
+  wstr += L"Largest generated noise ";
+  wstr += to_wstring_f(m_fMax, 4) + L". ";
+  wstr += L"Smallest generated noise ";
+  wstr += to_wstring_f(m_fMin, 4) + L". ";
+  wstr += L"Average generated noise ";
+  wstr += to_wstring_f(m_fAve, 4) + L".";
 
   return wstr;
 } //GetNoiseDescription

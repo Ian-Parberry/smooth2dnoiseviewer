@@ -27,6 +27,8 @@
 #ifndef __PERLIN_H__
 #define __PERLIN_H__
 
+#include <windows.h>
+#include <windowsx.h>
 #include <random>
 
 #include "Defines.h"
@@ -35,18 +37,22 @@
 
 class CPerlinNoise2D{
   private:
-    size_t m_nSize = 0; ///< Table size, must be a power of 2.
-    size_t m_nMask = 0; ///< Mask for values less than `m_nSize`.
-
     eHash m_eHash = eHash::Permutation; ///< Hash function type.
     eSpline m_eSpline = eSpline::Cubic; ///< Spline function type.
+    eDistribution m_eDistribution = eDistribution::Uniform; ///< Uniform distribution..
 
     size_t* m_nPerm = nullptr; ///< Random permutation, used for hash function.
     float* m_fTable = nullptr; ///< Table of gradients or values.
     
     std::default_random_engine m_stdRandom; ///< PRNG.
+    UINT m_nSeed = 0; ///< PRNG seed.
 
-    const float m_fSqrt2 = sqrtf(2.0f); ///< Square root of 2.
+    const size_t m_nDefTableSize = 256; ///< Default table size.
+    const size_t m_nMinTableSize = 16; ///< Min table size.
+    const size_t m_nMaxTableSize = 1024; ///< Max table size.
+
+    size_t m_nSize = m_nDefTableSize; ///< Table size, must be a power of 2.
+    size_t m_nMask = m_nDefTableSize - 1; ///< Mask for values less than `m_nSize`.
     
     inline const size_t pair(size_t, size_t) const; ///< Perlin pairing function.
     inline const size_t pairstd(size_t, size_t) const; ///< Std pairing function.
@@ -72,17 +78,28 @@ class CPerlinNoise2D{
     const float noise(float, float, eNoise) const; ///< Perlin noise.
 
     void RandomizePermutation(); ///< Randomize permutation.
+    void Initialize(); ///< Initialize.
 
   public:
-    CPerlinNoise2D(size_t); ///< Constructor.
+    CPerlinNoise2D(); ///< Constructor.
     ~CPerlinNoise2D(); ///<Destructor.
     
     void RandomizeTable(eDistribution); ///< Randomize table from distribution.
+    void Randomize(); ///< Randomize PRNG.
+
+    bool DoubleTableSize(); ///< Double table size.
+    bool HalveTableSize(); ///< Halve table size.
+    bool DefaultTableSize(); ///< Set table size to default.
     
     void SetSpline(eSpline); ///< Set spline function.
     void SetHash(eHash); ///< Set hash function.
     
     const float generate(float, float, eNoise, size_t, float=0.5f, float=2.0f) const; ///< Perlin noise.
+    
+    const size_t GetTableSize() const; ///< Get table size.
+    const size_t GetMinTableSize() const; ///< Get minimum table size.
+    const size_t GetMaxTableSize() const; ///< Get maximum table size.
+    const size_t GetDefTableSize() const; ///< Get default table size.
 }; //CPerlinNoise2D
 
 #endif //__PERLIN_H__
