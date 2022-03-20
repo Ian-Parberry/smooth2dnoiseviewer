@@ -429,6 +429,7 @@ void CPerlinNoise2D::HashCorners(size_t x, size_t y, size_t c[4]) const{
 /// \param h Hash value for gradient table index.
 /// \param x X-coordinate of point in the range \f$[-1, 1]\f$.
 /// \param y Y-coordinate of point in the range \f$[-1, 1]\f$.
+/// \param t Noise type.
 /// \return Corresponding Z-value.
 
 inline const float CPerlinNoise2D::z(size_t h, float x, float y, eNoise t) const{

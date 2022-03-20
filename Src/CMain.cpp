@@ -210,6 +210,9 @@ void CMain::SetPixel(UINT i, UINT j, BYTE b){
 
 /// Set a pixel in the bitmap to a GDI+ color. The indices of the pixel are 
 /// assumed to be in range.
+/// \param i Row number.
+/// \param j Column number.
+/// \param clr A GDI+ color.
 
 void CMain::SetPixel(UINT i, UINT j, Gdiplus::Color clr){
   m_pBitmap->SetPixel(i, j, clr);
@@ -551,7 +554,7 @@ void CMain::Reset(){
 #pragma region Reader functions
 
 /// Make up a file name from the noise parameters.
-/// \param return A file name with no spaces and without extension.
+/// \return A file name with no spaces and without extension.
 
 const std::wstring CMain::GetFileName() const{
   std::wstring wstr;
