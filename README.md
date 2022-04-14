@@ -19,4 +19,4 @@ This code has been tested with Visual Studio 2019 Community under Windows 10.
 ## License
 
 This project is released under the
-[MIT License](https://github.com/Ian-Parberry/wangtiler/blob/master/LICENSE).
+[MIT License](https://github.com/Ian-Parberry/smooth2dnoiseviewer/blob/master/LICENSE).
